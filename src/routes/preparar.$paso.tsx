@@ -113,10 +113,10 @@ function Ensayo({ id, l }: { id: PasoId; l: Leccion }) {
     return (
       <>
         <Seccion titulo="Para la dinámica">
-          <p className="rounded-[20px] bg-sol-soft p-4 text-sm">{suavizar(l.dinamica_materiales ?? "Esta dinámica no necesita materiales.")}</p>
+          <Checklist texto={l.dinamica_materiales} vacio="Esta dinámica no necesita materiales." />
         </Seccion>
         <Seccion titulo="Para la manualidad">
-          <p className="rounded-[20px] bg-menta-soft p-4 text-sm">{suavizar(l.manualidad_materiales ?? "Esta manualidad no necesita materiales.")}</p>
+          <Checklist texto={l.manualidad_materiales} vacio="Esta manualidad no necesita materiales." />
         </Seccion>
         <Seccion titulo="Antes de la clase">
           <Pautas items={["Reúne los materiales unos días antes y guárdalos en una bolsa.", "Prepara un ejemplo terminado de la manualidad para enseñarlo.", "Cuenta los niños que vendrán y prepara material de sobra."]} />
@@ -175,6 +175,42 @@ function Ensayo({ id, l }: { id: PasoId; l: Leccion }) {
         <Pautas items={m.pasos} />
       </Seccion>
     </>
+  );
+}
+
+function Checklist({ texto, vacio }: { texto: string | null; vacio: string }) {
+  const items = (texto ?? "")
+    .split(/[,;]/)
+    .map((t) => suavizar(t.trim().replace(/\.$/, "")))
+    .filter(Boolean);
+  const [marcados, setMarcados] = useState<Set<number>>(new Set());
+  if (!items.length) return <p className="rounded-[20px] bg-sol-soft p-4 text-sm">{vacio}</p>;
+  const toggle = (i: number) =>
+    setMarcados((s) => {
+      const n = new Set(s);
+      if (n.has(i)) n.delete(i);
+      else n.add(i);
+      return n;
+    });
+  return (
+    <div>
+      <ul className="space-y-2">
+        {items.map((t, i) => {
+          const hecho = marcados.has(i);
+          return (
+            <li key={i}>
+              <button onClick={() => toggle(i)} aria-pressed={hecho} className={`flex w-full items-center gap-3 rounded-2xl p-3 text-left text-sm shadow-card transition-colors ${hecho ? "bg-menta-soft" : "bg-card"}`}>
+                <span className={`grid size-6 shrink-0 place-items-center rounded-full border-2 ${hecho ? "border-menta bg-menta text-primary-foreground" : "border-border bg-card"}`}>
+                  {hecho && <Check className="size-4" strokeWidth={3} />}
+                </span>
+                <span className={hecho ? "text-muted-foreground line-through" : ""}>{t}</span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+      <p className="mt-2 text-xs text-muted-foreground">{marcados.size}/{items.length} listos · toca cada material cuando lo tengas</p>
+    </div>
   );
 }
 
