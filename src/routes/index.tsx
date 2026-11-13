@@ -10,10 +10,10 @@ import logo from "@/assets/gemas-logo.svg.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Gemas · Del ayudante al mentor" },
-      { name: "description", content: "Un camino acompañado para que los jóvenes ayudantes den el paso a dirigir las clases de niños." },
-      { property: "og:title", content: "Gemas · Del ayudante al mentor" },
-      { property: "og:description", content: "Sirve con un compañero de camino, descubre tus gemas y avanza paso a paso hasta dirigir una clase." },
+      { title: "Gemas · De colaborador a facilitador" },
+      { name: "description", content: "Un camino acompañado para que los jóvenes colaboradores den el paso a facilitar las clases de niños." },
+      { property: "og:title", content: "Gemas · De colaborador a facilitador" },
+      { property: "og:description", content: "Sirve con un compañero de camino, descubre tus gemas y avanza paso a paso hasta facilitar una clase." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -48,11 +48,11 @@ function Bienvenida() {
       </div>
 
       <h1 className="mt-8 text-[40px] font-extrabold leading-[44px]">
-        Del ayudante <br />
-        al mentor<Destello className="ml-1 inline size-6 -translate-y-4" />
+        De colaborador <br />
+        a facilitador<Destello className="ml-1 inline size-6 -translate-y-4" />
       </h1>
       <p className="mt-3 text-muted-foreground">
-        Ya ayudas en una clase de niños. Gemas te acompaña, paso a paso y con un compañero de camino, para que te atrevas a ponerte al frente.
+        Ya colaboras en una clase de niños. Gemas te acompaña, paso a paso y con un compañero de camino, para que te atrevas a facilitarla.
       </p>
 
       <ul className="mt-6 space-y-3 text-sm">

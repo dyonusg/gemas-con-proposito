@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { siguientePaso, contarDirigidos } from "./camino";
 
-describe("camino de ayudante a maestro", () => {
+describe("camino de colaborador a facilitador", () => {
   it("empieza por la canción", () => {
     expect(siguientePaso({})).toBe("cancion");
   });

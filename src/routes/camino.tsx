@@ -29,7 +29,7 @@ function Camino() {
 
   return (
     <Shell>
-      <p className="mt-2 text-sm font-bold text-muted-foreground">¡Hola, {e.alias ?? "ayudante"}!</p>
+      <p className="mt-2 text-sm font-bold text-muted-foreground">¡Hola, {e.alias ?? "colaborador"}!</p>
       <h1 className="text-[32px] font-bold leading-[38px]">Tu camino</h1>
       <p className="text-sm text-muted-foreground">Virtud de esta semana: <strong className="text-foreground">{LECCION.virtud}</strong></p>
 
@@ -45,8 +45,8 @@ function Camino() {
       ) : (
         <div className="mt-5 rounded-[20px] bg-sol p-5 shadow-card">
           <Destello className="size-8" />
-          <h2 className="mt-2 text-2xl font-bold">¡Has dirigido una clase entera!</h2>
-          <p className="text-sm">Ya puedes guiar a otros. Mira tu siguiente paso al terminar el campus.</p>
+          <h2 className="mt-2 text-2xl font-bold">¡Has facilitado una clase entera!</h2>
+          <p className="text-sm">Ya eres facilitador. Mira tu siguiente paso al terminar el campus.</p>
           <Button asChild variant="tinta" className="mt-4"><Link to="/cierre">Seguir sirviendo</Link></Button>
         </div>
       )}

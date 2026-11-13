@@ -10,7 +10,7 @@ export const Route = createFileRoute("/equipo")({
   head: () => ({
     meta: [
       { title: "Equipo del campus · Gemas" },
-      { name: "description", content: "Mentores y responsables: confirma pasos, reconoce a los ayudantes y reenvía las tarjetas." },
+      { name: "description", content: "Mentores y responsables: confirma pasos, reconoce a los colaboradores y reenvía las tarjetas." },
       { property: "og:title", content: "Equipo del campus · Gemas" },
       { property: "og:description", content: "Herramientas para mentores y responsables del campus." },
       { property: "og:type", content: "website" },
@@ -23,19 +23,19 @@ export const Route = createFileRoute("/equipo")({
 const RECONOCIMIENTOS = ["¡Los niños te seguían encantados!", "Se notó que lo preparaste.", "Qué calma transmitiste.", "¡Listo para el siguiente paso!"];
 
 function Equipo() {
-  const [rol, setRol] = useState<"maestro" | "responsable">("maestro");
+  const [rol, setRol] = useState<"mentor" | "responsable">("mentor");
   return (
     <Shell nav={false}>
       <Link to="/camino" className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-muted-foreground"><ArrowLeft className="size-4" /> Volver</Link>
       <h1 className="mt-2 text-[32px] font-bold leading-[38px]">Equipo del campus</h1>
       <div className="mt-4 grid grid-cols-2 rounded-full bg-muted p-1">
-        {(["maestro", "responsable"] as const).map((r) => (
+        {(["mentor", "responsable"] as const).map((r) => (
           <button key={r} onClick={() => setRol(r)} className={`rounded-full py-2 text-sm font-bold ${rol === r ? "bg-tinta text-nube" : "text-muted-foreground"}`}>
-            {r === "maestro" ? "Mentor" : "Responsable"}
+            {r === "mentor" ? "Mentor" : "Responsable"}
           </button>
         ))}
       </div>
-      {rol === "maestro" ? <Maestro /> : <Responsable />}
+      {rol === "mentor" ? <Mentor /> : <Responsable />}
       <p className="mt-10 text-center text-xs text-muted-foreground">
         Prototipo: los datos se guardan solo en este dispositivo.{" "}
         <button className="underline" onClick={() => confirm("¿Borrar todos los datos del prototipo?") && reiniciar()}>Reiniciar</button>
@@ -44,7 +44,7 @@ function Equipo() {
   );
 }
 
-function Maestro() {
+function Mentor() {
   const e = useGemas();
   const pendientes = PASOS.filter((p) => e.pasos[p.id]?.dirigido && !e.pasos[p.id]?.confirmado);
   const [texto, setTexto] = useState<Record<string, string>>({});
@@ -52,7 +52,7 @@ function Maestro() {
     actualizar((s) => ({ ...s, pasos: { ...s.pasos, [id]: { ...s.pasos[id as keyof typeof s.pasos]!, confirmado: true, reconocimiento: texto[id]?.trim() || undefined } } }));
 
   return (
-    <Seccion titulo={`Pasos de ${e.alias ?? "tu ayudante"}`}>
+    <Seccion titulo={`Pasos de ${e.alias ?? "tu colaborador"}`}>
       {pendientes.length === 0 ? (
         <p className="rounded-[20px] border-2 border-dashed border-border p-4 text-sm text-muted-foreground">No hay pasos por confirmar.</p>
       ) : (
@@ -122,7 +122,7 @@ function Responsable() {
       <Seccion titulo="Medición anónima (M1)">
         <ul className="space-y-2 rounded-[20px] bg-card p-4 shadow-card">
           {dirigidos.map(({ p, n }) => (
-            <li key={p.id} className="flex items-center justify-between text-sm"><span>{p.corto}</span><span className="font-bold">{n} ayudante{n === 1 ? "" : "s"}</span></li>
+            <li key={p.id} className="flex items-center justify-between text-sm"><span>{p.corto}</span><span className="font-bold">{n} {n === 1 ? "colaborador" : "colaboradores"}</span></li>
           ))}
         </ul>
       </Seccion>
