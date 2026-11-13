@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CaminoRouteImport } from './routes/camino'
+import { Route as CierreRouteImport } from './routes/cierre'
+import { Route as EquipoRouteImport } from './routes/equipo'
+import { Route as GemasRouteImport } from './routes/gemas'
+import { Route as TarjetaRouteImport } from './routes/tarjeta'
+import { Route as PrepararPasoRouteImport } from './routes/preparar.$paso'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CaminoRoute = CaminoRouteImport.update({
+  id: '/camino',
+  path: '/camino',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CierreRoute = CierreRouteImport.update({
+  id: '/cierre',
+  path: '/cierre',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EquipoRoute = EquipoRouteImport.update({
+  id: '/equipo',
+  path: '/equipo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GemasRoute = GemasRouteImport.update({
+  id: '/gemas',
+  path: '/gemas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TarjetaRoute = TarjetaRouteImport.update({
+  id: '/tarjeta',
+  path: '/tarjeta',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrepararPasoRoute = PrepararPasoRouteImport.update({
+  id: '/preparar/$paso',
+  path: '/preparar/$paso',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/camino': typeof CaminoRoute
+  '/cierre': typeof CierreRoute
+  '/equipo': typeof EquipoRoute
+  '/gemas': typeof GemasRoute
+  '/tarjeta': typeof TarjetaRoute
+  '/preparar/$paso': typeof PrepararPasoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/camino': typeof CaminoRoute
+  '/cierre': typeof CierreRoute
+  '/equipo': typeof EquipoRoute
+  '/gemas': typeof GemasRoute
+  '/tarjeta': typeof TarjetaRoute
+  '/preparar/$paso': typeof PrepararPasoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/camino': typeof CaminoRoute
+  '/cierre': typeof CierreRoute
+  '/equipo': typeof EquipoRoute
+  '/gemas': typeof GemasRoute
+  '/tarjeta': typeof TarjetaRoute
+  '/preparar/$paso': typeof PrepararPasoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/camino'
+    | '/cierre'
+    | '/equipo'
+    | '/gemas'
+    | '/tarjeta'
+    | '/preparar/$paso'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/camino'
+    | '/cierre'
+    | '/equipo'
+    | '/gemas'
+    | '/tarjeta'
+    | '/preparar/$paso'
+  id:
+    | '__root__'
+    | '/'
+    | '/camino'
+    | '/cierre'
+    | '/equipo'
+    | '/gemas'
+    | '/tarjeta'
+    | '/preparar/$paso'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CaminoRoute: typeof CaminoRoute
+  CierreRoute: typeof CierreRoute
+  EquipoRoute: typeof EquipoRoute
+  GemasRoute: typeof GemasRoute
+  TarjetaRoute: typeof TarjetaRoute
+  PrepararPasoRoute: typeof PrepararPasoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/camino': {
+      id: '/camino'
+      path: '/camino'
+      fullPath: '/camino'
+      preLoaderRoute: typeof CaminoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cierre': {
+      id: '/cierre'
+      path: '/cierre'
+      fullPath: '/cierre'
+      preLoaderRoute: typeof CierreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/equipo': {
+      id: '/equipo'
+      path: '/equipo'
+      fullPath: '/equipo'
+      preLoaderRoute: typeof EquipoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gemas': {
+      id: '/gemas'
+      path: '/gemas'
+      fullPath: '/gemas'
+      preLoaderRoute: typeof GemasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tarjeta': {
+      id: '/tarjeta'
+      path: '/tarjeta'
+      fullPath: '/tarjeta'
+      preLoaderRoute: typeof TarjetaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/preparar/$paso': {
+      id: '/preparar/$paso'
+      path: '/preparar/$paso'
+      fullPath: '/preparar/$paso'
+      preLoaderRoute: typeof PrepararPasoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CaminoRoute: CaminoRoute,
+  CierreRoute: CierreRoute,
+  EquipoRoute: EquipoRoute,
+  GemasRoute: GemasRoute,
+  TarjetaRoute: TarjetaRoute,
+  PrepararPasoRoute: PrepararPasoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

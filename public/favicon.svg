@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" width="140" height="140" role="img" aria-label="Gemas">
+  <title>Gemas – isotipo</title>
+  <g transform="translate(10,14)" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round">
+    <!-- Corona -->
+    <path d="M14,40 L36,12 L40,40 Z" fill="#2BB3A3"/>
+    <path d="M36,12 L60,40 L40,40 Z" fill="#7FD8CC"/>
+    <path d="M36,12 L84,12 L60,40 Z" fill="#FFC94D"/>
+    <path d="M84,12 L80,40 L60,40 Z" fill="#FF9F96"/>
+    <path d="M84,12 L106,40 L80,40 Z" fill="#F2706B"/>
+    <!-- Pabellón -->
+    <path d="M14,40 L40,40 L60,108 Z" fill="#7B5CD6"/>
+    <path d="M40,40 L80,40 L60,108 Z" fill="#A996F0"/>
+    <path d="M80,40 L106,40 L60,108 Z" fill="#5A3FB8"/>
+  </g>
+  <!-- Destello -->
+  <path d="M120,6 Q122,18 134,20 Q122,22 120,34 Q118,22 106,20 Q118,18 120,6 Z" fill="#FFC94D"/>
+</svg>

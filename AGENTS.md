@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Phase-1 prototype state lives in `src/lib/store.ts` (localStorage, single device); move to Lovable Cloud when multi-device sharing (pairs, teacher, campus lead) is needed.
+- Lesson texts in `src/lib/contenido.ts` are placeholders; official content is only linked (ruhi.org), never reproduced, because rights are not cleared.
+- Path logic (next step, counts) lives in `src/lib/camino.ts` with tests beside it.
