@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { ShieldCheck, Heart, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Destello } from "@/components/gemas/Shell";
-import { actualizar, useGemas } from "@/lib/store";
+import { actualizar, reiniciar, useGemas } from "@/lib/store";
 import { esMenor } from "@/lib/camino";
+import { supabase } from "@/integrations/supabase/client";
 import isotipo from "@/assets/gemas-isotipo.svg.asset.json";
 import logo from "@/assets/gemas-logo.svg.asset.json";
 
@@ -29,10 +30,45 @@ function Bienvenida() {
   const [nacimiento, setNacimiento] = useState("");
   const [consiente, setConsiente] = useState(false);
   const [tipo, setTipo] = useState<"formacion" | "mentor">("formacion");
+  const [cambiando, setCambiando] = useState(false);
+  const [conCuenta, setConCuenta] = useState(false);
 
   useEffect(() => {
-    if (estado.alias) navigate({ to: estado.tipo === "mentor" ? "/mentor" : "/camino" });
-  }, [estado.alias, navigate]);
+    supabase.auth.getSession().then(({ data }) => setConCuenta(!!data.session));
+  }, []);
+
+  const destino = estado.tipo === "mentor" ? "/mentor" : "/camino";
+
+  const cambiarPerfil = () => {
+    reiniciar();
+    setAlias("");
+    setNacimiento("");
+    setConsiente(false);
+    setTipo("formacion");
+    setCambiando(true);
+  };
+
+  if (estado.alias && !cambiando) {
+    return (
+      <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 py-8 text-center">
+        <img src={isotipo.url} alt="" className="h-32 w-32 animate-pop" />
+        <h1 className="mt-6 text-3xl font-extrabold">¡Hola, {estado.alias}!</h1>
+        <p className="mt-2 text-muted-foreground">Tu camino te espera donde lo dejaste.</p>
+        <Button size="lg" className="mt-6 w-full" onClick={() => navigate({ to: destino })}>
+          Continuar mi camino
+        </Button>
+        {conCuenta ? (
+          <p className="mt-4 text-xs text-muted-foreground">
+            Tienes sesión iniciada. Para cambiar de perfil, cierra sesión primero en «Guardar mi camino».
+          </p>
+        ) : (
+          <button type="button" onClick={cambiarPerfil} className="mt-4 text-sm font-bold text-coral underline underline-offset-4">
+            Cambiar de perfil
+          </button>
+        )}
+      </div>
+    );
+  }
 
   const menor = nacimiento ? esMenor(nacimiento) : false;
   const listo = alias.trim() && nacimiento && (!menor || consiente);

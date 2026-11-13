@@ -55,7 +55,7 @@ export type TipoUsuario = "formacion" | "mentor";
 /** Navegación inferior según el tipo de usuario (sin elegir = facilitador en formación). */
 export function navPara(tipo: TipoUsuario | null) {
   return tipo === "mentor"
-    ? (["/mentor", "/camino", "/tarjeta"] as const)
-    : (["/camino", "/gemas", "/tarjeta", "/cierre"] as const);
+    ? (["/", "/mentor", "/camino", "/tarjeta"] as const)
+    : (["/", "/camino", "/gemas", "/tarjeta", "/cierre"] as const);
 }
 export const esCodigoMentor = (c: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(c.trim());

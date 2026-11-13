@@ -1,11 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Map, Gem, Mail, Flag, HeartHandshake, BookOpen } from "lucide-react";
+import { Map, Gem, Mail, Flag, HeartHandshake, BookOpen, House } from "lucide-react";
 import { useGemas } from "@/lib/store";
 import { navPara } from "@/lib/camino";
 import logo from "@/assets/gemas-logo.svg.asset.json";
 
 const ITEMS = {
+  "/": { label: "Inicio", icon: House },
   "/camino": { label: "Camino", icon: Map },
   "/gemas": { label: "Mis gemas", icon: Gem },
   "/tarjeta": { label: "Tarjeta", icon: Mail },
@@ -20,7 +21,7 @@ export function Shell({ children, nav = true }: { children: ReactNode; nav?: boo
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col bg-background">
       <header className="flex items-center justify-between px-5 pt-5 pb-2">
-        <Link to="/camino" aria-label="Gemas, inicio">
+        <Link to="/" aria-label="Gemas, inicio">
           <img src={logo.url} alt="Gemas" className="h-9 w-auto" />
         </Link>
         <span className="rounded-full bg-muted px-3 py-1.5 text-xs font-bold text-muted-foreground">
@@ -35,6 +36,7 @@ export function Shell({ children, nav = true }: { children: ReactNode; nav?: boo
               <li key={to}>
                 <Link
                   to={to}
+                  {...(to === "/" ? { activeOptions: { exact: true } } : {})}
                   className="flex flex-col items-center gap-1 rounded-2xl py-2 text-[11px] font-bold text-nube/70"
                   activeProps={{ className: "bg-nube/10 text-sol" }}
                 >
