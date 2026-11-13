@@ -89,7 +89,7 @@ function Preparar() {
         {registro?.dirigido ? (
           <>
             <Destello className="mx-auto size-8 animate-pop" />
-            <p className="mt-2 font-display text-xl font-bold">¡Lo has dirigido!</p>
+            <p className="mt-2 font-display text-xl font-bold">{paso.id === "materiales" ? "¡Materiales listos!" : "¡Lo has dirigido!"}</p>
             <p className="text-sm text-muted-foreground">{registro.confirmado ? "Tu mentor lo ha confirmado." : "Tu mentor lo confirmará pronto."}</p>
             <div className="mt-4 flex flex-col gap-2">
               <Button asChild variant="menta"><Link to="/gemas">Anotar un momento con los niños</Link></Button>
@@ -98,8 +98,8 @@ function Preparar() {
           </>
         ) : (
           <>
-            <p className="font-display text-xl font-bold">¿Ya lo has dirigido en clase?</p>
-            <Button size="lg" className="mt-3 w-full" onClick={marcar}>Sí, lo he dirigido</Button>
+            <p className="font-display text-xl font-bold">{paso.id === "materiales" ? "¿Ya tienes los materiales?" : "¿Ya lo has dirigido en clase?"}</p>
+            <Button size="lg" className="mt-3 w-full" onClick={marcar}>{paso.id === "materiales" ? "Sí, los tengo listos" : "Sí, lo he dirigido"}</Button>
           </>
         )}
       </div>
@@ -109,6 +109,20 @@ function Preparar() {
 }
 
 function Ensayo({ id, l }: { id: PasoId; l: Leccion }) {
+  if (id === "materiales")
+    return (
+      <>
+        <Seccion titulo="Para la dinámica">
+          <p className="rounded-[20px] bg-sol-soft p-4 text-sm">{suavizar(l.dinamica_materiales ?? "Esta dinámica no necesita materiales.")}</p>
+        </Seccion>
+        <Seccion titulo="Para la manualidad">
+          <p className="rounded-[20px] bg-menta-soft p-4 text-sm">{suavizar(l.manualidad_materiales ?? "Esta manualidad no necesita materiales.")}</p>
+        </Seccion>
+        <Seccion titulo="Antes de la clase">
+          <Pautas items={["Reúne los materiales unos días antes y guárdalos en una bolsa.", "Prepara un ejemplo terminado de la manualidad para enseñarlo.", "Cuenta los niños que vendrán y prepara material de sobra."]} />
+        </Seccion>
+      </>
+    );
   if (id === "cita") return <PracticaCita cita={l.cita ?? ""} fuente={l.cita_fuente} />;
   if (id === "virtud")
     return (

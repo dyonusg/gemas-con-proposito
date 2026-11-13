@@ -65,7 +65,7 @@ function Camino() {
         </div>
       )}
 
-      <Seccion titulo="Los pasos" extra={<span className="text-sm font-bold text-muted-foreground">{total}/6</span>}>
+      <Seccion titulo="Los pasos" extra={<span className="text-sm font-bold text-muted-foreground">{total}/{PASOS.length}</span>}>
         <ol className="relative space-y-3 before:absolute before:top-4 before:bottom-4 before:left-[22px] before:w-1 before:rounded-full before:bg-border">
           {PASOS.map((p, i) => {
             const r = e.pasos[p.id];
@@ -83,7 +83,7 @@ function Camino() {
                   <span className="flex-1">
                     <span className="block font-bold">{p.titulo}</span>
                     <span className="text-xs text-muted-foreground">
-                      {r?.dirigido ? (r.confirmado ? "Confirmado por tu mentor" : "Dirigido · pendiente de confirmar") : esSig ? "Te toca" : "Más adelante"}
+                      {r?.dirigido ? (r.confirmado ? "Confirmado por tu mentor" : p.id === "materiales" ? "Listo · pendiente de confirmar" : "Dirigido · pendiente de confirmar") : esSig ? "Te toca" : "Más adelante"}
                     </span>
                   </span>
                   {r?.confirmado && <BadgeCheck className="size-5 text-menta" />}

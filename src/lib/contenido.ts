@@ -1,7 +1,8 @@
 // Pasos del camino. El contenido de cada paso sale de la lección (tabla `lecciones`).
-export type PasoId = "cita" | "virtud" | "cancion" | "historia" | "dinamica" | "manualidad";
+export type PasoId = "materiales" | "cita" | "virtud" | "cancion" | "historia" | "dinamica" | "manualidad";
 
 export const PASOS: { id: PasoId; titulo: string; corto: string; descripcion: string; color: string }[] = [
+  { id: "materiales", titulo: "Preparar materiales", corto: "Materiales", descripcion: "Reúne todo lo que necesitas para la dinámica y la manualidad.", color: "bg-sol" },
   { id: "cita", titulo: "Cita de inspiración", corto: "Cita", descripcion: "Ayuda a los niños a memorizar la cita de la lección.", color: "bg-sol" },
   { id: "virtud", titulo: "La virtud", corto: "Virtud", descripcion: "Explica la virtud con palabras sencillas y ejemplos.", color: "bg-lavanda" },
   { id: "cancion", titulo: "La canción", corto: "Canción", descripcion: "Enseña y canta la canción con los niños.", color: "bg-menta" },

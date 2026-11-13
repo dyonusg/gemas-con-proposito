@@ -2,16 +2,16 @@ import { describe, expect, it } from "vitest";
 import { siguientePaso, contarDirigidos, esMenor } from "./camino";
 
 describe("camino de colaborador a facilitador", () => {
-  it("empieza por la cita de inspiración", () => {
-    expect(siguientePaso({})).toBe("cita");
+  it("empieza por preparar los materiales", () => {
+    expect(siguientePaso({})).toBe("materiales");
   });
   it("el siguiente es el primer paso sin dirigir", () => {
-    expect(siguientePaso({ cita: { dirigido: true }, virtud: { dirigido: true } })).toBe("cancion");
+    expect(siguientePaso({ materiales: { dirigido: true }, cita: { dirigido: true }, virtud: { dirigido: true } })).toBe("cancion");
   });
   it("al dirigir la clase entera ya no hay siguiente paso", () => {
-    const todos = Object.fromEntries(["cita", "virtud", "cancion", "historia", "dinamica", "manualidad"].map((k) => [k, { dirigido: true }]));
+    const todos = Object.fromEntries(["materiales", "cita", "virtud", "cancion", "historia", "dinamica", "manualidad"].map((k) => [k, { dirigido: true }]));
     expect(siguientePaso(todos)).toBeNull();
-    expect(contarDirigidos(todos)).toBe(6);
+    expect(contarDirigidos(todos)).toBe(7);
   });
 });
 

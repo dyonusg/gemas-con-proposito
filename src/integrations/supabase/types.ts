@@ -56,6 +56,7 @@ export type Database = {
           cualidad: string
           dibujo: string | null
           dinamica: string | null
+          dinamica_materiales: string | null
           explicacion_virtud: string | null
           historia_donde: string | null
           historia_resumen: string | null
@@ -80,6 +81,7 @@ export type Database = {
           cualidad: string
           dibujo?: string | null
           dinamica?: string | null
+          dinamica_materiales?: string | null
           explicacion_virtud?: string | null
           historia_donde?: string | null
           historia_resumen?: string | null
@@ -104,6 +106,7 @@ export type Database = {
           cualidad?: string
           dibujo?: string | null
           dinamica?: string | null
+          dinamica_materiales?: string | null
           explicacion_virtud?: string | null
           historia_donde?: string | null
           historia_resumen?: string | null
