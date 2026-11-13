@@ -23,7 +23,7 @@ export const Route = createFileRoute("/guardar")({
 function Guardar() {
   const [email, setEmail] = useState<string | null>(null);
   const [listo, setListo] = useState(false);
-  const [modo, setModo] = useState<"entrar" | "crear">("crear");
+  const [modo, setModo] = useState<"entrar" | "crear" | "olvido">("crear");
   const [correo, setCorreo] = useState("");
   const [clave, setClave] = useState("");
   const [aviso, setAviso] = useState<string | null>(null);
@@ -42,6 +42,12 @@ function Guardar() {
     ev.preventDefault();
     setCargando(true);
     setAviso(null);
+    if (modo === "olvido") {
+      const { error } = await supabase.auth.resetPasswordForEmail(correo, { redirectTo: `${window.location.origin}/reset-password` });
+      setCargando(false);
+      setAviso(error ? "No hemos podido enviar el correo. Inténtalo más tarde." : "Si hay una cuenta con ese correo, te llegará un enlace para crear otra contraseña.");
+      return;
+    }
     const { data, error } =
       modo === "crear"
         ? await supabase.auth.signUp({ email: correo, password: clave, options: { emailRedirectTo: `${window.location.origin}/guardar` } })
@@ -87,11 +93,16 @@ function Guardar() {
           <p className="my-3 text-center text-xs text-muted-foreground">o con tu correo</p>
           <form onSubmit={enviar} className="grid gap-2">
             <input type="email" required value={correo} onChange={(e) => setCorreo(e.target.value)} placeholder="Correo" className="rounded-xl border-2 border-input bg-card p-3 text-sm outline-none focus:border-coral" />
-            <input type="password" required minLength={6} value={clave} onChange={(e) => setClave(e.target.value)} placeholder="Contraseña" className="rounded-xl border-2 border-input bg-card p-3 text-sm outline-none focus:border-coral" />
-            <Button type="submit" disabled={cargando}>{modo === "crear" ? "Crear cuenta y guardar" : "Entrar"}</Button>
+            {modo !== "olvido" && <input type="password" required minLength={6} value={clave} onChange={(e) => setClave(e.target.value)} placeholder="Contraseña" className="rounded-xl border-2 border-input bg-card p-3 text-sm outline-none focus:border-coral" />}
+            <Button type="submit" disabled={cargando}>{modo === "crear" ? "Crear cuenta y guardar" : modo === "entrar" ? "Entrar" : "Enviarme el enlace"}</Button>
           </form>
           {aviso && <p className="mt-2 text-sm font-bold">{aviso}</p>}
-          <button className="mt-3 w-full text-center text-sm font-bold text-muted-foreground underline" onClick={() => setModo(modo === "crear" ? "entrar" : "crear")}>
+          {modo === "entrar" && (
+            <button className="mt-3 w-full text-center text-sm font-bold text-coral underline" onClick={() => { setModo("olvido"); setAviso(null); }}>
+              He olvidado mi contraseña
+            </button>
+          )}
+          <button className="mt-3 w-full text-center text-sm font-bold text-muted-foreground underline" onClick={() => { setModo(modo === "crear" ? "entrar" : "crear"); setAviso(null); }}>
             {modo === "crear" ? "Ya tengo cuenta" : "Crear una cuenta nueva"}
           </button>
           <Link to="/camino" className="mt-2 block text-center text-sm font-bold text-muted-foreground">Ahora no, seguir sin cuenta</Link>
