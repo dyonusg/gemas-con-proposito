@@ -2,14 +2,14 @@ import { describe, expect, it } from "vitest";
 import { siguientePaso, contarDirigidos, esMenor } from "./camino";
 
 describe("camino de colaborador a facilitador", () => {
-  it("empieza por la canción", () => {
-    expect(siguientePaso({})).toBe("cancion");
+  it("empieza por la cita de inspiración", () => {
+    expect(siguientePaso({})).toBe("cita");
   });
   it("el siguiente es el primer paso sin dirigir", () => {
-    expect(siguientePaso({ cancion: { dirigido: true }, cita: { dirigido: true } })).toBe("historia");
+    expect(siguientePaso({ cita: { dirigido: true }, virtud: { dirigido: true } })).toBe("cancion");
   });
   it("al dirigir la clase entera ya no hay siguiente paso", () => {
-    const todos = Object.fromEntries(["cancion", "cita", "historia", "juego", "media", "clase"].map((k) => [k, { dirigido: true }]));
+    const todos = Object.fromEntries(["cita", "virtud", "cancion", "historia", "dinamica", "manualidad"].map((k) => [k, { dirigido: true }]));
     expect(siguientePaso(todos)).toBeNull();
     expect(contarDirigidos(todos)).toBe(6);
   });
@@ -44,5 +44,18 @@ describe("compartir reflexiones", () => {
   it("con mentor y compañeros: la ven ambos", () => {
     expect(puedeVer("todos", "mentor")).toBe(true);
     expect(puedeVer("todos", "companero")).toBe(true);
+  });
+});
+
+import { enPasos } from "./camino";
+describe("dinámica y manualidad por pasos", () => {
+  it("la manualidad numerada se separa en sus pasos", () => {
+    const r = enPasos("1. Recortar un círculo.\n2. Decorar el borde.\n3. Colgarlo en casa.");
+    expect(r.pasos).toEqual(["Recortar un círculo.", "Decorar el borde.", "Colgarlo en casa."]);
+  });
+  it("la dinámica en un párrafo se separa en frases y guarda su nombre", () => {
+    const r = enPasos("«El espejo limpio»: cada niño recibe un espejito. El maestro nombra situaciones. Al final, todos miran su reflejo.");
+    expect(r.titulo).toBe("El espejo limpio");
+    expect(r.pasos).toEqual(["Cada niño recibe un espejito.", "El facilitador nombra situaciones.", "Al final, todos miran su reflejo."]);
   });
 });

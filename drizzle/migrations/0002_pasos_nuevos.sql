@@ -1,0 +1,2 @@
+ALTER TABLE public.progreso_pasos DROP CONSTRAINT IF EXISTS progreso_pasos_paso_check;
+ALTER TABLE public.progreso_pasos ADD CONSTRAINT progreso_pasos_paso_check CHECK (paso IN ('cita','virtud','cancion','historia','dinamica','manualidad','juego','media','clase'));

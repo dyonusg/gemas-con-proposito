@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Shell, Seccion } from "@/components/gemas/Shell";
-import { LECCION } from "@/lib/contenido";
+import { useLeccion } from "@/lib/leccion";
 import { actualizar, hoy, nuevoId, useGemas } from "@/lib/store";
 import isotipo from "@/assets/gemas-isotipo.svg.asset.json";
 
@@ -23,6 +23,8 @@ export const Route = createFileRoute("/tarjeta")({
 
 function TarjetaPage() {
   const e = useGemas();
+  const l = useLeccion(e.leccionActual);
+  const L = { virtud: l?.cualidad ?? "", cita: l?.cita ?? "", cancion: l?.cancion_titulo ?? "" };
   const [idea, setIdea] = useState("");
   const [enviada, setEnviada] = useState(false);
 
@@ -30,7 +32,7 @@ function TarjetaPage() {
     if (!idea.trim()) return;
     actualizar((s) => ({
       ...s,
-      tarjetas: [{ id: nuevoId(), fecha: hoy(), virtud: LECCION.virtud, cita: LECCION.cita, cancion: LECCION.cancion.titulo, idea: idea.trim(), estado: "enviada" }, ...s.tarjetas],
+      tarjetas: [{ id: nuevoId(), fecha: hoy(), virtud: L.virtud, cita: L.cita, cancion: L.cancion, idea: idea.trim(), estado: "enviada" }, ...s.tarjetas],
     }));
     setIdea("");
     setEnviada(true);
@@ -48,9 +50,9 @@ function TarjetaPage() {
             <img src={isotipo.url} alt="" className="size-8" />
             <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Esta semana en clase</p>
           </div>
-          <h2 className="mt-2 text-2xl font-bold">{LECCION.virtud}</h2>
-          <p className="mt-2 text-sm italic">{LECCION.cita}</p>
-          <p className="mt-2 text-sm"><strong>Canción:</strong> {LECCION.cancion.titulo}</p>
+          <h2 className="mt-2 text-2xl font-bold">{L.virtud}</h2>
+          <p className="mt-2 text-sm italic">{L.cita}</p>
+          <p className="mt-2 text-sm"><strong>Canción:</strong> {L.cancion}</p>
           <label htmlFor="idea" className="mt-4 block text-sm font-bold">Una idea sencilla para casa</label>
           <textarea id="idea" value={idea} onChange={(ev) => setIdea(ev.target.value)} rows={3} placeholder="Ej.: preparad juntos un pequeño regalo para alguien del barrio." className="mt-2 w-full rounded-xl border-2 border-input bg-background p-3 text-sm outline-none focus:border-coral" />
         </div>

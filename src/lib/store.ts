@@ -13,6 +13,7 @@ export type Estado = {
   fechaNacimiento: string | null;
   consentimiento: boolean;
   pareja: string;
+  leccionActual: number;
   pasos: Partial<Record<PasoId, RegistroPaso>>;
   pasosPareja: Partial<Record<PasoId, RegistroPaso>>;
   reflexiones: Nota[];
@@ -27,8 +28,9 @@ export const ESTADO_INICIAL: Estado = {
   fechaNacimiento: null,
   consentimiento: false,
   pareja: "Estrella",
+  leccionActual: 1,
   pasos: {},
-  pasosPareja: { cancion: { dirigido: true, confirmado: true, reconocimiento: "¡Qué energía!" }, cita: { dirigido: true } },
+  pasosPareja: { cita: { dirigido: true, confirmado: true, reconocimiento: "¡Qué energía!" }, virtud: { dirigido: true } },
   reflexiones: [],
   momentos: [],
   tarjetas: [],

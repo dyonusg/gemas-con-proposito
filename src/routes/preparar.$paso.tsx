@@ -3,7 +3,9 @@ import { useState } from "react";
 import { ArrowLeft, Volume2, ExternalLink, Eye, EyeOff, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Shell, Seccion, Destello } from "@/components/gemas/Shell";
-import { PASOS, LECCION, PREGUNTAS_REFLEXION, type PasoId } from "@/lib/contenido";
+import { PASOS, RUHI, PREGUNTAS_REFLEXION, type PasoId } from "@/lib/contenido";
+import { useLeccion, type Leccion } from "@/lib/leccion";
+import { enPasos, suavizar } from "@/lib/camino";
 import { actualizar, hoy, nuevoId, useGemas } from "@/lib/store";
 
 export const Route = createFileRoute("/preparar/$paso")({
@@ -38,8 +40,9 @@ function Preparar() {
   const { paso } = Route.useLoaderData();
   const e = useGemas();
   const registro = e.pasos[paso.id];
+  const leccion = useLeccion(e.leccionActual);
   const [reflexion, setReflexion] = useState("");
-  const [pregunta] = useState(PREGUNTAS_REFLEXION[PASOS.indexOf(paso) % PREGUNTAS_REFLEXION.length]);
+  const [pregunta] = useState(PREGUNTAS_REFLEXION[Math.max(0, PASOS.findIndex((p) => p.id === paso.id)) % PREGUNTAS_REFLEXION.length]);
   const [guardada, setGuardada] = useState(false);
 
   const guardarReflexion = () => {
@@ -59,6 +62,7 @@ function Preparar() {
       </Link>
       <h1 className="mt-2 text-[32px] font-bold leading-[38px]">{paso.titulo}</h1>
       <p className="text-sm text-muted-foreground">{paso.descripcion}</p>
+      {leccion && <p className="mt-1 text-xs font-bold text-muted-foreground">Lección {leccion.numero} · {leccion.cualidad} · {leccion.color_gema}</p>}
 
       <div className="mt-5 rounded-[20px] bg-lavanda-soft p-4">
         <p className="text-xs font-bold uppercase tracking-wider text-lavanda">Antes de la clase · Mis gemas</p>
@@ -73,12 +77,12 @@ function Preparar() {
         )}
       </div>
 
-      <Ensayo id={paso.id} />
+      {leccion ? <Ensayo id={paso.id} l={leccion} /> : <p className="mt-6 text-sm text-muted-foreground">Cargando la lección…</p>}
 
-      <a href={LECCION.ruhi} target="_blank" rel="noreferrer" className="mt-5 flex items-center justify-between rounded-[20px] border-2 border-border bg-card p-4 text-sm font-bold">
+      <a href={leccion?.historia_url ?? RUHI} target="_blank" rel="noreferrer" className="mt-5 flex items-center justify-between rounded-[20px] border-2 border-border bg-card p-4 text-sm font-bold">
         Material oficial de la lección en ruhi.org <ExternalLink className="size-4" />
       </a>
-      <p className="mt-2 text-xs text-muted-foreground">Los textos de esta pantalla son de ejemplo. Usa siempre el material oficial.</p>
+      <p className="mt-2 text-xs text-muted-foreground">La historia completa está en el material oficial; aquí solo tienes el resumen.</p>
 
       <div className="mt-7 rounded-[20px] bg-card p-5 text-center shadow-card">
         {registro?.dirigido ? (
@@ -102,44 +106,72 @@ function Preparar() {
   );
 }
 
-function Ensayo({ id }: { id: PasoId }) {
+function Ensayo({ id, l }: { id: PasoId; l: Leccion }) {
+  if (id === "cita") return <PracticaCita cita={l.cita ?? ""} fuente={l.cita_fuente} />;
+  if (id === "virtud")
+    return (
+      <Seccion titulo={`La virtud: ${l.cualidad}`} extra={<Escuchar texto={l.explicacion_virtud} />}>
+        <p className="rounded-[20px] bg-lavanda-soft p-5">{l.explicacion_virtud}</p>
+      </Seccion>
+    );
   if (id === "cancion")
     return (
-      <Seccion titulo="Ensaya la canción" extra={<Button variant="soft" size="sm" onClick={() => escuchar(LECCION.cancion.letra.join(" "))}><Volume2 /> Escuchar</Button>}>
-        <div className="rounded-[20px] bg-menta-soft p-5 font-display text-xl font-semibold leading-relaxed">
-          {LECCION.cancion.letra.map((l) => <p key={l}>{l}</p>)}
+      <Seccion titulo="Ensaya la canción">
+        <div className="rounded-[20px] bg-menta-soft p-5">
+          <p className="font-display text-xl font-semibold">{l.cancion_titulo}</p>
+          {l.cancion_url && (
+            <a href={l.cancion_url} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1 text-sm font-bold underline">
+              Escúchala y aprende la letra <ExternalLink className="size-4" />
+            </a>
+          )}
         </div>
       </Seccion>
     );
-  if (id === "cita") return <PracticaCita />;
-  if (id === "historia" || id === "media" || id === "clase")
+  if (id === "historia")
     return (
       <>
-        <Seccion titulo="La historia" extra={<Button variant="soft" size="sm" onClick={() => escuchar(LECCION.historia.resumen)}><Volume2 /> Escuchar</Button>}>
-          <p className="rounded-[20px] bg-coral-soft p-5">{LECCION.historia.resumen}</p>
+        <Seccion titulo="La historia" extra={<Escuchar texto={l.historia_resumen} />}>
+          <p className="rounded-[20px] bg-coral-soft p-5">{l.historia_resumen}</p>
+          {l.historia_donde && <p className="mt-2 text-xs text-muted-foreground">Dónde está: {l.historia_donde.replace(/\s*\(abrir\)/, "")}</p>}
         </Seccion>
         <Seccion titulo="Pautas para contarla">
-          <Pautas items={LECCION.historia.pautas} />
+          <Pautas items={["Léela entera dos veces en casa y cuéntala en voz alta una vez.", "No hace falta memorizarla: cuéntala con tus palabras.", "Mira a los niños a los ojos y haz pausas en los momentos clave.", "Si te quedas en blanco, respira y vuelve al resumen."]} />
         </Seccion>
-        {id !== "historia" && (
-          <Seccion titulo="Orden de la clase">
-            <Pautas items={["Bienvenida y oración", "Canción", "Cita para memorizar", "Historia", "Juego", "Dibujo y despedida"]} />
-          </Seccion>
-        )}
       </>
     );
+  if (id === "dinamica") {
+    const d = enPasos(l.dinamica);
+    return (
+      <Seccion titulo={d.titulo ? `Dinámica: ${d.titulo}` : "La dinámica"}>
+        <Pautas items={d.pasos} />
+      </Seccion>
+    );
+  }
+  const m = enPasos(l.manualidad_pasos);
   return (
-    <Seccion titulo={`Juego: ${LECCION.juego.nombre}`}>
-      <Pautas items={LECCION.juego.pautas} />
-    </Seccion>
+    <>
+      {l.manualidad_materiales && (
+        <Seccion titulo="Materiales">
+          <p className="rounded-[20px] bg-menta-soft p-4 text-sm">{suavizar(l.manualidad_materiales)}</p>
+        </Seccion>
+      )}
+      <Seccion titulo="La manualidad paso a paso">
+        <Pautas items={m.pasos} />
+      </Seccion>
+    </>
   );
+}
+
+function Escuchar({ texto }: { texto: string | null }) {
+  if (!texto) return null;
+  return <Button variant="soft" size="sm" onClick={() => escuchar(texto)}><Volume2 /> Escuchar</Button>;
 }
 
 function Pautas({ items }: { items: string[] }) {
   return (
     <ol className="space-y-2">
       {items.map((t, i) => (
-        <li key={t} className="flex gap-3 rounded-2xl bg-card p-3 text-sm shadow-card">
+        <li key={i} className="flex gap-3 rounded-2xl bg-card p-3 text-sm shadow-card">
           <span className="grid size-6 shrink-0 place-items-center rounded-full bg-sol font-bold">{i + 1}</span>
           {t}
         </li>
@@ -148,8 +180,8 @@ function Pautas({ items }: { items: string[] }) {
   );
 }
 
-function PracticaCita() {
-  const palabras = LECCION.cita.split(" ");
+function PracticaCita({ cita, fuente }: { cita: string; fuente: string | null }) {
+  const palabras = cita.split(" ");
   const [ocultas, setOcultas] = useState<Set<number>>(new Set());
   const toggle = (i: number) =>
     setOcultas((s) => {
@@ -160,7 +192,7 @@ function PracticaCita() {
     });
   const ocultarTodo = () => setOcultas(ocultas.size ? new Set() : new Set(palabras.map((_, i) => i)));
   return (
-    <Seccion titulo="Memoriza la cita" extra={<Button variant="soft" size="sm" onClick={() => escuchar(LECCION.cita)}><Volume2 /> Escuchar</Button>}>
+    <Seccion titulo="Memoriza la cita de inspiración" extra={<Button variant="soft" size="sm" onClick={() => escuchar(cita)}><Volume2 /> Escuchar</Button>}>
       <div className="rounded-[20px] bg-sol-soft p-5">
         <p className="flex flex-wrap gap-x-1.5 gap-y-2 font-display text-xl font-semibold">
           {palabras.map((w, i) => (
@@ -169,6 +201,7 @@ function PracticaCita() {
             </button>
           ))}
         </p>
+        {fuente && <p className="mt-2 text-xs text-muted-foreground">{fuente}</p>}
         <p className="mt-3 text-xs text-muted-foreground">Toca palabras para esconderlas y dila de memoria.</p>
         <Button variant="tinta" size="sm" className="mt-3" onClick={ocultarTodo}>
           {ocultas.size ? <><Eye /> Mostrar todo</> : <><EyeOff /> Esconder todo</>}

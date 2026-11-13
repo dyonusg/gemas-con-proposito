@@ -26,3 +26,27 @@ export function puedeVer(compartir: Compartir | undefined, quien: "mentor" | "co
   if (quien === "mentor") return c === "mentor" || c === "todos";
   return c === "todos";
 }
+
+/** Lenguaje del camino: quien guía es facilitador, no maestro. */
+export const suavizar = (t: string) => t.replace(/\bmaestr[oa]s?\b/gi, (m) => (/s$/i.test(m) ? "facilitadores" : "facilitador")).replace(/^facilitador/, "Facilitador");
+
+/** Convierte el texto de una dinámica o manualidad en pasos numerados. */
+export function enPasos(texto: string | null | undefined): { titulo?: string | undefined; pasos: string[] } {
+  if (!texto?.trim()) return { pasos: [] };
+  const limpio = suavizar(texto.trim());
+  const lineas = limpio.split(/\n+/).map((l) => l.trim()).filter(Boolean);
+  if (lineas.length > 1) return { pasos: lineas.map((l) => l.replace(/^\d+[.)]\s*/, "")) };
+  let cuerpo = limpio;
+  let titulo: string | undefined;
+  const m = cuerpo.match(/^«([^»]+)»\s*:\s*/);
+  if (m) {
+    titulo = m[1];
+    cuerpo = cuerpo.slice(m[0].length);
+  }
+  const pasos = cuerpo
+    .split(/(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚÑ¿¡«])/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1));
+  return { titulo, pasos };
+}

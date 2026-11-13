@@ -2,8 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, BadgeCheck, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Shell, Seccion, Destello } from "@/components/gemas/Shell";
-import { PASOS, LECCION } from "@/lib/contenido";
-import { useGemas } from "@/lib/store";
+import { PASOS } from "@/lib/contenido";
+import { actualizar, useGemas } from "@/lib/store";
+import { useLecciones } from "@/lib/leccion";
 import { siguientePaso, contarDirigidos } from "@/lib/camino";
 
 export const Route = createFileRoute("/camino")({
@@ -22,6 +23,8 @@ export const Route = createFileRoute("/camino")({
 
 function Camino() {
   const e = useGemas();
+  const lecciones = useLecciones();
+  const leccion = lecciones.find((l) => l.numero === e.leccionActual);
   const sig = siguientePaso(e.pasos);
   const pasoSig = PASOS.find((p) => p.id === sig);
   const total = contarDirigidos(e.pasos);
@@ -31,7 +34,18 @@ function Camino() {
     <Shell>
       <p className="mt-2 text-sm font-bold text-muted-foreground">¡Hola, {e.alias ?? "colaborador"}!</p>
       <h1 className="text-[32px] font-bold leading-[38px]">Tu camino</h1>
-      <p className="text-sm text-muted-foreground">Virtud de esta semana: <strong className="text-foreground">{LECCION.virtud}</strong></p>
+      <label className="mt-1 block text-sm text-muted-foreground">
+        Lección de esta semana
+        <select
+          value={e.leccionActual}
+          onChange={(ev) => actualizar((s) => ({ ...s, leccionActual: Number(ev.target.value) }))}
+          className="mt-1 block w-full rounded-xl border-2 border-input bg-card p-2.5 text-base font-bold text-foreground"
+        >
+          {lecciones.map((l) => <option key={l.numero} value={l.numero}>{l.numero}. {l.cualidad} · {l.color_gema}</option>)}
+          {!lecciones.length && <option value={e.leccionActual}>Lección {e.leccionActual}</option>}
+        </select>
+      </label>
+      {leccion && <p className="mt-1 text-xs text-muted-foreground">Gema: {leccion.color_gema}</p>}
 
       {pasoSig ? (
         <div className="mt-5 overflow-hidden rounded-[20px] bg-tinta p-5 text-nube shadow-card">
