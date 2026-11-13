@@ -80,6 +80,11 @@ function Camino() {
         </ol>
       </Seccion>
 
+      <Link to="/guardar" className="mt-5 flex items-center justify-between rounded-[20px] border-2 border-dashed border-border bg-card p-4 text-sm">
+        <span><strong>Guarda tu camino</strong> (opcional) para no perderlo y que tu mentor lo vea.</span>
+        <span className="font-bold text-coral">Ver</span>
+      </Link>
+
       <Seccion titulo={`Camináis juntos: tú y ${e.pareja}`}>
         <div className="rounded-[20px] bg-card p-4 shadow-card">
           <FilaPareja nombre={e.alias ?? "Tú"} pasos={e.pasos} />

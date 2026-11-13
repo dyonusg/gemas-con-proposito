@@ -54,6 +54,13 @@ export function actualizar(fn: (e: Estado) => Estado) {
   estado = fn(estado);
   window.localStorage.setItem(KEY, JSON.stringify(estado));
   oyentes.forEach((o) => o());
+  alCambiar?.(estado);
+}
+
+let alCambiar: ((e: Estado) => void) | undefined;
+/** Engancha un guardado opcional (p. ej. la nube) a cada cambio. */
+export function alGuardar(fn: (e: Estado) => void) {
+  alCambiar = fn;
 }
 
 export function reiniciar() {
