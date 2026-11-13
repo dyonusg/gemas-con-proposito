@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, Volume2, ExternalLink, Eye, EyeOff, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Volume2, ExternalLink, Eye, EyeOff, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Shell, Seccion, Destello } from "@/components/gemas/Shell";
 import { PASOS, RUHI, PREGUNTAS_REFLEXION, type PasoId } from "@/lib/contenido";
@@ -60,6 +60,7 @@ function Preparar() {
       <Link to="/camino" className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-muted-foreground">
         <ArrowLeft className="size-4" /> Mi camino
       </Link>
+      <Timeline actual={paso.id} pasos={e.pasos} />
       <h1 className="mt-2 text-[32px] font-bold leading-[38px]">{paso.titulo}</h1>
       <p className="text-sm text-muted-foreground">{paso.descripcion}</p>
       {leccion && <p className="mt-1 text-xs font-bold text-muted-foreground">Lección {leccion.numero} · {leccion.cualidad} · {leccion.color_gema}</p>}
@@ -102,6 +103,7 @@ function Preparar() {
           </>
         )}
       </div>
+      <SiguienteAnterior actual={paso.id} />
     </Shell>
   );
 }
@@ -208,5 +210,47 @@ function PracticaCita({ cita, fuente }: { cita: string; fuente: string | null })
         </Button>
       </div>
     </Seccion>
+  );
+}
+
+function Timeline({ actual, pasos }: { actual: PasoId; pasos: Record<string, { dirigido?: boolean } | undefined> }) {
+  return (
+    <nav aria-label="Pasos del camino" className="sticky top-0 z-10 -mx-4 mt-3 bg-background/95 px-4 py-2 backdrop-blur">
+      <ol className="flex items-start justify-between gap-1">
+        {PASOS.map((p, i) => {
+          const activo = p.id === actual;
+          const hecho = pasos[p.id]?.dirigido;
+          return (
+            <li key={p.id} className="relative flex flex-1 flex-col items-center">
+              {i > 0 && <span className={`absolute right-1/2 top-4 h-0.5 w-full -translate-y-1/2 ${hecho ? "bg-menta" : "bg-border"}`} />}
+              <Link to="/preparar/$paso" params={{ paso: p.id }} aria-current={activo ? "step" : undefined} className="relative z-10 flex flex-col items-center gap-1">
+                <span className={`flex size-8 items-center justify-center rounded-full border-2 text-xs font-bold ${activo ? "border-coral bg-coral text-primary-foreground" : hecho ? "border-menta bg-menta text-primary-foreground" : "border-border bg-card text-muted-foreground"}`}>
+                  {hecho && !activo ? <Check className="size-4" /> : i + 1}
+                </span>
+                <span className={`text-center text-[10px] leading-tight ${activo ? "font-bold text-foreground" : "text-muted-foreground"}`}>{p.corto}</span>
+              </Link>
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
+function SiguienteAnterior({ actual }: { actual: PasoId }) {
+  const i = PASOS.findIndex((p) => p.id === actual);
+  const ant = PASOS[i - 1];
+  const sig = PASOS[i + 1];
+  return (
+    <div className="mt-5 flex gap-2">
+      {ant ? (
+        <Button asChild variant="soft" className="flex-1"><Link to="/preparar/$paso" params={{ paso: ant.id }}><ArrowLeft className="size-4" /> {ant.corto}</Link></Button>
+      ) : <span className="flex-1" />}
+      {sig ? (
+        <Button asChild variant="menta" className="flex-1"><Link to="/preparar/$paso" params={{ paso: sig.id }}>{sig.corto} <ArrowRight className="size-4" /></Link></Button>
+      ) : (
+        <Button asChild variant="menta" className="flex-1"><Link to="/camino">Volver a Mi camino</Link></Button>
+      )}
+    </div>
   );
 }
