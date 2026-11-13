@@ -6,8 +6,8 @@ export const PASOS: { id: PasoId; titulo: string; corto: string; descripcion: st
   { id: "cita", titulo: "Enseñar la cita", corto: "Cita", descripcion: "Ayuda a los niños a memorizar la cita de la virtud.", color: "bg-sol" },
   { id: "historia", titulo: "Contar la historia", corto: "Historia", descripcion: "Cuenta la historia de la lección con tus palabras.", color: "bg-coral" },
   { id: "juego", titulo: "Dirigir el juego", corto: "Juego", descripcion: "Explica y anima el juego cooperativo.", color: "bg-lavanda" },
-  { id: "media", titulo: "Media clase", corto: "Media clase", descripcion: "Dirige la mitad de la clase junto a tu pareja.", color: "bg-menta" },
-  { id: "clase", titulo: "La clase entera", corto: "Clase entera", descripcion: "Dirige una clase completa, con tu maestro al lado.", color: "bg-coral" },
+  { id: "media", titulo: "Media clase", corto: "Media clase", descripcion: "Dirige la mitad de la clase junto a tu compañero de camino.", color: "bg-menta" },
+  { id: "clase", titulo: "La clase entera", corto: "Clase entera", descripcion: "Dirige una clase completa, con tu mentor al lado.", color: "bg-coral" },
 ];
 
 export const LECCION = {

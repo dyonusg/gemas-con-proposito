@@ -10,10 +10,10 @@ import logo from "@/assets/gemas-logo.svg.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Gemas · Del ayudante al maestro" },
+      { title: "Gemas · Del ayudante al mentor" },
       { name: "description", content: "Un camino acompañado para que los jóvenes ayudantes den el paso a dirigir las clases de niños." },
-      { property: "og:title", content: "Gemas · Del ayudante al maestro" },
-      { property: "og:description", content: "Sirve en pareja, descubre tus gemas y avanza paso a paso hasta dirigir una clase." },
+      { property: "og:title", content: "Gemas · Del ayudante al mentor" },
+      { property: "og:description", content: "Sirve con un compañero de camino, descubre tus gemas y avanza paso a paso hasta dirigir una clase." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -49,16 +49,16 @@ function Bienvenida() {
 
       <h1 className="mt-8 text-[40px] font-extrabold leading-[44px]">
         Del ayudante <br />
-        al maestro<Destello className="ml-1 inline size-6 -translate-y-4" />
+        al mentor<Destello className="ml-1 inline size-6 -translate-y-4" />
       </h1>
       <p className="mt-3 text-muted-foreground">
-        Ya ayudas en una clase de niños. Gemas te acompaña, paso a paso y en pareja, para que te atrevas a ponerte al frente.
+        Ya ayudas en una clase de niños. Gemas te acompaña, paso a paso y con un compañero de camino, para que te atrevas a ponerte al frente.
       </p>
 
       <ul className="mt-6 space-y-3 text-sm">
         <li className="flex gap-3"><Heart className="size-5 shrink-0 text-coral" /> Ve el efecto de tu servicio en los niños.</li>
-        <li className="flex gap-3"><Users className="size-5 shrink-0 text-menta" /> Sirves con tu pareja y tu maestro te acompaña.</li>
-        <li className="flex gap-3"><ShieldCheck className="size-5 shrink-0 text-lavanda" /> No necesitas ser bahá'í. Aquí cabe todo el mundo.</li>
+        <li className="flex gap-3"><Users className="size-5 shrink-0 text-menta" /> Sirves con tu compañero de camino y tu mentor te acompaña.</li>
+        <li className="flex gap-3"><ShieldCheck className="size-5 shrink-0 text-lavanda" /> No necesitas experiencia previa. Aquí cabe todo el mundo.</li>
       </ul>
 
       <form onSubmit={entrar} className="mt-8 rounded-[20px] bg-card p-5 shadow-card">

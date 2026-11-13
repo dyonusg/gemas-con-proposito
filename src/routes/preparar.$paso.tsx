@@ -85,7 +85,7 @@ function Preparar() {
           <>
             <Destello className="mx-auto size-8 animate-pop" />
             <p className="mt-2 font-display text-xl font-bold">¡Lo has dirigido!</p>
-            <p className="text-sm text-muted-foreground">{registro.confirmado ? "Tu maestro lo ha confirmado." : "Tu maestro lo confirmará pronto."}</p>
+            <p className="text-sm text-muted-foreground">{registro.confirmado ? "Tu mentor lo ha confirmado." : "Tu mentor lo confirmará pronto."}</p>
             <div className="mt-4 flex flex-col gap-2">
               <Button asChild variant="menta"><Link to="/gemas">Anotar un momento con los niños</Link></Button>
               <Button asChild variant="soft"><Link to="/tarjeta">Crear la tarjeta para las familias</Link></Button>

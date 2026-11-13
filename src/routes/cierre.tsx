@@ -21,8 +21,8 @@ export const Route = createFileRoute("/cierre")({
 
 const PREGUNTAS: { key: keyof Omit<Encuesta, "comentario">; texto: string; opciones: string[] }[] = [
   { key: "sentimiento", texto: "¿Cómo te has sentido sirviendo?", opciones: ["Muy bien", "Bien", "Regular", "Mal"] },
-  { key: "acompanado", texto: "¿Has servido solo o acompañado?", opciones: ["Con mi pareja", "Con mi maestro", "Bastante solo"] },
-  { key: "seguir", texto: "¿Quieres seguir sirviendo durante el curso?", opciones: ["Sí, con mi pareja", "Sí", "No lo sé", "Ahora no"] },
+  { key: "acompanado", texto: "¿Has servido solo o acompañado?", opciones: ["Con mi compañero de camino", "Con mi mentor", "Bastante solo"] },
+  { key: "seguir", texto: "¿Quieres seguir sirviendo durante el curso?", opciones: ["Sí, con mi compañero de camino", "Sí", "No lo sé", "Ahora no"] },
 ];
 
 function Cierre() {
@@ -44,7 +44,7 @@ function Cierre() {
               <>
                 <h2 className="mt-2 text-2xl font-bold">Te va a escribir tu coordinador</h2>
                 <p className="mt-1 text-sm text-nube/80">
-                  El responsable del campus avisará al coordinador de tu zona. Te invitará en persona a servir en una clase cerca de casa{e.encuesta.seguir.includes("pareja") ? `, junto a ${e.pareja} si es posible` : ""}.
+                  El responsable del campus avisará al coordinador de tu zona. Te invitará en persona a servir en una clase cerca de casa{e.encuesta.seguir.includes("compañero") ? `, junto a ${e.pareja} si es posible` : ""}.
                 </p>
               </>
             ) : (
@@ -55,7 +55,7 @@ function Cierre() {
             )}
           </div>
           <a href="https://www.bahai.es/contacto/" target="_blank" rel="noreferrer" className="mt-4 flex items-center justify-between rounded-[20px] border-2 border-border bg-card p-4 text-sm font-bold">
-            También puedes escribir a bahai.es/contacto <ExternalLink className="size-4" />
+            ¿Prefieres escribirnos tú? Contacta aquí <ExternalLink className="size-4" />
           </a>
         </>
       ) : (

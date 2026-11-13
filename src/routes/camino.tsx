@@ -46,7 +46,7 @@ function Camino() {
         <div className="mt-5 rounded-[20px] bg-sol p-5 shadow-card">
           <Destello className="size-8" />
           <h2 className="mt-2 text-2xl font-bold">¡Has dirigido una clase entera!</h2>
-          <p className="text-sm">Ya eres maestro. Mira tu siguiente paso al terminar el campus.</p>
+          <p className="text-sm">Ya puedes guiar a otros. Mira tu siguiente paso al terminar el campus.</p>
           <Button asChild variant="tinta" className="mt-4"><Link to="/cierre">Seguir sirviendo</Link></Button>
         </div>
       )}
@@ -69,7 +69,7 @@ function Camino() {
                   <span className="flex-1">
                     <span className="block font-bold">{p.titulo}</span>
                     <span className="text-xs text-muted-foreground">
-                      {r?.dirigido ? (r.confirmado ? "Confirmado por tu maestro" : "Dirigido · pendiente de confirmar") : esSig ? "Te toca" : "Más adelante"}
+                      {r?.dirigido ? (r.confirmado ? "Confirmado por tu mentor" : "Dirigido · pendiente de confirmar") : esSig ? "Te toca" : "Más adelante"}
                     </span>
                   </span>
                   {r?.confirmado && <BadgeCheck className="size-5 text-menta" />}
@@ -80,7 +80,7 @@ function Camino() {
         </ol>
       </Seccion>
 
-      <Seccion titulo={`En pareja con ${e.pareja}`}>
+      <Seccion titulo={`Camináis juntos: tú y ${e.pareja}`}>
         <div className="rounded-[20px] bg-card p-4 shadow-card">
           <FilaPareja nombre={e.alias ?? "Tú"} pasos={e.pasos} />
           <FilaPareja nombre={e.pareja} pasos={e.pasosPareja} />
@@ -89,7 +89,7 @@ function Camino() {
       </Seccion>
 
       {reconocimientos.length > 0 && (
-        <Seccion titulo="Lo que dice tu maestro">
+        <Seccion titulo="Lo que dice tu mentor">
           <ul className="space-y-2">
             {reconocimientos.map((p) => (
               <li key={p.id} className="rounded-[20px] bg-sol-soft p-4">

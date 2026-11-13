@@ -10,9 +10,9 @@ export const Route = createFileRoute("/equipo")({
   head: () => ({
     meta: [
       { title: "Equipo del campus · Gemas" },
-      { name: "description", content: "Maestros y responsables: confirma pasos, reconoce a los ayudantes y reenvía las tarjetas." },
+      { name: "description", content: "Mentores y responsables: confirma pasos, reconoce a los ayudantes y reenvía las tarjetas." },
       { property: "og:title", content: "Equipo del campus · Gemas" },
-      { property: "og:description", content: "Herramientas para maestros y responsables del campus." },
+      { property: "og:description", content: "Herramientas para mentores y responsables del campus." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -31,7 +31,7 @@ function Equipo() {
       <div className="mt-4 grid grid-cols-2 rounded-full bg-muted p-1">
         {(["maestro", "responsable"] as const).map((r) => (
           <button key={r} onClick={() => setRol(r)} className={`rounded-full py-2 text-sm font-bold ${rol === r ? "bg-tinta text-nube" : "text-muted-foreground"}`}>
-            {r === "maestro" ? "Maestro" : "Responsable"}
+            {r === "maestro" ? "Mentor" : "Responsable"}
           </button>
         ))}
       </div>
@@ -112,7 +112,7 @@ function Responsable() {
       <Seccion titulo="Quieren seguir sirviendo">
         <div className="rounded-[20px] bg-sol-soft p-4 text-sm">
           {e.encuesta?.seguir.startsWith("Sí") ? (
-            <p><strong>{e.alias}</strong> quiere seguir{e.encuesta.seguir.includes("pareja") ? ` junto a ${e.pareja}` : ""}. Avisa al coordinador de su zona fuera de la app.</p>
+            <p><strong>{e.alias}</strong> quiere seguir{e.encuesta.seguir.includes("compañero") ? ` junto a ${e.pareja}` : ""}. Avisa al coordinador de su zona fuera de la app.</p>
           ) : (
             <p>Aún nadie ha respondido que quiere seguir.</p>
           )}
