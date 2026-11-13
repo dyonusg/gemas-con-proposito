@@ -31,5 +31,6 @@ use the editor.
 
 ## Project rules
 - Phase-1 prototype state lives in `src/lib/store.ts` (localStorage, single device); move to Lovable Cloud when multi-device sharing (pairs, teacher, campus lead) is needed.
-- Lesson texts in `src/lib/contenido.ts` are placeholders; official content is only linked (ruhi.org), never reproduced, because rights are not cleared.
+- Lesson content (24 lessons, 6 prayers) lives in the `lecciones`/`oraciones` tables, loaded from the owner's spreadsheet; full Ruhí stories stay linked (`historia_url`), not reproduced, because rights are not cleared.
+- Profile, path progress, notes, cards and survey have Cloud tables (owner-scoped RLS; mentor/compañero/responsable read via `profiles.mentor_id`/`companero_id` and `user_roles`); the UI still uses `src/lib/store.ts` until sign-in is wired.
 - Path logic (next step, counts) lives in `src/lib/camino.ts` with tests beside it.

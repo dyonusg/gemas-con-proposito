@@ -14,16 +14,304 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      encuestas: {
+        Row: {
+          acompanado: string | null
+          comentario: string | null
+          created_at: string
+          id: string
+          seguir: string | null
+          sentimiento: string | null
+          user_id: string
+        }
+        Insert: {
+          acompanado?: string | null
+          comentario?: string | null
+          created_at?: string
+          id?: string
+          seguir?: string | null
+          sentimiento?: string | null
+          user_id: string
+        }
+        Update: {
+          acompanado?: string | null
+          comentario?: string | null
+          created_at?: string
+          id?: string
+          seguir?: string | null
+          sentimiento?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      lecciones: {
+        Row: {
+          actividad_familia: string | null
+          cancion_titulo: string | null
+          cancion_url: string | null
+          cita: string | null
+          cita_autor: string | null
+          cita_fuente: string | null
+          color_gema: string
+          cualidad: string
+          dibujo: string | null
+          dinamica: string | null
+          explicacion_virtud: string | null
+          historia_donde: string | null
+          historia_resumen: string | null
+          historia_url: string | null
+          juego: string | null
+          manualidad_materiales: string | null
+          manualidad_pasos: string | null
+          numero: number
+          oracion: string | null
+          oracion_estado: string | null
+          oracion_fuente: string | null
+          pagina_libro: number | null
+        }
+        Insert: {
+          actividad_familia?: string | null
+          cancion_titulo?: string | null
+          cancion_url?: string | null
+          cita?: string | null
+          cita_autor?: string | null
+          cita_fuente?: string | null
+          color_gema: string
+          cualidad: string
+          dibujo?: string | null
+          dinamica?: string | null
+          explicacion_virtud?: string | null
+          historia_donde?: string | null
+          historia_resumen?: string | null
+          historia_url?: string | null
+          juego?: string | null
+          manualidad_materiales?: string | null
+          manualidad_pasos?: string | null
+          numero: number
+          oracion?: string | null
+          oracion_estado?: string | null
+          oracion_fuente?: string | null
+          pagina_libro?: number | null
+        }
+        Update: {
+          actividad_familia?: string | null
+          cancion_titulo?: string | null
+          cancion_url?: string | null
+          cita?: string | null
+          cita_autor?: string | null
+          cita_fuente?: string | null
+          color_gema?: string
+          cualidad?: string
+          dibujo?: string | null
+          dinamica?: string | null
+          explicacion_virtud?: string | null
+          historia_donde?: string | null
+          historia_resumen?: string | null
+          historia_url?: string | null
+          juego?: string | null
+          manualidad_materiales?: string | null
+          manualidad_pasos?: string | null
+          numero?: number
+          oracion?: string | null
+          oracion_estado?: string | null
+          oracion_fuente?: string | null
+          pagina_libro?: number | null
+        }
+        Relationships: []
+      }
+      notas: {
+        Row: {
+          created_at: string
+          id: string
+          pregunta: string | null
+          texto: string
+          tipo: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          pregunta?: string | null
+          texto: string
+          tipo: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          pregunta?: string | null
+          texto?: string
+          tipo?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      oraciones: {
+        Row: {
+          fuente: string | null
+          id: number
+          leccion_desde: number
+          leccion_hasta: number
+          texto: string
+        }
+        Insert: {
+          fuente?: string | null
+          id?: number
+          leccion_desde: number
+          leccion_hasta: number
+          texto: string
+        }
+        Update: {
+          fuente?: string | null
+          id?: number
+          leccion_desde?: number
+          leccion_hasta?: number
+          texto?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          alias: string
+          companero_id: string | null
+          consentimiento_papel: boolean
+          created_at: string
+          fecha_nacimiento: string | null
+          id: string
+          mentor_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          alias?: string
+          companero_id?: string | null
+          consentimiento_papel?: boolean
+          created_at?: string
+          fecha_nacimiento?: string | null
+          id: string
+          mentor_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          alias?: string
+          companero_id?: string | null
+          consentimiento_papel?: boolean
+          created_at?: string
+          fecha_nacimiento?: string | null
+          id?: string
+          mentor_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      progreso_pasos: {
+        Row: {
+          confirmado: boolean
+          confirmado_por: string | null
+          dirigido_en: string
+          id: string
+          leccion_numero: number | null
+          paso: string
+          reconocimiento: string | null
+          user_id: string
+        }
+        Insert: {
+          confirmado?: boolean
+          confirmado_por?: string | null
+          dirigido_en?: string
+          id?: string
+          leccion_numero?: number | null
+          paso: string
+          reconocimiento?: string | null
+          user_id: string
+        }
+        Update: {
+          confirmado?: boolean
+          confirmado_por?: string | null
+          dirigido_en?: string
+          id?: string
+          leccion_numero?: number | null
+          paso?: string
+          reconocimiento?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "progreso_pasos_leccion_numero_fkey"
+            columns: ["leccion_numero"]
+            isOneToOne: false
+            referencedRelation: "lecciones"
+            referencedColumns: ["numero"]
+          },
+        ]
+      }
+      tarjetas: {
+        Row: {
+          created_at: string
+          estado: string
+          id: string
+          idea: string
+          leccion_numero: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          estado?: string
+          id?: string
+          idea?: string
+          leccion_numero?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          estado?: string
+          id?: string
+          idea?: string
+          leccion_numero?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tarjetas_leccion_numero_fkey"
+            columns: ["leccion_numero"]
+            isOneToOne: false
+            referencedRelation: "lecciones"
+            referencedColumns: ["numero"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "colaborador" | "mentor" | "responsable"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +438,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["colaborador", "mentor", "responsable"],
+    },
   },
 } as const
