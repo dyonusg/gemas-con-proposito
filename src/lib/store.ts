@@ -9,6 +9,7 @@ export type Encuesta = { sentimiento: string; acompanado: string; seguir: string
 
 export type Estado = {
   alias: string | null;
+  fechaNacimiento: string | null;
   consentimiento: boolean;
   pareja: string;
   pasos: Partial<Record<PasoId, RegistroPaso>>;
@@ -22,6 +23,7 @@ export type Estado = {
 const KEY = "gemas-estado-v1";
 export const ESTADO_INICIAL: Estado = {
   alias: null,
+  fechaNacimiento: null,
   consentimiento: false,
   pareja: "Estrella",
   pasos: {},

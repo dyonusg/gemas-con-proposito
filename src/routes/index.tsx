@@ -4,6 +4,7 @@ import { ShieldCheck, Heart, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Destello } from "@/components/gemas/Shell";
 import { actualizar, useGemas } from "@/lib/store";
+import { esMenor } from "@/lib/camino";
 import isotipo from "@/assets/gemas-isotipo.svg.asset.json";
 import logo from "@/assets/gemas-logo.svg.asset.json";
 
@@ -25,16 +26,20 @@ function Bienvenida() {
   const estado = useGemas();
   const navigate = useNavigate();
   const [alias, setAlias] = useState("");
+  const [nacimiento, setNacimiento] = useState("");
   const [consiente, setConsiente] = useState(false);
 
   useEffect(() => {
     if (estado.alias) navigate({ to: "/camino" });
   }, [estado.alias, navigate]);
 
+  const menor = nacimiento ? esMenor(nacimiento) : false;
+  const listo = alias.trim() && nacimiento && (!menor || consiente);
+
   const entrar = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!alias.trim() || !consiente) return;
-    actualizar((s) => ({ ...s, alias: alias.trim(), consentimiento: true }));
+    if (!listo) return;
+    actualizar((s) => ({ ...s, alias: alias.trim(), fechaNacimiento: nacimiento, consentimiento: true }));
     navigate({ to: "/camino" });
   };
 
@@ -73,12 +78,24 @@ function Bienvenida() {
         />
         <p className="mt-2 text-xs text-muted-foreground">Sin email ni datos personales. Solo tu alias.</p>
 
-        <label className="mt-4 flex items-start gap-3 text-sm">
-          <input type="checkbox" checked={consiente} onChange={(e) => setConsiente(e.target.checked)} className="mt-1 size-5 accent-coral" />
-          <span>Mi familia ha firmado el consentimiento en papel al inscribirme en el campus.</span>
-        </label>
+        <label htmlFor="nacimiento" className="mt-4 block text-sm font-bold">Tu fecha de nacimiento</label>
+        <input
+          id="nacimiento"
+          type="date"
+          value={nacimiento}
+          onChange={(e) => setNacimiento(e.target.value)}
+          max={new Date().toISOString().slice(0, 10)}
+          className="mt-2 h-12 w-full rounded-xl border-2 border-input bg-background px-4 outline-none focus:border-coral"
+        />
 
-        <Button type="submit" size="lg" className="mt-5 w-full" disabled={!alias.trim() || !consiente}>
+        {menor && (
+          <label className="mt-4 flex items-start gap-3 text-sm">
+            <input type="checkbox" checked={consiente} onChange={(e) => setConsiente(e.target.checked)} className="mt-1 size-5 accent-coral" />
+            <span>Mi familia ha firmado el consentimiento en papel al inscribirme en el campus.</span>
+          </label>
+        )}
+
+        <Button type="submit" size="lg" className="mt-5 w-full" disabled={!listo}>
           Empezar mi camino
         </Button>
       </form>
