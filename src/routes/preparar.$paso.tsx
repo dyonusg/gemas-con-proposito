@@ -44,7 +44,7 @@ function Preparar() {
 
   const guardarReflexion = () => {
     if (!reflexion.trim()) return;
-    actualizar((s) => ({ ...s, reflexiones: [{ id: nuevoId(), fecha: hoy(), texto: reflexion.trim(), pregunta }, ...s.reflexiones] }));
+    actualizar((s) => ({ ...s, reflexiones: [{ id: nuevoId(), fecha: hoy(), texto: reflexion.trim(), pregunta, compartir: "solo_yo" }, ...s.reflexiones] }));
     setReflexion("");
     setGuardada(true);
   };
@@ -64,7 +64,7 @@ function Preparar() {
         <p className="text-xs font-bold uppercase tracking-wider text-lavanda">Antes de la clase · Mis gemas</p>
         <p className="mt-1 font-display text-lg font-semibold">{pregunta}</p>
         {guardada ? (
-          <p className="mt-2 flex items-center gap-2 text-sm font-bold"><Check className="size-4 text-menta" /> Guardada en Mis gemas</p>
+          <p className="mt-2 flex items-center gap-2 text-sm font-bold"><Check className="size-4 text-menta" /> Guardada en <Link to="/reflexiones" className="underline">Mis reflexiones</Link></p>
         ) : (
           <>
             <textarea value={reflexion} onChange={(ev) => setReflexion(ev.target.value)} rows={3} placeholder="Escribe con calma, solo lo ves tú." className="mt-3 w-full rounded-xl border-2 border-input bg-card p-3 text-sm outline-none focus:border-lavanda" />

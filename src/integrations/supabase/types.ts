@@ -121,30 +121,47 @@ export type Database = {
       }
       notas: {
         Row: {
+          compartir: string
           created_at: string
           id: string
+          leccion_numero: number | null
+          local_id: string | null
           pregunta: string | null
           texto: string
           tipo: string
           user_id: string
         }
         Insert: {
+          compartir?: string
           created_at?: string
           id?: string
+          leccion_numero?: number | null
+          local_id?: string | null
           pregunta?: string | null
           texto: string
           tipo: string
           user_id: string
         }
         Update: {
+          compartir?: string
           created_at?: string
           id?: string
+          leccion_numero?: number | null
+          local_id?: string | null
           pregunta?: string | null
           texto?: string
           tipo?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "notas_leccion_numero_fkey"
+            columns: ["leccion_numero"]
+            isOneToOne: false
+            referencedRelation: "lecciones"
+            referencedColumns: ["numero"]
+          },
+        ]
       }
       oraciones: {
         Row: {

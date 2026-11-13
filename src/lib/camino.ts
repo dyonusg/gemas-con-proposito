@@ -18,3 +18,11 @@ export function esMenor(fechaNacimiento: string, hoy: Date = new Date()): boolea
   cumple18.setFullYear(cumple18.getFullYear() + 18);
   return hoy < cumple18;
 }
+
+import type { Compartir } from "./store";
+/** Quién puede leer una reflexión según lo que eligió el colaborador. */
+export function puedeVer(compartir: Compartir | undefined, quien: "mentor" | "companero"): boolean {
+  const c = compartir ?? "solo_yo";
+  if (quien === "mentor") return c === "mentor" || c === "todos";
+  return c === "todos";
+}

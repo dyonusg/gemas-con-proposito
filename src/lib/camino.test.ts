@@ -30,3 +30,19 @@ describe("mayoría de edad", () => {
     expect(esMenor("2008-11-14", hoy)).toBe(true);
   });
 });
+
+import { puedeVer } from "./camino";
+describe("compartir reflexiones", () => {
+  it("solo yo: nadie más la ve", () => {
+    expect(puedeVer("solo_yo", "mentor")).toBe(false);
+    expect(puedeVer(undefined, "companero")).toBe(false);
+  });
+  it("con mi mentor: la ve el mentor, no el compañero", () => {
+    expect(puedeVer("mentor", "mentor")).toBe(true);
+    expect(puedeVer("mentor", "companero")).toBe(false);
+  });
+  it("con mentor y compañeros: la ven ambos", () => {
+    expect(puedeVer("todos", "mentor")).toBe(true);
+    expect(puedeVer("todos", "companero")).toBe(true);
+  });
+});

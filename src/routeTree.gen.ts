@@ -15,6 +15,7 @@ import { Route as CierreRouteImport } from './routes/cierre'
 import { Route as EquipoRouteImport } from './routes/equipo'
 import { Route as GemasRouteImport } from './routes/gemas'
 import { Route as GuardarRouteImport } from './routes/guardar'
+import { Route as ReflexionesRouteImport } from './routes/reflexiones'
 import { Route as TarjetaRouteImport } from './routes/tarjeta'
 import { Route as PrepararPasoRouteImport } from './routes/preparar.$paso'
 
@@ -48,6 +49,11 @@ const GuardarRoute = GuardarRouteImport.update({
   path: '/guardar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReflexionesRoute = ReflexionesRouteImport.update({
+  id: '/reflexiones',
+  path: '/reflexiones',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TarjetaRoute = TarjetaRouteImport.update({
   id: '/tarjeta',
   path: '/tarjeta',
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/equipo': typeof EquipoRoute
   '/gemas': typeof GemasRoute
   '/guardar': typeof GuardarRoute
+  '/reflexiones': typeof ReflexionesRoute
   '/tarjeta': typeof TarjetaRoute
   '/preparar/$paso': typeof PrepararPasoRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/equipo': typeof EquipoRoute
   '/gemas': typeof GemasRoute
   '/guardar': typeof GuardarRoute
+  '/reflexiones': typeof ReflexionesRoute
   '/tarjeta': typeof TarjetaRoute
   '/preparar/$paso': typeof PrepararPasoRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/equipo': typeof EquipoRoute
   '/gemas': typeof GemasRoute
   '/guardar': typeof GuardarRoute
+  '/reflexiones': typeof ReflexionesRoute
   '/tarjeta': typeof TarjetaRoute
   '/preparar/$paso': typeof PrepararPasoRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/equipo'
     | '/gemas'
     | '/guardar'
+    | '/reflexiones'
     | '/tarjeta'
     | '/preparar/$paso'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/equipo'
     | '/gemas'
     | '/guardar'
+    | '/reflexiones'
     | '/tarjeta'
     | '/preparar/$paso'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/equipo'
     | '/gemas'
     | '/guardar'
+    | '/reflexiones'
     | '/tarjeta'
     | '/preparar/$paso'
   fileRoutesById: FileRoutesById
@@ -130,6 +142,7 @@ export interface RootRouteChildren {
   EquipoRoute: typeof EquipoRoute
   GemasRoute: typeof GemasRoute
   GuardarRoute: typeof GuardarRoute
+  ReflexionesRoute: typeof ReflexionesRoute
   TarjetaRoute: typeof TarjetaRoute
   PrepararPasoRoute: typeof PrepararPasoRoute
 }
@@ -178,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuardarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reflexiones': {
+      id: '/reflexiones'
+      path: '/reflexiones'
+      fullPath: '/reflexiones'
+      preLoaderRoute: typeof ReflexionesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tarjeta': {
       id: '/tarjeta'
       path: '/tarjeta'
@@ -202,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   EquipoRoute: EquipoRoute,
   GemasRoute: GemasRoute,
   GuardarRoute: GuardarRoute,
+  ReflexionesRoute: ReflexionesRoute,
   TarjetaRoute: TarjetaRoute,
   PrepararPasoRoute: PrepararPasoRoute,
 }

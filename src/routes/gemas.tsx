@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Shell, Seccion } from "@/components/gemas/Shell";
@@ -43,8 +43,9 @@ function MisGemas() {
       <Seccion titulo="Momentos con los niños">
         <Lista items={e.momentos} vacio="Aún no has anotado ningún momento." tono="border-menta" />
       </Seccion>
-      <Seccion titulo="Mis reflexiones">
-        <Lista items={e.reflexiones} vacio="Responde la pregunta antes de preparar tu próximo paso." tono="border-lavanda" />
+      <Seccion titulo="Mis reflexiones" extra={<Link to="/reflexiones" className="text-sm font-bold text-lavanda">Ver y editar</Link>}>
+        <Lista items={e.reflexiones.slice(0, 3)} vacio="Escribe tu primera reflexión sobre una lección." tono="border-lavanda" />
+        <Link to="/reflexiones" className="mt-3 block rounded-full bg-lavanda-soft py-3 text-center text-sm font-bold">Mis reflexiones por lección ({e.reflexiones.length})</Link>
       </Seccion>
     </Shell>
   );
