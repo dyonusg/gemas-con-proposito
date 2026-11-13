@@ -28,9 +28,10 @@ function Bienvenida() {
   const [alias, setAlias] = useState("");
   const [nacimiento, setNacimiento] = useState("");
   const [consiente, setConsiente] = useState(false);
+  const [tipo, setTipo] = useState<"formacion" | "mentor">("formacion");
 
   useEffect(() => {
-    if (estado.alias) navigate({ to: "/camino" });
+    if (estado.alias) navigate({ to: estado.tipo === "mentor" ? "/mentor" : "/camino" });
   }, [estado.alias, navigate]);
 
   const menor = nacimiento ? esMenor(nacimiento) : false;
@@ -39,8 +40,8 @@ function Bienvenida() {
   const entrar = (e: React.FormEvent) => {
     e.preventDefault();
     if (!listo) return;
-    actualizar((s) => ({ ...s, alias: alias.trim(), fechaNacimiento: nacimiento, consentimiento: true }));
-    navigate({ to: "/camino" });
+    actualizar((s) => ({ ...s, alias: alias.trim(), fechaNacimiento: nacimiento, consentimiento: true, tipo }));
+    navigate({ to: tipo === "mentor" ? "/mentor" : "/camino" });
   };
 
   return (
@@ -67,6 +68,16 @@ function Bienvenida() {
       </ul>
 
       <form onSubmit={entrar} className="mt-8 rounded-[20px] bg-card p-5 shadow-card">
+        <p className="text-sm font-bold">¿Cómo usarás Gemas?</p>
+        <div className="mt-2 mb-4 grid grid-cols-2 gap-2">
+          {([["formacion", "Facilitador en formación", "Recorro el camino"], ["mentor", "Facilitador mentor", "Acompaño a otros"]] as const).map(([v, t, d]) => (
+            <button type="button" key={v} onClick={() => setTipo(v)} aria-pressed={tipo === v}
+              className={`rounded-xl border-2 p-3 text-left ${tipo === v ? "border-coral bg-coral-soft" : "border-input"}`}>
+              <span className="block text-sm font-bold leading-tight">{t}</span>
+              <span className="text-xs text-muted-foreground">{d}</span>
+            </button>
+          ))}
+        </div>
         <label htmlFor="alias" className="text-sm font-bold">Elige un alias</label>
         <input
           id="alias"
@@ -96,7 +107,7 @@ function Bienvenida() {
         )}
 
         <Button type="submit" size="lg" className="mt-5 w-full" disabled={!listo}>
-          Empezar mi camino
+          {tipo === "mentor" ? "Empezar a acompañar" : "Empezar mi camino"}
         </Button>
       </form>
 

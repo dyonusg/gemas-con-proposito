@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Shell } from "@/components/gemas/Shell";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
+import { actualizar, useGemas } from "@/lib/store";
+import { esCodigoMentor } from "@/lib/camino";
 
 export const Route = createFileRoute("/guardar")({
   head: () => ({
@@ -21,6 +23,7 @@ export const Route = createFileRoute("/guardar")({
 });
 
 function Guardar() {
+  const estado = useGemas();
   const [email, setEmail] = useState<string | null>(null);
   const [listo, setListo] = useState(false);
   const [modo, setModo] = useState<"entrar" | "crear" | "olvido">("crear");
@@ -76,6 +79,14 @@ function Guardar() {
         </div>
       </div>
 
+      <div className="mt-5 grid grid-cols-2 rounded-full bg-muted p-1">
+        {(["formacion", "mentor"] as const).map((t) => (
+          <button key={t} onClick={() => actualizar((s) => ({ ...s, tipo: t }))} className={`rounded-full py-2 text-xs font-bold ${(estado.tipo ?? "formacion") === t ? "bg-tinta text-nube" : "text-muted-foreground"}`}>
+            {t === "mentor" ? "Facilitador mentor" : "En formación"}
+          </button>
+        ))}
+      </div>
+
       {!listo ? null : email ? (
         <div className="mt-6 rounded-[20px] bg-menta-soft p-5">
           <p className="font-display text-xl font-bold">Tu camino está guardado</p>
@@ -83,6 +94,14 @@ function Guardar() {
           <div className="mt-4 flex flex-col gap-2">
             <Button asChild><Link to="/camino">Volver a mi camino</Link></Button>
             <Button variant="soft" onClick={() => supabase.auth.signOut()}>Cerrar sesión</Button>
+          </div>
+          {estado.tipo !== "mentor" && (
+            <label className="mt-4 block text-sm font-bold">Código de tu mentor
+              <input value={estado.mentorCodigo} onChange={(e) => actualizar((s) => ({ ...s, mentorCodigo: e.target.value }))} placeholder="Te lo da tu mentor" className="mt-1 w-full rounded-xl border-2 border-input bg-card p-3 text-xs font-normal outline-none focus:border-coral" />
+              {estado.mentorCodigo && !esCodigoMentor(estado.mentorCodigo) && <span className="text-xs text-coral">Ese código no parece correcto.</span>}
+            </label>
+          )}
+          <div className="mt-4">
           </div>
         </div>
       ) : (

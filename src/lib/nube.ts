@@ -1,5 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { PASOS, type PasoId } from "./contenido";
+import { esCodigoMentor } from "./camino";
 import { actualizar, type Compartir, type Estado, type RegistroPaso } from "./store";
 
 // Guardar en la nube es OPCIONAL: sin sesión, todo sigue solo en este dispositivo.
@@ -12,7 +13,9 @@ export async function subirCamino(e: Estado) {
     alias: e.alias ?? "colaborador",
     fecha_nacimiento: e.fechaNacimiento,
     consentimiento_papel: e.consentimiento,
+    ...(e.tipo !== "mentor" && esCodigoMentor(e.mentorCodigo) && e.mentorCodigo.trim() !== uid ? { mentor_id: e.mentorCodigo.trim() } : {}),
   });
+  if (e.tipo) await supabase.rpc("elegir_tipo", { _tipo: e.tipo === "mentor" ? "mentor" : "colaborador" });
   const filas = PASOS.filter((p) => e.pasos[p.id]?.dirigido).map((p) => ({ user_id: uid, paso: p.id }));
   if (filas.length) await supabase.from("progreso_pasos").upsert(filas, { onConflict: "user_id,paso", ignoreDuplicates: true });
   // Reflexiones: el móvil manda; se reemplazan para que editar y borrar se reflejen.
@@ -26,10 +29,11 @@ export async function sincronizar() {
   const { data } = await supabase.auth.getSession();
   const uid = data.session?.user.id;
   if (!uid) return;
-  const [{ data: perfil }, { data: pasos }, { data: notas }] = await Promise.all([
+  const [{ data: perfil }, { data: pasos }, { data: notas }, { data: roles }] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", uid).maybeSingle(),
     supabase.from("progreso_pasos").select("*").eq("user_id", uid),
     supabase.from("notas").select("*").eq("user_id", uid).eq("tipo", "reflexion"),
+    supabase.from("user_roles").select("role").eq("user_id", uid),
   ]);
   let final: Estado | null = null;
   actualizar((s) => {
@@ -40,6 +44,8 @@ export async function sincronizar() {
     final = {
       ...s,
       alias: s.alias ?? perfil?.alias ?? null,
+      tipo: s.tipo ?? (roles?.some((r) => r.role === "mentor") ? "mentor" : null),
+      mentorCodigo: s.mentorCodigo || perfil?.mentor_id || "",
       fechaNacimiento: s.fechaNacimiento ?? perfil?.fecha_nacimiento ?? null,
       consentimiento: s.consentimiento || !!perfil?.consentimiento_papel,
       reflexiones: [

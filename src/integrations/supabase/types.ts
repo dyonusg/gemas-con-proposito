@@ -322,6 +322,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      elegir_tipo: {
+        Args: { _tipo: Database["public"]["Enums"]["app_role"] }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

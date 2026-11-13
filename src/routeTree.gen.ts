@@ -15,6 +15,7 @@ import { Route as CierreRouteImport } from './routes/cierre'
 import { Route as EquipoRouteImport } from './routes/equipo'
 import { Route as GemasRouteImport } from './routes/gemas'
 import { Route as GuardarRouteImport } from './routes/guardar'
+import { Route as MentorRouteImport } from './routes/mentor'
 import { Route as ReflexionesRouteImport } from './routes/reflexiones'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TarjetaRouteImport } from './routes/tarjeta'
@@ -50,6 +51,11 @@ const GuardarRoute = GuardarRouteImport.update({
   path: '/guardar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MentorRoute = MentorRouteImport.update({
+  id: '/mentor',
+  path: '/mentor',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReflexionesRoute = ReflexionesRouteImport.update({
   id: '/reflexiones',
   path: '/reflexiones',
@@ -78,6 +84,7 @@ export interface FileRoutesByFullPath {
   '/equipo': typeof EquipoRoute
   '/gemas': typeof GemasRoute
   '/guardar': typeof GuardarRoute
+  '/mentor': typeof MentorRoute
   '/reflexiones': typeof ReflexionesRoute
   '/reset-password': typeof ResetPasswordRoute
   '/tarjeta': typeof TarjetaRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/equipo': typeof EquipoRoute
   '/gemas': typeof GemasRoute
   '/guardar': typeof GuardarRoute
+  '/mentor': typeof MentorRoute
   '/reflexiones': typeof ReflexionesRoute
   '/reset-password': typeof ResetPasswordRoute
   '/tarjeta': typeof TarjetaRoute
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/equipo': typeof EquipoRoute
   '/gemas': typeof GemasRoute
   '/guardar': typeof GuardarRoute
+  '/mentor': typeof MentorRoute
   '/reflexiones': typeof ReflexionesRoute
   '/reset-password': typeof ResetPasswordRoute
   '/tarjeta': typeof TarjetaRoute
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/equipo'
     | '/gemas'
     | '/guardar'
+    | '/mentor'
     | '/reflexiones'
     | '/reset-password'
     | '/tarjeta'
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/equipo'
     | '/gemas'
     | '/guardar'
+    | '/mentor'
     | '/reflexiones'
     | '/reset-password'
     | '/tarjeta'
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/equipo'
     | '/gemas'
     | '/guardar'
+    | '/mentor'
     | '/reflexiones'
     | '/reset-password'
     | '/tarjeta'
@@ -154,6 +166,7 @@ export interface RootRouteChildren {
   EquipoRoute: typeof EquipoRoute
   GemasRoute: typeof GemasRoute
   GuardarRoute: typeof GuardarRoute
+  MentorRoute: typeof MentorRoute
   ReflexionesRoute: typeof ReflexionesRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TarjetaRoute: typeof TarjetaRoute
@@ -204,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuardarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mentor': {
+      id: '/mentor'
+      path: '/mentor'
+      fullPath: '/mentor'
+      preLoaderRoute: typeof MentorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reflexiones': {
       id: '/reflexiones'
       path: '/reflexiones'
@@ -242,6 +262,7 @@ const rootRouteChildren: RootRouteChildren = {
   EquipoRoute: EquipoRoute,
   GemasRoute: GemasRoute,
   GuardarRoute: GuardarRoute,
+  MentorRoute: MentorRoute,
   ReflexionesRoute: ReflexionesRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TarjetaRoute: TarjetaRoute,

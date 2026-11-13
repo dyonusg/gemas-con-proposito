@@ -8,8 +8,11 @@ export type Nota = { id: string; fecha: string; texto: string; pregunta?: string
 export type Tarjeta = { id: string; fecha: string; virtud: string; cita: string; cancion: string; idea: string; estado: "enviada" | "reenviada" };
 export type Encuesta = { sentimiento: string; acompanado: string; seguir: string; comentario: string };
 
+export type Tipo = "formacion" | "mentor";
 export type Estado = {
   alias: string | null;
+  tipo: Tipo | null;
+  mentorCodigo: string;
   fechaNacimiento: string | null;
   consentimiento: boolean;
   pareja: string;
@@ -25,6 +28,8 @@ export type Estado = {
 const KEY = "gemas-estado-v1";
 export const ESTADO_INICIAL: Estado = {
   alias: null,
+  tipo: null,
+  mentorCodigo: "",
   fechaNacimiento: null,
   consentimiento: false,
   pareja: "Estrella",
