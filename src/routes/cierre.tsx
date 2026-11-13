@@ -28,6 +28,8 @@ const PREGUNTAS: { key: keyof Omit<Encuesta, "comentario">; texto: string; opcio
 function Cierre() {
   const e = useGemas();
   const [r, setR] = useState<Encuesta>({ sentimiento: "", acompanado: "", seguir: "", comentario: "" });
+  const [pidiendo, setPidiendo] = useState(false);
+  const omitida = !!e.encuesta && !e.encuesta.sentimiento;
   const completa = r.sentimiento && r.acompanado && r.seguir;
   const quiereSeguir = e.encuesta?.seguir.startsWith("Sí");
 
@@ -54,12 +56,17 @@ function Cierre() {
               </>
             )}
           </div>
+          {omitida && (
+            <button onClick={() => actualizar((s) => ({ ...s, encuesta: null }))} className="mt-4 w-full text-center text-sm font-bold text-coral underline">
+              ¿Al final te animas? Responder la encuesta
+            </button>
+          )}
           <a href="https://www.bahai.es/contacto/" target="_blank" rel="noreferrer" className="mt-4 flex items-center justify-between rounded-[20px] border-2 border-border bg-card p-4 text-sm font-bold">
             ¿Prefieres escribirnos tú? Contacta aquí <ExternalLink className="size-4" />
           </a>
         </>
       ) : (
-        <Seccion titulo="Encuesta corta">
+        <Seccion titulo="Encuesta corta" extra={<span className="text-xs font-bold text-muted-foreground">Opcional</span>}>
           <div className="space-y-5 rounded-[20px] bg-card p-5 shadow-card">
             {PREGUNTAS.map((p) => (
               <fieldset key={p.key}>
@@ -75,6 +82,18 @@ function Cierre() {
             ))}
             <textarea value={r.comentario} onChange={(ev) => setR({ ...r, comentario: ev.target.value })} rows={2} placeholder="¿Algo más? (opcional)" className="w-full rounded-xl border-2 border-input bg-background p-3 text-sm outline-none focus:border-coral" />
             <Button size="lg" className="w-full" disabled={!completa} onClick={() => actualizar((s) => ({ ...s, encuesta: r }))}>Enviar</Button>
+            {pidiendo ? (
+              <div className="rounded-[20px] bg-lavanda-soft p-4 text-center">
+                <p className="font-display text-lg font-bold">¿Nos regalas un minutito? 💛</p>
+                <p className="mt-1 text-sm text-muted-foreground">Tus respuestas nos ayudan muchísimo a cuidar mejor a quienes vienen detrás de ti. Son solo tres toques, de verdad.</p>
+                <div className="mt-3 flex flex-col gap-2">
+                  <Button variant="menta" onClick={() => setPidiendo(false)}>Vale, la respondo</Button>
+                  <Button variant="soft" onClick={() => actualizar((s) => ({ ...s, encuesta: { sentimiento: "", acompanado: "", seguir: "", comentario: "" } }))}>Ahora no, gracias</Button>
+                </div>
+              </div>
+            ) : (
+              <button type="button" onClick={() => setPidiendo(true)} className="w-full text-center text-sm font-bold text-muted-foreground underline">Prefiero no responder</button>
+            )}
           </div>
         </Seccion>
       )}
