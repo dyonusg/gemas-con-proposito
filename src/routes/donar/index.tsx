@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from "@stripe/react-stripe-js";
-import { Heart } from "lucide-react";
+import { ArrowLeft, Heart } from "lucide-react";
 import { Shell, Seccion } from "@/components/gemas/Shell";
 import { Button } from "@/components/ui/button";
 import { PaymentTestModeBanner } from "@/components/PaymentTestModeBanner";
@@ -43,7 +43,8 @@ function Donar() {
     <>
       <PaymentTestModeBanner />
       <Shell nav={false}>
-        <h1 className="mt-5 text-3xl font-bold">Dona a Gemas</h1>
+        <Button asChild variant="soft" size="sm" className="mt-4"><Link to="/"><ArrowLeft /> Volver al inicio</Link></Button>
+        <h1 className="mt-3 text-3xl font-bold">Dona a Gemas</h1>
         <p className="text-sm text-muted-foreground">Gemas es un proyecto sin fines de lucro. No necesitas cuenta para donar.</p>
         {!pagando ? (
           <>
@@ -77,10 +78,13 @@ function Donar() {
               )}
             </Seccion>
             <Button className="mt-6 w-full" disabled={!valido} onClick={() => { setError(""); setPagando(true); }}><Heart /> Donar {valido ? `${eur} €${mensual ? " al mes" : ""}` : ""}</Button>
+            <p className="mt-4 text-center text-sm"><Link to="/" className="font-bold text-muted-foreground hover:text-foreground">Volver al inicio de Gemas</Link></p>
           </>
         ) : (
           <div className="mt-5">
-            <Button variant="soft" size="sm" className="mb-3" onClick={() => setPagando(false)}>← Cambiar donación</Button>
+            <div className="mb-3 flex flex-wrap items-center gap-3">
+              <Button variant="soft" size="sm" onClick={() => setPagando(false)}>← Cambiar donación</Button>
+            </div>
             {error && <p role="alert" className="mb-3 rounded-xl bg-sol-soft p-3 text-sm">No se pudo iniciar el pago: {error}</p>}
             <EmbeddedCheckoutProvider stripe={getStripe()} options={{ fetchClientSecret }}>
               <EmbeddedCheckout />

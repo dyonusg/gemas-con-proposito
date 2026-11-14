@@ -20,7 +20,8 @@ export const Route = createFileRoute("/donar/gracias")({
       <img src={isotipo.url} alt="" className="mx-auto mt-12 size-24" />
       <h1 className="mt-6 text-center text-3xl font-bold">¡Gracias de corazón!</h1>
       <p className="mt-2 text-center text-sm text-muted-foreground">Tu donación ayuda a que más niños descubran sus gemas. Recibirás el justificante por correo.</p>
-      <Button asChild className="mt-6 w-full"><Link to="/">Volver a Gemas</Link></Button>
+      <Button asChild className="mt-6 w-full"><Link to="/">Volver al inicio de Gemas</Link></Button>
+      <p className="mt-3 text-center text-sm text-muted-foreground">¿Aún no tienes cuenta? <Link to="/auth" className="font-bold">Entra o créala</Link></p>
     </Shell>
   ),
 });
