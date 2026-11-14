@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { CalendarIcon } from "lucide-react";
 import { Shell } from "@/components/gemas/Shell";
+import { ElegirRol } from "@/components/gemas/ElegirRol";
 import { FechaNacimiento, MESES } from "@/components/gemas/FechaNacimiento";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -39,7 +40,7 @@ function Perfil() {
   };
   return <Shell nav={Boolean(e.alias && e.fechaNacimiento)}><h1 className="mt-5 text-3xl font-bold">Tu perfil</h1>
     <form className="mt-5 space-y-4" onSubmit={guardar}>
-      <fieldset><legend className="text-sm font-bold">¿Cómo usarás Gemas?</legend><div className="mt-2 grid grid-cols-2 gap-2">{(["formacion", "mentor"] as const).map((t) => <Button key={t} type="button" variant={tipo === t ? "menta" : "soft"} className="h-auto min-h-12 whitespace-normal" aria-pressed={tipo === t} onClick={() => setTipo(t)}>{t === "mentor" ? "Facilitador mentor" : "Facilitador en formación"}</Button>)}</div></fieldset>
+      <ElegirRol valor={tipo} onChange={setTipo} />
       <label className="block text-sm font-bold">Elige un alias<input required minLength={2} maxLength={20} value={alias} onChange={(ev) => setAlias(ev.target.value)} placeholder="Por ejemplo: Rayo" className="mt-1 w-full rounded-xl border-2 border-input bg-card p-3 font-normal" /></label>
       <p className="text-xs text-muted-foreground">Único en Gemas. No uses tu nombre completo.</p>
       <label className="block text-sm font-bold" htmlFor="nacimiento">Tu fecha de nacimiento</label>

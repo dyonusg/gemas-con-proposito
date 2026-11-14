@@ -48,6 +48,7 @@ function Autenticacion() {
     <img src={isotipo.url} alt="" className="mx-auto mt-8 size-24" />
     <h1 className="mt-5 text-3xl font-bold">{modo === "crear" ? "Crea tu cuenta" : modo === "olvido" ? "Recupera tu contraseña" : "Bienvenido a Gemas"}</h1>
     <p className="mt-2 text-sm text-muted-foreground">{modo === "olvido" ? "Te enviaremos un enlace a tu correo." : "Tu espacio para aprender, acompañar y guardar tus ideas."}</p>
+    {modo === "crear" && <p className="mt-1 text-xs text-muted-foreground">Al entrar elegirás si recorres el camino tú primero o si acompañas a otras personas.</p>}
     {modo !== "olvido" && <>
       <Button variant="outline" className="google-sign-in mt-6 w-full" disabled={cargando} onClick={async () => {
         setCargando(true); setAviso("");
