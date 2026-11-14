@@ -184,14 +184,3 @@
   100% { transform: scale(1); opacity: 1; }
 }
 
-.gemas-home-hero { min-height: 580px; }
-.gemas-home-image { object-position: center; }
-@media (max-width: 767px) {
-  .gemas-home-hero { display: flex; flex-direction: column; min-height: 0; }
-  .gemas-home-image { position: relative; order: 2; height: 240px; object-position: right center; }
-  .gemas-home-hero > div { padding-top: 24px; padding-bottom: 24px; }
-  .gemas-home-copy { max-width: 100%; }
-  .gemas-home-copy h1 { font-size: 48px; margin-top: 12px; }
-  .gemas-home-copy h2 { font-size: 26px; }
-  .gemas-home-copy > p { font-size: 14px; }
-}
