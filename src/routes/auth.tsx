@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { solicitarCodigo, verificarCodigo } from "@/lib/acceso-otp";
 import { lovable } from "@/integrations/lovable";
 import { useAcceso } from "@/components/gemas/Acceso";
 import logo from "@/assets/gemas-logo.svg.asset.json";
@@ -9,7 +9,7 @@ import isotipo from "@/assets/gemas-isotipo.svg.asset.json";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [
-    { title: "Entrar o crear cuenta · Gemas" }, { name: "description", content: "Accede a Gemas con tu correo o Google y recupera tu contraseña." },
+    { title: "Entrar o crear cuenta · Gemas" }, { name: "description", content: "Accede a Gemas con un código de un solo uso por correo o con Google, sin contraseña." },
     { property: "og:title", content: "Entrar o crear cuenta · Gemas" }, { property: "og:description", content: "Tu cuenta personal para acompañar y aprender en Gemas." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
   ] }), component: Autenticacion,
@@ -18,38 +18,40 @@ export const Route = createFileRoute("/auth")({
 function Autenticacion() {
   const { uid } = useAcceso();
   const navigate = useNavigate();
-  const [modo, setModo] = useState<"entrar" | "crear" | "olvido">("entrar");
   const [correo, setCorreo] = useState("");
-  const [clave, setClave] = useState("");
-  const [repite, setRepite] = useState("");
+  const [correoEnviado, setCorreoEnviado] = useState("");
+  const [codigo, setCodigo] = useState("");
   const [aviso, setAviso] = useState("");
   const [cargando, setCargando] = useState(false);
   useEffect(() => { if (uid) void navigate({ to: "/perfil", replace: true }); }, [uid, navigate]);
-  const enviar = async (ev: React.FormEvent) => {
-    ev.preventDefault(); setAviso("");
-    if (modo === "crear" && clave !== repite) { setAviso("Las contraseñas no coinciden."); return; }
-    setCargando(true);
+  const pedirCodigo = async () => {
+    setAviso(""); setCargando(true);
     try {
-      if (modo === "olvido") {
-        const { error } = await supabase.auth.resetPasswordForEmail(correo, { redirectTo: `${window.location.origin}/reset-password` });
-        setAviso(error ? "No se pudo enviar el enlace. Inténtalo más tarde." : "Si hay una cuenta con ese correo, recibirás un enlace para recuperar la contraseña.");
-      } else if (modo === "crear") {
-        const { data, error } = await supabase.auth.signUp({ email: correo, password: clave, options: { emailRedirectTo: window.location.origin } });
-        setAviso(error ? "No se pudo crear la cuenta. Prueba una contraseña más segura o inténtalo más tarde." : !data.session ? "Revisa tu correo y confirma la cuenta antes de entrar." : "Cuenta creada.");
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email: correo, password: clave });
-        if (error) setAviso("No hemos podido entrar. Revisa el correo, la contraseña y la confirmación de tu cuenta.");
+      const { error } = await solicitarCodigo(correo, `${window.location.origin}/auth`);
+      if (error) {
+        setAviso(error.status === 429 ? "Espera un poco antes de pedir otro código." : "No se pudo enviar el código. Inténtalo de nuevo más tarde.");
+        return;
       }
+      setCorreoEnviado(correo.trim().toLowerCase());
+      setCodigo("");
+      setAviso("Revisa tu correo, incluida la carpeta de spam.");
     } catch { setAviso("No hemos podido conectar. Inténtalo de nuevo."); }
+    finally { setCargando(false); }
+  };
+  const enviar = async (ev: React.FormEvent) => {
+    ev.preventDefault();
+    if (!correoEnviado) { await pedirCodigo(); return; }
+    setAviso(""); setCargando(true);
+    try { await verificarCodigo(correoEnviado, codigo); }
+    catch { setAviso("El código no es válido o ha caducado. Revísalo o pide uno nuevo."); }
     finally { setCargando(false); }
   };
   return <div className="mx-auto min-h-screen max-w-md px-6 py-8">
     <img src={logo.url} alt="Gemas" className="h-10 w-auto" />
     <img src={isotipo.url} alt="" className="mx-auto mt-8 size-24" />
-    <h1 className="mt-5 text-3xl font-bold">{modo === "crear" ? "Crea tu cuenta" : modo === "olvido" ? "Recupera tu contraseña" : "Bienvenido a Gemas"}</h1>
-    <p className="mt-2 text-sm text-muted-foreground">{modo === "olvido" ? "Te enviaremos un enlace a tu correo." : "Tu espacio para aprender, acompañar y guardar tus ideas."}</p>
-    {modo === "crear" && <p className="mt-1 text-xs text-muted-foreground">Al entrar elegirás si recorres el camino tú primero o si acompañas a otras personas.</p>}
-    {modo !== "olvido" && <>
+    <h1 className="mt-5 text-3xl font-bold">{correoEnviado ? "Revisa tu correo" : "Bienvenido a Gemas"}</h1>
+    <p className="mt-2 text-sm text-muted-foreground">{correoEnviado ? `Hemos enviado un código de un solo uso a ${correoEnviado}.` : "Entra o crea tu cuenta con tu correo, sin contraseña."}</p>
+    {!correoEnviado && <>
       <Button variant="outline" className="google-sign-in mt-6 w-full" disabled={cargando} onClick={async () => {
         setCargando(true); setAviso("");
         try { const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin }); if (result.error) setAviso("No se pudo entrar con Google. Inténtalo de nuevo."); }
@@ -62,14 +64,15 @@ function Autenticacion() {
       <p className="my-4 text-center text-xs text-muted-foreground">o con tu correo</p>
     </>}
     <form onSubmit={enviar} className="mt-4 grid gap-3">
-      <label className="text-sm font-bold">Correo<input type="email" autoComplete="email" required value={correo} onChange={(e) => setCorreo(e.target.value)} className="mt-1 w-full rounded-xl border-2 border-input bg-card p-3 font-normal" /></label>
-      {modo !== "olvido" && <label className="text-sm font-bold">Contraseña<input type="password" autoComplete={modo === "crear" ? "new-password" : "current-password"} required minLength={modo === "crear" ? 8 : 1} value={clave} onChange={(e) => setClave(e.target.value)} className="mt-1 w-full rounded-xl border-2 border-input bg-card p-3 font-normal" /></label>}
-      {modo === "crear" && <label className="text-sm font-bold">Repite la contraseña<input type="password" autoComplete="new-password" required minLength={8} value={repite} onChange={(e) => setRepite(e.target.value)} className="mt-1 w-full rounded-xl border-2 border-input bg-card p-3 font-normal" /></label>}
-      <Button type="submit" disabled={cargando}>{cargando ? "Un momento…" : modo === "crear" ? "Crear cuenta" : modo === "olvido" ? "Enviar enlace" : "Entrar"}</Button>
+      {!correoEnviado ? <label className="text-sm font-bold">Correo<input type="email" autoComplete="email" required disabled={cargando} value={correo} onChange={(e) => setCorreo(e.target.value)} className="mt-1 w-full rounded-xl border-2 border-input bg-card p-3 font-normal" /></label> :
+        <label className="text-sm font-bold">Código del correo<input type="text" inputMode="numeric" autoComplete="one-time-code" required pattern="[0-9]{6,8}" minLength={6} maxLength={8} value={codigo} disabled={cargando} onChange={(e) => setCodigo(e.target.value.replace(/\D/g, ""))} className="mt-1 w-full rounded-xl border-2 border-input bg-card p-3 text-center text-2xl font-bold" /></label>}
+      <Button type="submit" disabled={cargando}>{cargando ? "Un momento…" : correoEnviado ? "Confirmar y entrar" : "Enviar código"}</Button>
     </form>
     {aviso && <p role="status" className="mt-3 rounded-xl bg-sol-soft p-3 text-sm">{aviso}</p>}
-    {modo === "entrar" && <Button variant="link" className="mt-2 w-full" onClick={() => { setModo("olvido"); setAviso(""); }}>He olvidado mi contraseña</Button>}
-    <Button variant="link" className="mt-2 w-full" onClick={() => { setModo(modo === "crear" ? "entrar" : modo === "olvido" ? "entrar" : "crear"); setAviso(""); }}>{modo === "entrar" ? "Crear una cuenta" : "Ya tengo cuenta, entrar"}</Button>
+    {correoEnviado ? <div className="mt-2 grid gap-1">
+      <Button variant="link" disabled={cargando} onClick={() => void pedirCodigo()}>Enviar un código nuevo</Button>
+      <Button variant="link" disabled={cargando} onClick={() => { setCorreoEnviado(""); setCodigo(""); setAviso(""); }}>Cambiar correo</Button>
+    </div> : <p className="mt-4 text-xs text-muted-foreground">Si es tu primera vez, al entrar elegirás si recorres el camino o acompañas a otras personas.</p>}
     <Link to="/donar" className="mt-6 block rounded-[20px] bg-coral-soft p-4 text-center text-sm font-bold">💛 ¿Quieres apoyar Gemas? Haz una donación, sin necesidad de cuenta</Link>
   </div>;
 }

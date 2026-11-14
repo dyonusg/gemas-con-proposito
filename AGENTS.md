@@ -36,6 +36,7 @@ use the editor.
 - Path logic (next step, counts) lives in `src/lib/camino.ts` with tests beside it.
 - Both roles reuse the lesson-linked reflections editor and store; mentor reflections never update path progress.
 - `Acceso` owns the global auth subscription and logout teardown; the `_authenticated` layout validates the user and profile before rendering private screens.
+- Email access uses the Cloud Auth OTP helpers in `src/lib/acceso-otp.ts` for both new and existing accounts; only verified sessions unlock access, avoiding custom credentials or OTP storage.
 - Unique normalized aliases are enforced by a database index and trigger; duplicate legacy aliases must be reclaimed through the profile form.
 - Mentor role requires a one-use code from codigos_mentor reserved for one email and redeemed via canjear_codigo_mentor (matches the JWT email); elegir_tipo refuses mentor otherwise; the responsable role is the admin who generates codes.
 - Donations are anonymous Stripe embedded checkouts (one-time or monthly) built with price_data in EUR from src/utils/payments.functions.ts; the signed webhook at /api/public/payments/webhook records paid one-time sessions and every paid monthly invoice in donaciones (admin-only read). Purpose and amount rules live in src/lib/donacion.ts with tests.
