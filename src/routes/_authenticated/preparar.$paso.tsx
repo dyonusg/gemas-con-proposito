@@ -67,7 +67,7 @@ function Preparar() {
       <h1 className="mt-2 text-[32px] font-bold leading-[38px]">{paso.titulo}</h1>
       <p className="text-sm text-muted-foreground">{paso.descripcion}</p>
       <SelectorLeccion etiqueta="Virtud de esta lección" />
-      {paso.id === "virtud" && (leccion ? <Ensayo key={`${paso.id}-${leccion.numero}`} id={paso.id} l={leccion} /> : <p className="mt-6 text-sm text-muted-foreground">Cargando la lección…</p>)}
+      {leccion ? <Ensayo key={`${paso.id}-${leccion.numero}`} id={paso.id} l={leccion} /> : <p className="mt-6 text-sm text-muted-foreground">Cargando la lección…</p>}
 
       <div className="mt-5 rounded-[20px] bg-lavanda-soft p-4">
         <p className="text-xs font-bold uppercase tracking-wider text-lavanda">{esMentor ? "Mis observaciones e ideas" : "Antes de la clase · Mis gemas"}</p>
@@ -82,8 +82,6 @@ function Preparar() {
           </>
         )}
       </div>
-
-      {paso.id !== "virtud" && (leccion ? <Ensayo key={`${paso.id}-${leccion.numero}`} id={paso.id} l={leccion} /> : <p className="mt-6 text-sm text-muted-foreground">Cargando la lección…</p>)}
 
       <a href={leccion?.historia_url ?? RUHI} target="_blank" rel="noreferrer" className="mt-5 flex items-center justify-between rounded-[20px] border-2 border-border bg-card p-4 text-sm font-bold">
         Material oficial de la lección en ruhi.org <ExternalLink className="size-4" />
