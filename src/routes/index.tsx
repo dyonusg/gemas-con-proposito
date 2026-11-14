@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ShieldCheck, Heart, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Destello } from "@/components/gemas/Shell";
+import { FechaNacimiento } from "@/components/gemas/FechaNacimiento";
 import { actualizar, reiniciar, useGemas } from "@/lib/store";
 import { esMenor } from "@/lib/camino";
 import { supabase } from "@/integrations/supabase/client";
@@ -125,15 +126,8 @@ function Bienvenida() {
         />
         <p className="mt-2 text-xs text-muted-foreground">Sin email ni datos personales. Solo tu alias.</p>
 
-        <label htmlFor="nacimiento" className="mt-4 block text-sm font-bold">Tu fecha de nacimiento</label>
-        <input
-          id="nacimiento"
-          type="date"
-          value={nacimiento}
-          onChange={(e) => setNacimiento(e.target.value)}
-          max={new Date().toISOString().slice(0, 10)}
-          className="mt-2 h-12 w-full rounded-xl border-2 border-input bg-background px-4 outline-none focus:border-coral"
-        />
+        <p className="mt-4 text-sm font-bold">Tu fecha de nacimiento</p>
+        <FechaNacimiento value={nacimiento} onChange={setNacimiento} />
 
         {menor && (
           <label className="mt-4 flex items-start gap-3 text-sm">
