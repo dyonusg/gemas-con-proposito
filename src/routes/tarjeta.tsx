@@ -92,9 +92,20 @@ function TarjetaPage() {
             {e.tarjetas.map((t) => (
               <li key={t.id} className="flex items-center justify-between rounded-[20px] bg-card p-4 shadow-card">
                 <span><strong>{t.virtud}</strong><span className="block text-xs text-muted-foreground">{t.fecha}</span></span>
-                <span className={`rounded-full px-3 py-1 text-xs font-bold ${t.estado === "reenviada" ? "bg-menta" : "bg-sol-soft"}`}>
+                <button
+                  type="button"
+                  aria-pressed={t.estado === "reenviada"}
+                  title="Toca para cambiar el estado"
+                  onClick={() =>
+                    actualizar((s) => ({
+                      ...s,
+                      tarjetas: s.tarjetas.map((x) => (x.id === t.id ? { ...x, estado: x.estado === "reenviada" ? "enviada" : "reenviada" } : x)),
+                    }))
+                  }
+                  className={`rounded-full px-3 py-1 text-xs font-bold transition-colors ${t.estado === "reenviada" ? "bg-menta" : "bg-sol-soft"}`}
+                >
                   {t.estado === "reenviada" ? "Reenviada" : "Enviada"}
-                </span>
+                </button>
               </li>
             ))}
           </ul>
