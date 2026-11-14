@@ -43,9 +43,9 @@ export function Shell({ children, nav = true }: { children: ReactNode; nav?: boo
           <img src={logo.url} alt="Gemas" className="h-9 w-auto" />
         </Link>
         <div className="flex items-center gap-1">
-        <span className="rounded-full bg-muted px-3 py-1.5 text-xs font-bold text-muted-foreground">
+        {conCuenta && <span className="rounded-full bg-muted px-3 py-1.5 text-xs font-bold text-muted-foreground">
           {tipo === "mentor" ? "Facilitador mentor" : "Facilitador en formación"}
-        </span>
+        </span>}
         {esAdmin && <Button asChild variant="soft" size="icon" title="Administración" aria-label="Administración"><Link to="/admin"><ShieldCheck className="size-4" /></Link></Button>}
         {conCuenta && <Button variant="soft" size="icon" title="Cerrar sesión" aria-label="Cerrar sesión" disabled={saliendo} onClick={cerrarSesion}><LogOut className="size-4" /></Button>}
         </div>

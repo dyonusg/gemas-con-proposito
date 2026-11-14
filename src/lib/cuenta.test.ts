@@ -12,6 +12,7 @@ describe("acceso a cuentas", () => {
   it("solo acceso y recuperación son públicos", () => {
     expect(rutaPublica("/auth")).toBe(true);
     expect(rutaPublica("/reset-password")).toBe(true);
+    expect(rutaPublica("/donar")).toBe(true);
     for (const path of ["/camino", "/mentor", "/reflexiones", "/tarjeta", "/perfil", "/guardar"]) expect(rutaPublica(path)).toBe(false);
   });
 });

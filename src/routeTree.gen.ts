@@ -24,6 +24,8 @@ import { Route as AuthenticatedMentorRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
 import { Route as AuthenticatedReflexionesRouteImport } from './routes/_authenticated/reflexiones'
 import { Route as AuthenticatedTarjetaRouteImport } from './routes/_authenticated/tarjeta'
+import { Route as DonarIndexRouteImport } from './routes/donar/index'
+import { Route as DonarGraciasRouteImport } from './routes/donar/gracias'
 import { Route as AuthenticatedPrepararPasoRouteImport } from './routes/_authenticated/preparar.$paso'
 
 const IndexRoute = IndexRouteImport.update({
@@ -101,6 +103,16 @@ const AuthenticatedTarjetaRoute = AuthenticatedTarjetaRouteImport.update({
   path: '/tarjeta',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const DonarIndexRoute = DonarIndexRouteImport.update({
+  id: '/donar/',
+  path: '/donar/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DonarGraciasRoute = DonarGraciasRouteImport.update({
+  id: '/donar/gracias',
+  path: '/donar/gracias',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedPrepararPasoRoute =
   AuthenticatedPrepararPasoRouteImport.update({
     id: '/preparar/$paso',
@@ -123,6 +135,8 @@ export interface FileRoutesByFullPath {
   '/perfil': typeof AuthenticatedPerfilRoute
   '/reflexiones': typeof AuthenticatedReflexionesRoute
   '/tarjeta': typeof AuthenticatedTarjetaRoute
+  '/donar/gracias': typeof DonarGraciasRoute
+  '/donar/': typeof DonarIndexRoute
   '/preparar/$paso': typeof AuthenticatedPrepararPasoRoute
 }
 export interface FileRoutesByTo {
@@ -140,6 +154,8 @@ export interface FileRoutesByTo {
   '/perfil': typeof AuthenticatedPerfilRoute
   '/reflexiones': typeof AuthenticatedReflexionesRoute
   '/tarjeta': typeof AuthenticatedTarjetaRoute
+  '/donar/gracias': typeof DonarGraciasRoute
+  '/donar': typeof DonarIndexRoute
   '/preparar/$paso': typeof AuthenticatedPrepararPasoRoute
 }
 export interface FileRoutesById {
@@ -159,6 +175,8 @@ export interface FileRoutesById {
   '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
   '/_authenticated/reflexiones': typeof AuthenticatedReflexionesRoute
   '/_authenticated/tarjeta': typeof AuthenticatedTarjetaRoute
+  '/donar/gracias': typeof DonarGraciasRoute
+  '/donar/': typeof DonarIndexRoute
   '/_authenticated/preparar/$paso': typeof AuthenticatedPrepararPasoRoute
 }
 export interface FileRouteTypes {
@@ -178,6 +196,8 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/reflexiones'
     | '/tarjeta'
+    | '/donar/gracias'
+    | '/donar/'
     | '/preparar/$paso'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -195,6 +215,8 @@ export interface FileRouteTypes {
     | '/perfil'
     | '/reflexiones'
     | '/tarjeta'
+    | '/donar/gracias'
+    | '/donar'
     | '/preparar/$paso'
   id:
     | '__root__'
@@ -213,6 +235,8 @@ export interface FileRouteTypes {
     | '/_authenticated/perfil'
     | '/_authenticated/reflexiones'
     | '/_authenticated/tarjeta'
+    | '/donar/gracias'
+    | '/donar/'
     | '/_authenticated/preparar/$paso'
   fileRoutesById: FileRoutesById
 }
@@ -221,6 +245,8 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  DonarGraciasRoute: typeof DonarGraciasRoute
+  DonarIndexRoute: typeof DonarIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -330,6 +356,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTarjetaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/donar/': {
+      id: '/donar/'
+      path: '/donar'
+      fullPath: '/donar/'
+      preLoaderRoute: typeof DonarIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/donar/gracias': {
+      id: '/donar/gracias'
+      path: '/donar/gracias'
+      fullPath: '/donar/gracias'
+      preLoaderRoute: typeof DonarGraciasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/preparar/$paso': {
       id: '/_authenticated/preparar/$paso'
       path: '/preparar/$paso'
@@ -378,6 +418,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  DonarGraciasRoute: DonarGraciasRoute,
+  DonarIndexRoute: DonarIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

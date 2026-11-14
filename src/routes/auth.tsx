@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -69,5 +69,6 @@ function Autenticacion() {
     {aviso && <p role="status" className="mt-3 rounded-xl bg-sol-soft p-3 text-sm">{aviso}</p>}
     {modo === "entrar" && <Button variant="link" className="mt-2 w-full" onClick={() => { setModo("olvido"); setAviso(""); }}>He olvidado mi contraseña</Button>}
     <Button variant="link" className="mt-2 w-full" onClick={() => { setModo(modo === "crear" ? "entrar" : modo === "olvido" ? "entrar" : "crear"); setAviso(""); }}>{modo === "entrar" ? "Crear una cuenta" : "Ya tengo cuenta, entrar"}</Button>
+    <Link to="/donar" className="mt-6 block rounded-[20px] bg-coral-soft p-4 text-center text-sm font-bold">💛 ¿Quieres apoyar Gemas? Haz una donación, sin necesidad de cuenta</Link>
   </div>;
 }

@@ -38,3 +38,4 @@ use the editor.
 - `Acceso` owns the global auth subscription and logout teardown; the `_authenticated` layout validates the user and profile before rendering private screens.
 - Unique normalized aliases are enforced by a database index and trigger; duplicate legacy aliases must be reclaimed through the profile form.
 - Mentor role requires a one-use code from codigos_mentor reserved for one email and redeemed via canjear_codigo_mentor (matches the JWT email); elegir_tipo refuses mentor otherwise; the responsable role is the admin who generates codes.
+- Donations are anonymous Stripe embedded checkouts built with price_data in EUR from src/utils/payments.functions.ts; purpose and amount rules live in src/lib/donacion.ts with tests.
