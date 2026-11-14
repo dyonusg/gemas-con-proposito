@@ -34,3 +34,5 @@ use the editor.
 - Lesson content (24 lessons, 6 prayers) lives in the `lecciones`/`oraciones` tables, loaded from the owner's spreadsheet; full Ruhí stories stay linked (`historia_url`), not reproduced, because rights are not cleared.
 - Profile, path progress, notes, cards and survey have Cloud tables (owner-scoped RLS; mentor/compañero/responsable read via `profiles.mentor_id`/`companero_id` and `user_roles`); `src/lib/store.ts` stays the source of truth; `src/lib/nube.ts` syncs profile and path to Cloud only when the user optionally signs in at /guardar.
 - Path logic (next step, counts) lives in `src/lib/camino.ts` with tests beside it.
+- Both roles reuse the lesson-linked reflections editor and store; mentor reflections never update path progress.
+- The shared shell exposes logout and listens for auth changes so every screen retains optional account access.

@@ -1,6 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
-import { Map, Gem, Mail, Flag, HeartHandshake, BookOpen, House } from "lucide-react";
+import { useEffect, useState, type ReactNode } from "react";
+import { Map, Gem, Mail, Flag, HeartHandshake, BookOpen, House, NotebookPen, LogOut } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { actualizar, useGemas } from "@/lib/store";
 import { navPara } from "@/lib/camino";
 import { useLecciones } from "@/lib/leccion";
@@ -14,10 +17,30 @@ const ITEMS = {
   "/cierre": { label: "Cierre", icon: Flag },
   "/mentor": { label: "Acompañar", icon: HeartHandshake },
   "/lecciones": { label: "Lecciones", icon: BookOpen },
+  "/reflexiones": { label: "Reflexiones", icon: NotebookPen },
 } as const;
 
 export function Shell({ children, nav = true }: { children: ReactNode; nav?: boolean }) {
   const { tipo } = useGemas();
+  const [conCuenta, setConCuenta] = useState(false);
+  const [saliendo, setSaliendo] = useState(false);
+  useEffect(() => {
+    let activo = true;
+    const { data } = supabase.auth.onAuthStateChange((_evento, sesion) => {
+      if (activo) setConCuenta(Boolean(sesion?.user));
+    });
+    void supabase.auth.getUser().then(({ data }) => {
+      if (activo) setConCuenta(Boolean(data.user));
+    });
+    return () => { activo = false; data.subscription.unsubscribe(); };
+  }, []);
+  const cerrarSesion = async () => {
+    setSaliendo(true);
+    const { error } = await supabase.auth.signOut();
+    setSaliendo(false);
+    if (error) toast.error("No hemos podido cerrar sesión. Inténtalo de nuevo.");
+    else toast.success("Sesión cerrada. Puedes seguir usando Gemas sin cuenta.");
+  };
   const rutas = navPara(tipo);
   const NAV = rutas.map((to) => ({ to, ...ITEMS[to] }));
   return (
@@ -26,9 +49,12 @@ export function Shell({ children, nav = true }: { children: ReactNode; nav?: boo
         <Link to="/" aria-label="Gemas, inicio">
           <img src={logo.url} alt="Gemas" className="h-9 w-auto" />
         </Link>
+        <div className="flex items-center gap-1">
         <span className="rounded-full bg-muted px-3 py-1.5 text-xs font-bold text-muted-foreground">
           {tipo === "mentor" ? "Facilitador mentor" : "Facilitador en formación"}
         </span>
+        {conCuenta && <Button variant="soft" size="icon" title="Cerrar sesión" aria-label="Cerrar sesión" disabled={saliendo} onClick={cerrarSesion}><LogOut className="size-4" /></Button>}
+        </div>
       </header>
       <main className={`flex-1 px-5 ${nav ? "pb-28" : "pb-10"}`}>{children}</main>
       {nav && (

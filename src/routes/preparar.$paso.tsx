@@ -47,7 +47,7 @@ function Preparar() {
 
   const guardarReflexion = () => {
     if (!reflexion.trim()) return;
-    actualizar((s) => ({ ...s, reflexiones: [{ id: nuevoId(), fecha: hoy(), texto: reflexion.trim(), pregunta, compartir: "solo_yo" }, ...s.reflexiones] }));
+    actualizar((s) => ({ ...s, reflexiones: [{ id: nuevoId(), fecha: hoy(), leccion: e.leccionActual, texto: reflexion.trim(), pregunta: e.tipo === "mentor" ? "¿Qué observas en los niños? ¿Qué ideas te surgen para la clase?" : pregunta, compartir: "solo_yo" }, ...s.reflexiones] }));
     setReflexion("");
     setGuardada(true);
   };
@@ -68,20 +68,19 @@ function Preparar() {
       <p className="text-sm text-muted-foreground">{paso.descripcion}</p>
       {leccion && <p className="mt-1 text-xs font-bold text-muted-foreground">Lección {leccion.numero} · {leccion.cualidad} · {leccion.color_gema}</p>}
 
-      {!esMentor && (
       <div className="mt-5 rounded-[20px] bg-lavanda-soft p-4">
-        <p className="text-xs font-bold uppercase tracking-wider text-lavanda">Antes de la clase · Mis gemas</p>
-        <p className="mt-1 font-display text-lg font-semibold">{pregunta}</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-lavanda">{esMentor ? "Mis observaciones e ideas" : "Antes de la clase · Mis gemas"}</p>
+        <p className="mt-1 font-display text-lg font-semibold">{esMentor ? "¿Qué observas en los niños? ¿Qué ideas te surgen para la clase?" : pregunta}</p>
         {guardada ? (
           <p className="mt-2 flex items-center gap-2 text-sm font-bold"><Check className="size-4 text-menta" /> Guardada en <Link to="/reflexiones" className="underline">Mis reflexiones</Link></p>
         ) : (
           <>
             <textarea value={reflexion} onChange={(ev) => setReflexion(ev.target.value)} rows={3} placeholder="Escribe con calma, solo lo ves tú." className="mt-3 w-full rounded-xl border-2 border-input bg-card p-3 text-sm outline-none focus:border-lavanda" />
+            {esMentor && <p className="mt-1 text-xs text-muted-foreground">Sin nombres ni datos personales de los niños, por favor.</p>}
             <Button variant="tinta" size="sm" className="mt-2" onClick={guardarReflexion} disabled={!reflexion.trim()}>Guardar reflexión</Button>
           </>
         )}
       </div>
-      )}
 
       {leccion ? <Ensayo id={paso.id} l={leccion} /> : <p className="mt-6 text-sm text-muted-foreground">Cargando la lección…</p>}
 

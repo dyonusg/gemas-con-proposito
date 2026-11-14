@@ -60,11 +60,11 @@ function Reflexiones() {
 
   return (
     <Shell>
-      <Link to="/gemas" className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-muted-foreground">
-        <ArrowLeft className="size-4" /> Mis gemas
+      <Link to={e.tipo === "mentor" ? "/mentor" : "/gemas"} className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-muted-foreground">
+        <ArrowLeft className="size-4" /> {e.tipo === "mentor" ? "Acompañar" : "Mis gemas"}
       </Link>
       <h1 className="mt-2 text-[32px] font-bold leading-[38px]">Mis reflexiones</h1>
-      <p className="text-sm text-muted-foreground">Una por lección o varias. Tú decides quién las lee.</p>
+      <p className="text-sm text-muted-foreground">{e.tipo === "mentor" ? "Lo que observas en los niños, tus ideas y lo que aprendes al acompañar." : "Una por lección o varias. Tú decides quién las lee."}</p>
 
       {!nueva && !editando && (
         <Button variant="tinta" className="mt-4 w-full" onClick={() => setNueva(true)}>Nueva reflexión</Button>
@@ -73,7 +73,7 @@ function Reflexiones() {
         <Editor
           key={editando?.id ?? "nueva"}
           inicial={editando}
-          leccionInicial={filtro === "todas" ? undefined : filtro}
+          leccionInicial={filtro === "todas" ? e.leccionActual : filtro}
           lecciones={lecciones}
           onCancelar={() => { setNueva(false); setEditando(null); }}
           onGuardar={(n) => { guardar(n); setNueva(false); setEditando(null); }}
@@ -92,7 +92,7 @@ function Reflexiones() {
           <li className="rounded-[20px] border-2 border-dashed border-border p-4 text-sm text-muted-foreground">Aún no hay reflexiones aquí.</li>
         )}
         {lista.map((r) => {
-          const op = OPCIONES.find((o) => o.id === (r.compartir ?? "solo_yo"))!;
+          const op = OPCIONES.find((o) => o.id === (r.compartir ?? "solo_yo")) ?? { id: "solo_yo", label: "Solo yo", icon: Lock };
           return (
             <li key={r.id} className="rounded-[20px] border-l-4 border-lavanda bg-card p-4 shadow-card">
               <div className="flex items-center justify-between gap-2 text-xs font-bold text-muted-foreground">
@@ -129,6 +129,7 @@ function Editor({ inicial, leccionInicial, lecciones, onGuardar, onCancelar }: {
   onGuardar: (n: Nota) => void;
   onCancelar: () => void;
 }) {
+  const { tipo } = useGemas();
   const [texto, setTexto] = useState(inicial?.texto ?? "");
   const [leccion, setLeccion] = useState<number | undefined>(inicial?.leccion ?? leccionInicial);
   const [compartir, setCompartir] = useState<Compartir>(inicial?.compartir ?? "solo_yo");
@@ -143,7 +144,7 @@ function Editor({ inicial, leccionInicial, lecciones, onGuardar, onCancelar }: {
       </select>
       {inicial?.pregunta && <p className="mt-3 text-xs font-bold text-lavanda">{inicial.pregunta}</p>}
       <label className="mt-3 block text-sm font-bold" htmlFor="texto">Tu reflexión</label>
-      <textarea id="texto" value={texto} onChange={(ev) => setTexto(ev.target.value)} rows={4} placeholder="¿Qué te ha enseñado esta lección?" className="mt-1 w-full rounded-xl border-2 border-input bg-card p-3 text-sm outline-none focus:border-lavanda" />
+      <textarea id="texto" value={texto} onChange={(ev) => setTexto(ev.target.value)} rows={4} placeholder={tipo === "mentor" ? "¿Qué observas en los niños? ¿Qué ideas te surgen?" : "¿Qué te ha enseñado esta lección?"} className="mt-1 w-full rounded-xl border-2 border-input bg-card p-3 text-sm outline-none focus:border-lavanda" />
       <p className="mt-1 text-xs text-muted-foreground">Sin nombres de niños, por favor.</p>
       <p className="mt-3 text-sm font-bold">¿Quién puede leerla?</p>
       <div className="mt-1 grid grid-cols-3 gap-2" role="radiogroup">

@@ -28,7 +28,9 @@ const titulo = (id: string) => PASOS.find((p) => p.id === id)?.titulo ?? id;
 function Mentor() {
   const [uid, setUid] = useState<string | null | undefined>(undefined);
   useEffect(() => {
+    const { data } = supabase.auth.onAuthStateChange((_evento, sesion) => setUid(sesion?.user.id ?? null));
     supabase.auth.getUser().then(({ data }) => setUid(data.user?.id ?? null));
+    return () => data.subscription.unsubscribe();
   }, []);
 
   return (
@@ -47,6 +49,9 @@ function Mentor() {
       )}
       <Seccion titulo="Prepara tú también">
         <p className="text-sm text-muted-foreground">En <Link to="/lecciones" className="font-bold underline">Lecciones</Link> tienes las 24 lecciones para preparar la clase o ensayar con ellos.</p>
+      </Seccion>
+      <Seccion titulo="Mis observaciones e ideas">
+        <Button asChild variant="soft"><Link to="/reflexiones">Mis reflexiones</Link></Button>
       </Seccion>
     </Shell>
   );
