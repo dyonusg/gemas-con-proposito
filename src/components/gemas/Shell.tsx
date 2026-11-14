@@ -1,9 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { Map, Gem, Mail, Flag, HeartHandshake, BookOpen, House, NotebookPen, LogOut } from "lucide-react";
+import { Map, Gem, Mail, Flag, HeartHandshake, BookOpen, House, NotebookPen, LogOut, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAcceso } from "@/components/gemas/Acceso";
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { actualizar, useGemas } from "@/lib/store";
 import { navPara } from "@/lib/camino";
 import { useLecciones } from "@/lib/leccion";
@@ -24,6 +26,7 @@ export function Shell({ children, nav = true }: { children: ReactNode; nav?: boo
   const { tipo } = useGemas();
   const { uid, salir } = useAcceso();
   const conCuenta = Boolean(uid);
+  const esAdmin = useQuery({ queryKey: ["es-admin", uid], enabled: Boolean(uid), staleTime: 60_000, queryFn: async () => (await supabase.rpc("has_role", { _user_id: uid!, _role: "responsable" })).data === true }).data;
   const [saliendo, setSaliendo] = useState(false);
   const cerrarSesion = async () => {
     setSaliendo(true);
@@ -43,6 +46,7 @@ export function Shell({ children, nav = true }: { children: ReactNode; nav?: boo
         <span className="rounded-full bg-muted px-3 py-1.5 text-xs font-bold text-muted-foreground">
           {tipo === "mentor" ? "Facilitador mentor" : "Facilitador en formación"}
         </span>
+        {esAdmin && <Button asChild variant="soft" size="icon" title="Administración" aria-label="Administración"><Link to="/admin"><ShieldCheck className="size-4" /></Link></Button>}
         {conCuenta && <Button variant="soft" size="icon" title="Cerrar sesión" aria-label="Cerrar sesión" disabled={saliendo} onClick={cerrarSesion}><LogOut className="size-4" /></Button>}
         </div>
       </header>

@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      codigos_mentor: {
+        Row: {
+          codigo: string
+          creado_en: string
+          creado_por: string
+          usado_en: string | null
+          usado_por: string | null
+        }
+        Insert: {
+          codigo: string
+          creado_en?: string
+          creado_por: string
+          usado_en?: string | null
+          usado_por?: string | null
+        }
+        Update: {
+          codigo?: string
+          creado_en?: string
+          creado_por?: string
+          usado_en?: string | null
+          usado_por?: string | null
+        }
+        Relationships: []
+      }
       encuestas: {
         Row: {
           acompanado: string | null
@@ -358,10 +382,12 @@ export type Database = {
     }
     Functions: {
       alias_disponible: { Args: { _alias: string }; Returns: boolean }
+      canjear_codigo_mentor: { Args: { _codigo: string }; Returns: undefined }
       elegir_tipo: {
         Args: { _tipo: Database["public"]["Enums"]["app_role"] }
         Returns: undefined
       }
+      generar_codigo_mentor: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

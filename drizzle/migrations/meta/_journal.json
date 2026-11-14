@@ -57,6 +57,20 @@
       "when": 1794656245295,
       "tag": "0007_citas_historias_autor_link",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1794656667196,
+      "tag": "0008_codigos_mentor_admin",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1794656727345,
+      "tag": "0009_arreglar_generar_codigo",
+      "breakpoints": true
     }
   ]
 }

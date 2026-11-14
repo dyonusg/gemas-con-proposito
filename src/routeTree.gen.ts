@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedCaminoRouteImport } from './routes/_authenticated/camino'
 import { Route as AuthenticatedCierreRouteImport } from './routes/_authenticated/cierre'
 import { Route as AuthenticatedEquipoRouteImport } from './routes/_authenticated/equipo'
@@ -43,6 +44,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCaminoRoute = AuthenticatedCaminoRouteImport.update({
   id: '/camino',
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/camino': typeof AuthenticatedCaminoRoute
   '/cierre': typeof AuthenticatedCierreRoute
   '/equipo': typeof AuthenticatedEquipoRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/camino': typeof AuthenticatedCaminoRoute
   '/cierre': typeof AuthenticatedCierreRoute
   '/equipo': typeof AuthenticatedEquipoRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/camino': typeof AuthenticatedCaminoRoute
   '/_authenticated/cierre': typeof AuthenticatedCierreRoute
   '/_authenticated/equipo': typeof AuthenticatedEquipoRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/admin'
     | '/camino'
     | '/cierre'
     | '/equipo'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
+    | '/admin'
     | '/camino'
     | '/cierre'
     | '/equipo'
@@ -191,6 +202,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/_authenticated/admin'
     | '/_authenticated/camino'
     | '/_authenticated/cierre'
     | '/_authenticated/equipo'
@@ -240,6 +252,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/camino': {
       id: '/_authenticated/camino'
@@ -322,6 +341,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedCaminoRoute: typeof AuthenticatedCaminoRoute
   AuthenticatedCierreRoute: typeof AuthenticatedCierreRoute
   AuthenticatedEquipoRoute: typeof AuthenticatedEquipoRoute
@@ -336,6 +356,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedCaminoRoute: AuthenticatedCaminoRoute,
   AuthenticatedCierreRoute: AuthenticatedCierreRoute,
   AuthenticatedEquipoRoute: AuthenticatedEquipoRoute,
