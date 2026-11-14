@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Shell, Seccion } from "@/components/gemas/Shell";
+import { Shell, Seccion, SelectorLeccion } from "@/components/gemas/Shell";
 import { useLeccion } from "@/lib/leccion";
 import { actualizar, hoy, nuevoId, useGemas } from "@/lib/store";
 import isotipo from "@/assets/gemas-isotipo.svg.asset.json";
@@ -42,6 +42,7 @@ function TarjetaPage() {
     <Shell>
       <h1 className="mt-2 text-[32px] font-bold leading-[38px]">Tarjeta para las familias</h1>
       <p className="text-sm text-muted-foreground">La recibe el adulto responsable del campus y la envía a las familias. Tú nunca tienes sus contactos.</p>
+      <SelectorLeccion etiqueta="Gema de la tarjeta" />
 
       <div className="mt-5 overflow-hidden rounded-[20px] bg-card shadow-card">
         <div className="h-2 bg-gema" />

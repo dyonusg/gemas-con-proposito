@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Shell, Seccion } from "@/components/gemas/Shell";
+import { Shell, Seccion, SelectorLeccion } from "@/components/gemas/Shell";
 import { actualizar, hoy, nuevoId, useGemas, type Nota } from "@/lib/store";
 
 export const Route = createFileRoute("/gemas")({
@@ -31,6 +31,7 @@ function MisGemas() {
     <Shell>
       <h1 className="mt-2 text-[32px] font-bold leading-[38px]">Mis gemas</h1>
       <p className="text-sm text-muted-foreground">Vuelve aquí cuando quieras recordar por qué haces esto.</p>
+      <SelectorLeccion />
 
       <div className="mt-5 rounded-[20px] bg-menta-soft p-5">
         <p className="text-xs font-bold uppercase tracking-wider text-tinta/70">Después de la clase · Efecto en los niños</p>

@@ -4,7 +4,6 @@ import { ShieldCheck, Heart, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Destello } from "@/components/gemas/Shell";
 import { FechaNacimiento, MESES } from "@/components/gemas/FechaNacimiento";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { actualizar, reiniciar, useGemas } from "@/lib/store";
 import { esMenor } from "@/lib/camino";
@@ -132,18 +131,18 @@ function Bienvenida() {
         <p className="mt-2 text-xs text-muted-foreground">Sin email ni datos personales. Solo tu alias.</p>
 
         <label htmlFor="nacimiento" className="mt-4 block text-sm font-bold">Tu fecha de nacimiento</label>
-        <Popover open={calendarioAbierto} onOpenChange={setCalendarioAbierto}>
-          <PopoverTrigger asChild>
-            <button
-              id="nacimiento"
-              type="button"
-              className={`mt-2 flex h-12 w-full items-center gap-2 rounded-xl border-2 border-input bg-background px-4 text-left outline-none focus:border-coral ${nacimiento ? "font-bold" : "text-muted-foreground"}`}
-            >
-              <CalendarIcon className="size-5 shrink-0 text-coral" />
-              {nacimiento ? resumenNacimiento : "Toca para elegir"}
-            </button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-3 pointer-events-auto" align="start">
+        <button
+          id="nacimiento"
+          type="button"
+          aria-expanded={calendarioAbierto}
+          onClick={() => setCalendarioAbierto((v) => !v)}
+          className={`mt-2 flex h-12 w-full items-center gap-2 rounded-xl border-2 border-input bg-background px-4 text-left outline-none focus:border-coral ${nacimiento ? "font-bold" : "text-muted-foreground"}`}
+        >
+          <CalendarIcon className="size-5 shrink-0 text-coral" />
+          {nacimiento ? resumenNacimiento : "Toca para elegir"}
+        </button>
+        {calendarioAbierto && (
+          <div className="mt-2 rounded-2xl border-2 border-input bg-card p-3 shadow-card">
             <FechaNacimiento
               value={nacimiento}
               onChange={(v) => {
@@ -151,8 +150,8 @@ function Bienvenida() {
                 setCalendarioAbierto(false);
               }}
             />
-          </PopoverContent>
-        </Popover>
+          </div>
+        )}
 
         {menor && (
           <label className="mt-4 flex items-start gap-3 text-sm">

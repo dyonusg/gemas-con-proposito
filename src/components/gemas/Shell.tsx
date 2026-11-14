@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Map, Gem, Mail, Flag, HeartHandshake, BookOpen, House } from "lucide-react";
-import { useGemas } from "@/lib/store";
+import { actualizar, useGemas } from "@/lib/store";
 import { navPara } from "@/lib/camino";
+import { useLecciones } from "@/lib/leccion";
 import logo from "@/assets/gemas-logo.svg.asset.json";
 
 const ITEMS = {
@@ -57,6 +58,24 @@ export function Destello({ className = "" }: { className?: string }) {
     <svg viewBox="0 0 28 28" className={className} aria-hidden>
       <path d="M14,0 Q16,12 28,14 Q16,16 14,28 Q12,16 0,14 Q12,12 14,0 Z" className="fill-sol" />
     </svg>
+  );
+}
+
+export function SelectorLeccion({ etiqueta = "Gema de esta semana" }: { etiqueta?: string }) {
+  const { leccionActual } = useGemas();
+  const lecciones = useLecciones();
+  return (
+    <label className="mt-3 block text-sm text-muted-foreground">
+      {etiqueta}
+      <select
+        value={leccionActual}
+        onChange={(ev) => actualizar((s) => ({ ...s, leccionActual: Number(ev.target.value) }))}
+        className="mt-1 block w-full rounded-xl border-2 border-input bg-card p-2.5 text-base font-bold text-foreground"
+      >
+        {lecciones.map((l) => <option key={l.numero} value={l.numero}>{l.numero}. {l.cualidad} · {l.color_gema}</option>)}
+        {!lecciones.length && <option value={leccionActual}>Lección {leccionActual}</option>}
+      </select>
+    </label>
   );
 }
 
