@@ -78,12 +78,14 @@ export type Database = {
           cita: string | null
           cita_autor: string | null
           cita_fuente: string | null
+          cita_url: string | null
           color_gema: string
           cualidad: string
           dibujo: string | null
           dinamica: string | null
           dinamica_materiales: string | null
           explicacion_virtud: string | null
+          historia_autor: string | null
           historia_donde: string | null
           historia_resumen: string | null
           historia_url: string | null
@@ -103,12 +105,14 @@ export type Database = {
           cita?: string | null
           cita_autor?: string | null
           cita_fuente?: string | null
+          cita_url?: string | null
           color_gema: string
           cualidad: string
           dibujo?: string | null
           dinamica?: string | null
           dinamica_materiales?: string | null
           explicacion_virtud?: string | null
+          historia_autor?: string | null
           historia_donde?: string | null
           historia_resumen?: string | null
           historia_url?: string | null
@@ -128,12 +132,14 @@ export type Database = {
           cita?: string | null
           cita_autor?: string | null
           cita_fuente?: string | null
+          cita_url?: string | null
           color_gema?: string
           cualidad?: string
           dibujo?: string | null
           dinamica?: string | null
           dinamica_materiales?: string | null
           explicacion_virtud?: string | null
+          historia_autor?: string | null
           historia_donde?: string | null
           historia_resumen?: string | null
           historia_url?: string | null

@@ -129,7 +129,7 @@ function Ensayo({ id, l }: { id: PasoId; l: Leccion }) {
         </Seccion>
       </>
     );
-  if (id === "cita") return <PracticaCita cita={l.cita ?? ""} fuente={l.cita_fuente} />;
+  if (id === "cita") return <PracticaCita cita={l.cita ?? ""} autor={l.cita_autor} fuente={l.cita_fuente} url={l.cita_url} />;
   if (id === "virtud")
     return (
       <Seccion titulo={`La virtud: ${l.cualidad}`} extra={<Escuchar texto={l.explicacion_virtud} />}>
@@ -154,7 +154,12 @@ function Ensayo({ id, l }: { id: PasoId; l: Leccion }) {
       <>
         <Seccion titulo="La historia" extra={<Escuchar texto={l.historia_resumen} />}>
           <p className="rounded-[20px] bg-coral-soft p-5">{l.historia_resumen}</p>
-          {l.historia_donde && <p className="mt-2 text-xs text-muted-foreground">Dónde está: {l.historia_donde.replace(/\s*\(abrir\)/, "")}</p>}
+          {l.historia_autor && <p className="mt-3 text-sm"><span className="font-bold">Autor y obra:</span> {l.historia_autor}</p>}
+          {l.historia_url && (
+            <a href={l.historia_url} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 text-sm font-bold underline">
+              Leer la historia completa en la fuente original <ExternalLink className="size-4" />
+            </a>
+          )}
         </Seccion>
         <Seccion titulo="Pautas para contarla">
           <Pautas items={["Léela entera dos veces en casa y cuéntala en voz alta una vez.", "No hace falta memorizarla: cuéntala con tus palabras.", "Mira a los niños a los ojos y haz pausas en los momentos clave.", "Si te quedas en blanco, respira y vuelve al resumen."]} />
@@ -238,7 +243,7 @@ function Pautas({ items }: { items: string[] }) {
   );
 }
 
-function PracticaCita({ cita, fuente }: { cita: string; fuente: string | null }) {
+function PracticaCita({ cita, autor, fuente, url }: { cita: string; autor: string | null; fuente: string | null; url: string | null }) {
   const palabras = cita.split(" ");
   const [ocultas, setOcultas] = useState<Set<number>>(new Set());
   const toggle = (i: number) =>
@@ -259,7 +264,13 @@ function PracticaCita({ cita, fuente }: { cita: string; fuente: string | null })
             </button>
           ))}
         </p>
-        {fuente && <p className="mt-2 text-xs text-muted-foreground">{fuente}</p>}
+        {autor && <p className="mt-3 font-bold">— {autor}</p>}
+        {fuente && <p className="mt-1 text-xs text-muted-foreground">{fuente}</p>}
+        {url && (
+          <a href={url} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 text-sm font-bold underline">
+            Ver la cita en su fuente original <ExternalLink className="size-4" />
+          </a>
+        )}
         <p className="mt-3 text-xs text-muted-foreground">Toca palabras para esconderlas y dila de memoria.</p>
         <Button variant="tinta" size="sm" className="mt-3" onClick={ocultarTodo}>
           {ocultas.size ? <><Eye /> Mostrar todo</> : <><EyeOff /> Esconder todo</>}

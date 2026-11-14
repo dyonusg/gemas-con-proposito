@@ -1,0 +1,1 @@
+ALTER TABLE public.lecciones ADD COLUMN IF NOT EXISTS cita_url text, ADD COLUMN IF NOT EXISTS historia_autor text;
