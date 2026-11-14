@@ -37,6 +37,7 @@ use the editor.
 - `src/lib/nube.ts` hydrates only the authenticated owner's Cloud state and serializes saves; linked mentors/companions read only authorized progress and shared notes, never the private snapshot.
 - Path logic (next step, counts) lives in `src/lib/camino.ts` with tests beside it.
 - Both roles reuse the lesson-linked reflections editor and store; mentor reflections never update path progress.
+- Personal reflections and child observations share CRUD helpers in `src/lib/reflexiones.ts`; new entries require a virtue and ISO creation date, edits preserve creation dates, and child observations stay owner-private in the Cloud snapshot.
 - `Acceso` owns the global auth subscription and logout teardown; the `_authenticated` layout validates the user and profile before rendering private screens.
 - Email access uses the Cloud Auth OTP helpers in `src/lib/acceso-otp.ts` for both new and existing accounts; only verified sessions unlock access, avoiding custom credentials or OTP storage.
 - Unique normalized aliases are enforced by a database index and trigger; duplicate legacy aliases must be reclaimed through the profile form.

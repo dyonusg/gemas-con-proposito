@@ -1,4 +1,5 @@
 # Tasks
+- [x] Give personal and child-observation reflections virtue links, saved dates and full CRUD; verify saved changes.
 - [x] Create a welcoming public home explaining Gemas' purpose with clear access and donation links.
 - [x] Replace password access with email OTP while retaining Google and existing profiles.
 - [x] Enforce unique aliases and signed-in owner privacy.

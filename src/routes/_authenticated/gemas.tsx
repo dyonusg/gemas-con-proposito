@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Shell, Seccion, SelectorLeccion } from "@/components/gemas/Shell";
 import { actualizar, hoy, nuevoId, useGemas, type Nota } from "@/lib/store";
+import { guardarNota, mostrarFecha } from "@/lib/reflexiones";
+import { useLecciones } from "@/lib/leccion";
 
 export const Route = createFileRoute("/_authenticated/gemas")({
   head: () => ({
@@ -23,7 +25,7 @@ function MisGemas() {
   const [momento, setMomento] = useState("");
   const guardar = () => {
     if (!momento.trim()) return;
-    actualizar((s) => ({ ...s, momentos: [{ id: nuevoId(), fecha: hoy(), texto: momento.trim() }, ...s.momentos] }));
+    actualizar((s) => ({ ...s, momentos: guardarNota(s.momentos, { id: nuevoId(), fecha: new Date().toISOString(), texto: momento.trim(), leccion: s.leccionActual, compartir: "solo_yo" }) }));
     setMomento("");
   };
 
@@ -41,7 +43,7 @@ function MisGemas() {
         <Button variant="tinta" size="sm" className="mt-3" onClick={guardar} disabled={!momento.trim()}>Guardar momento</Button>
       </div>
 
-      <Seccion titulo="Momentos con los niños">
+      <Seccion titulo="Momentos con los niños" extra={<Button asChild variant="link" size="sm"><Link to="/reflexiones">Ver y editar</Link></Button>}>
         <Lista items={e.momentos} vacio="Aún no has anotado ningún momento." tono="border-menta" />
       </Seccion>
       <Seccion titulo="Mis reflexiones" extra={<Link to="/reflexiones" className="text-sm font-bold text-lavanda">Ver y editar</Link>}>
@@ -53,14 +55,16 @@ function MisGemas() {
 }
 
 function Lista({ items, vacio, tono }: { items: Nota[]; vacio: string; tono: string }) {
+  const lecciones = useLecciones();
   if (!items.length) return <p className="rounded-[20px] border-2 border-dashed border-border p-4 text-sm text-muted-foreground">{vacio}</p>;
   return (
     <ul className="space-y-2">
       {items.map((n) => (
         <li key={n.id} className={`rounded-[20px] border-l-4 bg-card p-4 shadow-card ${tono}`}>
+          <p className="text-xs font-bold text-muted-foreground">{lecciones.find(l => l.numero === n.leccion)?.cualidad ?? "Virtud sin indicar"}</p>
           {n.pregunta && <p className="text-xs font-bold text-muted-foreground">{n.pregunta}</p>}
           <p className="mt-0.5">{n.texto}</p>
-          <p className="mt-1 text-xs text-muted-foreground">{n.fecha}</p>
+          <p className="mt-1 text-xs text-muted-foreground">{mostrarFecha(n.fecha)}</p>
         </li>
       ))}
     </ul>

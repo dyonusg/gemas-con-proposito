@@ -47,7 +47,7 @@ function Preparar() {
 
   const guardarReflexion = () => {
     if (!reflexion.trim()) return;
-    actualizar((s) => ({ ...s, reflexiones: [{ id: nuevoId(), fecha: hoy(), leccion: e.leccionActual, texto: reflexion.trim(), pregunta: e.tipo === "mentor" ? "¿Qué observas en los niños? ¿Qué ideas te surgen para la clase?" : pregunta, compartir: "solo_yo" }, ...s.reflexiones] }));
+    actualizar((s) => ({ ...s, reflexiones: [{ id: nuevoId(), fecha: new Date().toISOString(), leccion: e.leccionActual, texto: reflexion.trim(), pregunta: e.tipo === "mentor" ? "¿Qué observas en los niños? ¿Qué ideas te surgen para la clase?" : pregunta, compartir: "solo_yo" }, ...s.reflexiones] }));
     setReflexion("");
     setGuardada(true);
   };

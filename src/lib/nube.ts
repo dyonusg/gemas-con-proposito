@@ -3,6 +3,7 @@ import type { Json } from "@/integrations/supabase/types";
 import { toast } from "sonner";
 import { PASOS, type PasoId } from "./contenido";
 import { alGuardar, cargarEstado, limpiarEstado, ESTADO_INICIAL, type Compartir, type Estado, type RegistroPaso } from "./store";
+import { fechaPersistida } from "./reflexiones";
 
 let usuario: string | null = null;
 let generacion = 0;
@@ -33,7 +34,10 @@ async function subir(uid: string, e: Estado, version: number) {
   const { error: borrarError } = await supabase.from("notas").delete().eq("user_id", uid).eq("tipo", "reflexion");
   if (borrarError) throw borrarError;
   if (e.reflexiones.length) {
-    const { error } = await supabase.from("notas").insert(e.reflexiones.map((n) => ({ user_id: uid, tipo: "reflexion", texto: n.texto, pregunta: n.pregunta ?? null, leccion_numero: n.leccion ?? null, compartir: n.compartir ?? "solo_yo", local_id: n.id })));
+    const { error } = await supabase.from("notas").insert(e.reflexiones.map((n) => {
+      const fecha = fechaPersistida(n.fecha);
+      return { user_id: uid, tipo: "reflexion", texto: n.texto, pregunta: n.pregunta ?? null, leccion_numero: n.leccion ?? null, compartir: n.compartir ?? "solo_yo", local_id: n.id, ...(fecha ? { created_at: fecha } : {}) };
+    }));
     if (error) throw error;
   }
 }
