@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/camino")({
   head: () => ({
     meta: [
       { title: "Mi camino · Gemas" },
-      { name: "description", content: "Tu camino por pasos: canción, cita, historia, juego, media clase y clase entera." },
+      { name: "description", content: "Descubre el propósito de cada paso: materiales, cita, virtud, canción, historia, dinámica y manualidad." },
       { property: "og:title", content: "Mi camino · Gemas" },
       { property: "og:description", content: "Mira dónde estás y cuál es tu siguiente paso." },
       { property: "og:type", content: "website" },
@@ -80,9 +80,10 @@ function Camino() {
                   <span className={`relative z-[1] grid size-11 shrink-0 place-items-center rounded-full font-display text-lg font-bold ${r?.dirigido ? p.color : "bg-muted text-muted-foreground"}`}>
                     {r?.dirigido ? <Check className="size-5" strokeWidth={3} /> : esSig ? i + 1 : <Lock className="size-4" />}
                   </span>
-                  <span className="flex-1">
+                  <span className="min-w-0 flex-1">
                     <span className="block font-bold">{p.titulo}</span>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="mt-1 block text-sm leading-relaxed text-muted-foreground">{p.descripcion}</span>
+                    <span className="mt-2 block text-xs font-bold text-muted-foreground">
                       {r?.dirigido ? (r.confirmado ? "Confirmado por tu mentor" : p.id === "materiales" ? "Listo · pendiente de confirmar" : "Dirigido · pendiente de confirmar") : esSig ? "Te toca" : "Más adelante"}
                     </span>
                   </span>
