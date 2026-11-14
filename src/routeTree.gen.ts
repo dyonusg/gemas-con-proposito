@@ -27,6 +27,7 @@ import { Route as AuthenticatedTarjetaRouteImport } from './routes/_authenticate
 import { Route as DonarIndexRouteImport } from './routes/donar/index'
 import { Route as DonarGraciasRouteImport } from './routes/donar/gracias'
 import { Route as AuthenticatedPrepararPasoRouteImport } from './routes/_authenticated/preparar.$paso'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -119,6 +120,12 @@ const AuthenticatedPrepararPasoRoute =
     path: '/preparar/$paso',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/donar/gracias': typeof DonarGraciasRoute
   '/donar/': typeof DonarIndexRoute
   '/preparar/$paso': typeof AuthenticatedPrepararPasoRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -157,6 +165,7 @@ export interface FileRoutesByTo {
   '/donar/gracias': typeof DonarGraciasRoute
   '/donar': typeof DonarIndexRoute
   '/preparar/$paso': typeof AuthenticatedPrepararPasoRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -178,6 +187,7 @@ export interface FileRoutesById {
   '/donar/gracias': typeof DonarGraciasRoute
   '/donar/': typeof DonarIndexRoute
   '/_authenticated/preparar/$paso': typeof AuthenticatedPrepararPasoRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/donar/gracias'
     | '/donar/'
     | '/preparar/$paso'
+    | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/donar/gracias'
     | '/donar'
     | '/preparar/$paso'
+    | '/api/public/payments/webhook'
   id:
     | '__root__'
     | '/'
@@ -238,6 +250,7 @@ export interface FileRouteTypes {
     | '/donar/gracias'
     | '/donar/'
     | '/_authenticated/preparar/$paso'
+    | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -247,6 +260,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   DonarGraciasRoute: typeof DonarGraciasRoute
   DonarIndexRoute: typeof DonarIndexRoute
+  ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -377,6 +391,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPrepararPasoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -420,6 +441,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   DonarGraciasRoute: DonarGraciasRoute,
   DonarIndexRoute: DonarIndexRoute,
+  ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

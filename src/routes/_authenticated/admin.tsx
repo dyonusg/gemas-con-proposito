@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import { Shell, Seccion } from "@/components/gemas/Shell";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { PROPOSITOS } from "@/lib/donacion";
+import { getStripeEnvironment } from "@/lib/stripe";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -33,6 +35,11 @@ function Admin() {
     enabled: esAdmin.data === true,
     queryFn: async () => (await supabase.from("codigos_mentor").select("*").order("creado_en", { ascending: false })).data ?? [],
   });
+  const donaciones = useQuery({
+    queryKey: ["donaciones"],
+    enabled: esAdmin.data === true,
+    queryFn: async () => (await supabase.from("donaciones").select("*").eq("entorno", getStripeEnvironment()).order("created_at", { ascending: false }).limit(100)).data ?? [],
+  });
   const generar = async () => {
     setOcupado(true);
     const { data, error } = await supabase.rpc("generar_codigo_mentor", { _correo: correo });
@@ -53,6 +60,26 @@ function Admin() {
       <p className="text-sm text-muted-foreground">Genera un código y dáselo a la persona que se registrará como facilitador mentor. Cada código queda reservado para un correo y sirve una sola vez.</p>
       <label className="mt-4 block text-sm font-bold">Correo de la persona que será mentor<input type="email" value={correo} onChange={(ev) => setCorreo(ev.target.value)} placeholder="nombre@correo.com" className="mt-1 w-full rounded-xl border-2 border-input bg-card p-3 font-normal" /><span className="mt-1 block text-xs font-normal text-muted-foreground">Solo quien entre en Gemas con este correo podrá usar el código.</span></label>
       <Button className="mt-3 w-full" onClick={generar} disabled={ocupado || !correoOk}><KeyRound /> {ocupado ? "Generando…" : "Generar código de mentor"}</Button>
+      <Seccion titulo="Donaciones recibidas">
+        {donaciones.data?.length ? (
+          <>
+            <div className="mb-3 grid grid-cols-3 gap-2">
+              {PROPOSITOS.map((p) => {
+                const total = donaciones.data.filter((d) => d.proposito === p.id).reduce((a, d) => a + d.importe_centimos, 0) / 100;
+                return <div key={p.id} className="rounded-2xl bg-menta-soft p-3 text-center"><span className="block font-display text-lg font-bold">{total.toLocaleString("es-ES")} €</span><span className="text-[11px] leading-tight">{p.titulo}</span></div>;
+              })}
+            </div>
+            <ul className="space-y-2">
+              {donaciones.data.map((d) => (
+                <li key={d.id} className="flex items-center justify-between rounded-[20px] bg-card p-3 text-sm shadow-card">
+                  <span><span className="block font-bold">{PROPOSITOS.find((p) => p.id === d.proposito)?.titulo ?? d.proposito}</span><span className="text-xs text-muted-foreground">{new Date(d.created_at).toLocaleDateString("es-ES")}{d.mensual ? " · mensual" : " · única"}</span></span>
+                  <span className="font-display text-lg font-bold">{(d.importe_centimos / 100).toLocaleString("es-ES")} €</span>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : <p className="text-sm text-muted-foreground">Aún no hay donaciones.</p>}
+      </Seccion>
       <Seccion titulo="Códigos generados">
         {codigos.data?.length ? (
           <ul className="space-y-2">

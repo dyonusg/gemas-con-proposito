@@ -41,6 +41,39 @@ export type Database = {
         }
         Relationships: []
       }
+      donaciones: {
+        Row: {
+          created_at: string
+          entorno: string
+          id: string
+          importe_centimos: number
+          mensual: boolean
+          moneda: string
+          proposito: string
+          referencia: string
+        }
+        Insert: {
+          created_at?: string
+          entorno?: string
+          id?: string
+          importe_centimos: number
+          mensual?: boolean
+          moneda?: string
+          proposito: string
+          referencia: string
+        }
+        Update: {
+          created_at?: string
+          entorno?: string
+          id?: string
+          importe_centimos?: number
+          mensual?: boolean
+          moneda?: string
+          proposito?: string
+          referencia?: string
+        }
+        Relationships: []
+      }
       encuestas: {
         Row: {
           acompanado: string | null

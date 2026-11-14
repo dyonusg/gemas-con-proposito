@@ -28,12 +28,13 @@ function Donar() {
   const [importe, setImporte] = useState<number | "otro">(10);
   const [otro, setOtro] = useState("");
   const [pagando, setPagando] = useState(false);
+  const [mensual, setMensual] = useState(false);
   const [error, setError] = useState("");
   const eur = importe === "otro" ? Number(otro.replace(",", ".")) : importe;
   const valido = aCentimos(eur) !== null;
 
   const fetchClientSecret = async () => {
-    const r = await crearDonacion({ data: { importe: eur, proposito, environment: getStripeEnvironment(), returnUrl: `${window.location.origin}/donar/gracias?session_id={CHECKOUT_SESSION_ID}` } });
+    const r = await crearDonacion({ data: { importe: eur, proposito, mensual, environment: getStripeEnvironment(), returnUrl: `${window.location.origin}/donar/gracias?session_id={CHECKOUT_SESSION_ID}` } });
     if ("error" in r) { setError(r.error); throw new Error(r.error); }
     return r.clientSecret;
   };
@@ -57,6 +58,13 @@ function Donar() {
                 ))}
               </div>
             </Seccion>
+            <Seccion titulo="¿Con qué frecuencia?">
+              <div className="grid grid-cols-2 gap-2">
+                <Button type="button" variant={!mensual ? "menta" : "soft"} aria-pressed={!mensual} onClick={() => setMensual(false)}>Una vez</Button>
+                <Button type="button" variant={mensual ? "menta" : "soft"} aria-pressed={mensual} onClick={() => setMensual(true)}>Cada mes</Button>
+              </div>
+              {mensual && <p className="mt-2 text-xs text-muted-foreground">Se cobrará cada mes. Puedes pedir que la cancelemos en cualquier momento respondiendo al correo del recibo.</p>}
+            </Seccion>
             <Seccion titulo="¿Cuánto quieres donar?">
               <div className="grid grid-cols-4 gap-2">
                 {IMPORTES.map((v) => <Button key={v} type="button" variant={importe === v ? "menta" : "soft"} aria-pressed={importe === v} onClick={() => setImporte(v)}>{v} €</Button>)}
@@ -68,7 +76,7 @@ function Donar() {
                 </label>
               )}
             </Seccion>
-            <Button className="mt-6 w-full" disabled={!valido} onClick={() => { setError(""); setPagando(true); }}><Heart /> Donar {valido ? `${eur} €` : ""}</Button>
+            <Button className="mt-6 w-full" disabled={!valido} onClick={() => { setError(""); setPagando(true); }}><Heart /> Donar {valido ? `${eur} €${mensual ? " al mes" : ""}` : ""}</Button>
           </>
         ) : (
           <div className="mt-5">
