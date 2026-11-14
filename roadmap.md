@@ -1,4 +1,5 @@
 # Tasks
-- [x] Make logout accessible across the app.
-- [x] Let mentors write and manage lesson reflections without path progress.
-- [x] Verify mentor reflections and logout.
+- [ ] Require email/password or Google login and retain password recovery.
+- [ ] Enforce unique aliases and signed-in owner privacy.
+- [ ] Isolate stored information between accounts and clear sessions safely.
+- [ ] Verify signed-out access, alias collisions, recovery and account isolation.
