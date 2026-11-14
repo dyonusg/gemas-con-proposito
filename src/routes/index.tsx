@@ -77,7 +77,7 @@ function Bienvenida() {
   const menor = nacimiento ? esMenor(nacimiento) : false;
   const listo = alias.trim() && nacimiento && (!menor || consiente);
   const [aN, mN, dN] = nacimiento ? nacimiento.split("-").map(Number) : [0, 1, 0];
-  const resumenNacimiento = nacimiento ? `${dN} de ${MESES[(mN ?? 1) - 1].toLowerCase()} de ${aN}` : "";
+  const resumenNacimiento = nacimiento ? `${dN} de ${(MESES[(mN ?? 1) - 1] ?? "").toLowerCase()} de ${aN}` : "";
 
   const entrar = (e: React.FormEvent) => {
     e.preventDefault();
