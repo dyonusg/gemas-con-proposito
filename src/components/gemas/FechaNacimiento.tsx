@@ -9,7 +9,7 @@ const ANO_MIN = 1930;
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-/** Selector de fecha de nacimiento: año y mes en desplegables, día en cuadrícula. Emite "YYYY-MM-DD". */
+/** Calendario pequeño para fecha de nacimiento: año y mes en desplegables, día en cuadrícula. Emite "YYYY-MM-DD". */
 export function FechaNacimiento({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const hoy = new Date();
   const anoMax = hoy.getFullYear();
@@ -23,11 +23,10 @@ export function FechaNacimiento({ value, onChange }: { value: string; onChange: 
 
   const elegirDia = (d: number) => onChange(`${vista.ano}-${pad(vista.mes + 1)}-${pad(d)}`);
 
-  const selectClase =
-    "h-11 rounded-xl border-2 border-input bg-background px-3 text-sm font-bold outline-none focus:border-coral";
+  const selectClase = "h-9 rounded-lg border-2 border-input bg-background px-2 text-sm font-bold outline-none focus:border-coral";
 
   return (
-    <div className="mt-2 rounded-[20px] border-2 border-input bg-background p-3">
+    <div>
       <div className="flex gap-2">
         <select
           aria-label="Mes de nacimiento"
@@ -43,7 +42,7 @@ export function FechaNacimiento({ value, onChange }: { value: string; onChange: 
           aria-label="Año de nacimiento"
           value={vista.ano}
           onChange={(e) => setVista((v) => ({ ...v, ano: Number(e.target.value) }))}
-          className={`${selectClase} w-24`}
+          className={`${selectClase} w-20`}
         >
           {anos.map((a) => (
             <option key={a} value={a}>{a}</option>
@@ -51,7 +50,7 @@ export function FechaNacimiento({ value, onChange }: { value: string; onChange: 
         </select>
       </div>
 
-      <div className="mt-3 grid grid-cols-7 gap-1 text-center text-xs font-bold text-muted-foreground">
+      <div className="mt-2 grid grid-cols-7 gap-1 text-center text-xs font-bold text-muted-foreground">
         {DIAS_SEMANA.map((d) => (
           <span key={d}>{d}</span>
         ))}
@@ -69,7 +68,7 @@ export function FechaNacimiento({ value, onChange }: { value: string; onChange: 
               type="button"
               onClick={() => elegirDia(d)}
               aria-pressed={elegido}
-              className={`grid size-9 place-items-center rounded-full text-sm font-bold ${
+              className={`grid size-8 place-items-center rounded-full text-sm font-bold ${
                 elegido ? "bg-coral text-tinta" : "hover:bg-muted"
               }`}
             >

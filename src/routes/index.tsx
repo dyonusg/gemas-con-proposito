@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { ShieldCheck, Heart, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Destello } from "@/components/gemas/Shell";
-import { FechaNacimiento } from "@/components/gemas/FechaNacimiento";
+import { FechaNacimiento, MESES } from "@/components/gemas/FechaNacimiento";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
 import { actualizar, reiniciar, useGemas } from "@/lib/store";
 import { esMenor } from "@/lib/camino";
 import { supabase } from "@/integrations/supabase/client";
@@ -29,6 +31,7 @@ function Bienvenida() {
   const navigate = useNavigate();
   const [alias, setAlias] = useState("");
   const [nacimiento, setNacimiento] = useState("");
+  const [calendarioAbierto, setCalendarioAbierto] = useState(false);
   const [consiente, setConsiente] = useState(false);
   const [tipo, setTipo] = useState<"formacion" | "mentor">("formacion");
   const [cambiando, setCambiando] = useState(false);
@@ -73,6 +76,8 @@ function Bienvenida() {
 
   const menor = nacimiento ? esMenor(nacimiento) : false;
   const listo = alias.trim() && nacimiento && (!menor || consiente);
+  const [aN, mN, dN] = nacimiento ? nacimiento.split("-").map(Number) : [0, 1, 0];
+  const resumenNacimiento = nacimiento ? `${dN} de ${MESES[(mN ?? 1) - 1].toLowerCase()} de ${aN}` : "";
 
   const entrar = (e: React.FormEvent) => {
     e.preventDefault();
@@ -126,8 +131,28 @@ function Bienvenida() {
         />
         <p className="mt-2 text-xs text-muted-foreground">Sin email ni datos personales. Solo tu alias.</p>
 
-        <p className="mt-4 text-sm font-bold">Tu fecha de nacimiento</p>
-        <FechaNacimiento value={nacimiento} onChange={setNacimiento} />
+        <label htmlFor="nacimiento" className="mt-4 block text-sm font-bold">Tu fecha de nacimiento</label>
+        <Popover open={calendarioAbierto} onOpenChange={setCalendarioAbierto}>
+          <PopoverTrigger asChild>
+            <button
+              id="nacimiento"
+              type="button"
+              className={`mt-2 flex h-12 w-full items-center gap-2 rounded-xl border-2 border-input bg-background px-4 text-left outline-none focus:border-coral ${nacimiento ? "font-bold" : "text-muted-foreground"}`}
+            >
+              <CalendarIcon className="size-5 shrink-0 text-coral" />
+              {nacimiento ? resumenNacimiento : "Toca para elegir"}
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-3 pointer-events-auto" align="start">
+            <FechaNacimiento
+              value={nacimiento}
+              onChange={(v) => {
+                setNacimiento(v);
+                setCalendarioAbierto(false);
+              }}
+            />
+          </PopoverContent>
+        </Popover>
 
         {menor && (
           <label className="mt-4 flex items-start gap-3 text-sm">
