@@ -24,25 +24,25 @@ export const Route = createFileRoute("/tarjeta")({
 function TarjetaPage() {
   const e = useGemas();
   const l = useLeccion(e.leccionActual);
-  const L = { virtud: l?.cualidad ?? "", cita: l?.cita ?? "", cancion: l?.cancion_titulo ?? "" };
-  const [idea, setIdea] = useState("");
+  const L = { virtud: l?.cualidad ?? "", cita: l?.cita ?? "", cancion: l?.cancion_titulo ?? "", idea: l?.actividad_familia ?? "" };
+  const [mensaje, setMensaje] = useState("");
   const [enviada, setEnviada] = useState(false);
   const [copiada, setCopiada] = useState(false);
 
   const enviar = async () => {
-    if (!idea.trim()) return;
     const texto = [
       `✨ Esta semana en clase: ${L.virtud}`,
       `“${L.cita}”`,
       `🎵 Canción: ${L.cancion}`,
-      `💡 Idea para casa: ${idea.trim()}`,
+      `💡 Idea para casa: ${L.idea}`,
+      ...(mensaje.trim() ? [`💌 Mensaje del facilitador: ${mensaje.trim()}`] : []),
       "— Enviado desde Gemas",
     ].join("\n");
     actualizar((s) => ({
       ...s,
-      tarjetas: [{ id: nuevoId(), fecha: hoy(), virtud: L.virtud, cita: L.cita, cancion: L.cancion, idea: idea.trim(), estado: "enviada" }, ...s.tarjetas],
+      tarjetas: [{ id: nuevoId(), fecha: hoy(), virtud: L.virtud, cita: L.cita, cancion: L.cancion, idea: L.idea, mensaje: mensaje.trim() || undefined, estado: "enviada" }, ...s.tarjetas],
     }));
-    setIdea("");
+    setMensaje("");
     setEnviada(true);
     try {
       if (navigator.share) {
@@ -72,8 +72,9 @@ function TarjetaPage() {
           <h2 className="mt-2 text-2xl font-bold">{L.virtud}</h2>
           <p className="mt-2 text-sm italic">{L.cita}</p>
           <p className="mt-2 text-sm"><strong>Canción:</strong> {L.cancion}</p>
-          <label htmlFor="idea" className="mt-4 block text-sm font-bold">Una idea sencilla para casa</label>
-          <textarea id="idea" value={idea} onChange={(ev) => setIdea(ev.target.value)} rows={3} placeholder="Ej.: preparad juntos un pequeño regalo para alguien del barrio." className="mt-2 w-full rounded-xl border-2 border-input bg-background p-3 text-sm outline-none focus:border-coral" />
+          <p className="mt-2 text-sm"><strong>Idea para casa:</strong> {L.idea}</p>
+          <label htmlFor="mensaje" className="mt-4 block text-sm font-bold">Un mensajito para las familias <span className="font-normal text-muted-foreground">(opcional)</span></label>
+          <textarea id="mensaje" value={mensaje} onChange={(ev) => setMensaje(ev.target.value)} rows={2} placeholder="Ej.: ¡gracias por acompañar a vuestros peques cada semana!" className="mt-2 w-full rounded-xl border-2 border-input bg-background p-3 text-sm outline-none focus:border-coral" />
         </div>
       </div>
       {enviada && (
@@ -81,7 +82,7 @@ function TarjetaPage() {
           {copiada ? "No se pudo abrir el compartir, pero la tarjeta está copiada: pégala donde quieras." : "¡Tarjeta lista! Elige a quién enviarla desde tu móvil."}
         </p>
       )}
-      <Button size="lg" className="mt-4 w-full" onClick={enviar} disabled={!idea.trim()}><Send /> Enviar</Button>
+      <Button size="lg" className="mt-4 w-full" onClick={enviar}><Send /> Enviar</Button>
 
       <Seccion titulo="Tarjetas enviadas">
         {e.tarjetas.length === 0 ? (

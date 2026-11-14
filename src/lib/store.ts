@@ -5,7 +5,7 @@ import type { PasoId } from "./contenido";
 export type RegistroPaso = { dirigido: boolean; fecha?: string; confirmado?: boolean | undefined; reconocimiento?: string | undefined };
 export type Compartir = "solo_yo" | "mentor" | "todos";
 export type Nota = { id: string; fecha: string; texto: string; pregunta?: string | undefined; leccion?: number | undefined; compartir?: Compartir | undefined; editada?: string | undefined };
-export type Tarjeta = { id: string; fecha: string; virtud: string; cita: string; cancion: string; idea: string; estado: "enviada" | "reenviada" };
+export type Tarjeta = { id: string; fecha: string; virtud: string; cita: string; cancion: string; idea: string; mensaje?: string | undefined; estado: "enviada" | "reenviada" };
 export type Encuesta = { sentimiento: string; acompanado: string; seguir: string; comentario: string };
 
 export type Tipo = "formacion" | "mentor";
