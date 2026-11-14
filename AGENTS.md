@@ -30,6 +30,7 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Project rules
+- All lesson virtue pickers reuse `SelectorVirtud` and its short editorial purposes, so selection stays consistent across the path, gems, cards and mentor lessons.
 - `/` is the public purpose-led home; account actions link to `/auth` or `/perfil` without automatic redirects, keeping the welcome accessible while private screens remain gated.
 - `src/lib/store.ts` is an in-memory session view; `estados_usuario` persists owner-scoped state and legacy unscoped device state is never imported into accounts.
 - Lesson content (24 lessons, 6 prayers) lives in the `lecciones`/`oraciones` tables, loaded from the owner's spreadsheet; full Ruhí stories stay linked (`historia_url`), not reproduced, because rights are not cleared.

@@ -2,8 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { Shell, Seccion, SelectorLeccion } from "@/components/gemas/Shell";
 import { PASOS } from "@/lib/contenido";
-import { useLeccion } from "@/lib/leccion";
-import { useGemas } from "@/lib/store";
 
 export const Route = createFileRoute("/_authenticated/lecciones")({
   head: () => ({
@@ -20,8 +18,6 @@ export const Route = createFileRoute("/_authenticated/lecciones")({
 });
 
 function Lecciones() {
-  const e = useGemas();
-  const leccion = useLeccion(e.leccionActual);
 
   return (
     <Shell>
@@ -30,8 +26,7 @@ function Lecciones() {
         Tú ya recorriste el camino. Aquí consultas los pasos de cada lección para preparar la clase o ensayar con quien acompañas.
       </p>
 
-      <SelectorLeccion etiqueta="Lección a consultar" />
-      {leccion && <p className="mt-1 text-xs text-muted-foreground">Gema: {leccion.color_gema}</p>}
+      <SelectorLeccion etiqueta="Virtud a consultar" />
 
       <Seccion titulo="Los pasos de esta lección">
         <ul className="space-y-2">
