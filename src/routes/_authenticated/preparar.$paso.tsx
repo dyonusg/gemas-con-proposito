@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, Volume2, ExternalLink, Eye, EyeOff, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Shell, Seccion, Destello } from "@/components/gemas/Shell";
+import { Shell, Seccion, Destello, SelectorLeccion } from "@/components/gemas/Shell";
 import { PASOS, RUHI, PREGUNTAS_REFLEXION, type PasoId } from "@/lib/contenido";
 import { useLeccion, type Leccion } from "@/lib/leccion";
 import { enPasos, suavizar } from "@/lib/camino";
@@ -66,7 +66,7 @@ function Preparar() {
       <Timeline actual={paso.id} pasos={e.pasos} />
       <h1 className="mt-2 text-[32px] font-bold leading-[38px]">{paso.titulo}</h1>
       <p className="text-sm text-muted-foreground">{paso.descripcion}</p>
-      {leccion && <p className="mt-1 text-xs font-bold text-muted-foreground">Lección {leccion.numero} · {leccion.cualidad} · {leccion.color_gema}</p>}
+      <SelectorLeccion etiqueta="Virtud de esta lección" />
 
       <div className="mt-5 rounded-[20px] bg-lavanda-soft p-4">
         <p className="text-xs font-bold uppercase tracking-wider text-lavanda">{esMentor ? "Mis observaciones e ideas" : "Antes de la clase · Mis gemas"}</p>
@@ -82,7 +82,7 @@ function Preparar() {
         )}
       </div>
 
-      {leccion ? <Ensayo id={paso.id} l={leccion} /> : <p className="mt-6 text-sm text-muted-foreground">Cargando la lección…</p>}
+      {leccion ? <Ensayo key={`${paso.id}-${leccion.numero}`} id={paso.id} l={leccion} /> : <p className="mt-6 text-sm text-muted-foreground">Cargando la lección…</p>}
 
       <a href={leccion?.historia_url ?? RUHI} target="_blank" rel="noreferrer" className="mt-5 flex items-center justify-between rounded-[20px] border-2 border-border bg-card p-4 text-sm font-bold">
         Material oficial de la lección en ruhi.org <ExternalLink className="size-4" />
