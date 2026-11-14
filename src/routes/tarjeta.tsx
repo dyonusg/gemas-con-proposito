@@ -27,21 +27,39 @@ function TarjetaPage() {
   const L = { virtud: l?.cualidad ?? "", cita: l?.cita ?? "", cancion: l?.cancion_titulo ?? "" };
   const [idea, setIdea] = useState("");
   const [enviada, setEnviada] = useState(false);
+  const [copiada, setCopiada] = useState(false);
 
-  const enviar = () => {
+  const enviar = async () => {
     if (!idea.trim()) return;
+    const texto = [
+      `✨ Esta semana en clase: ${L.virtud}`,
+      `“${L.cita}”`,
+      `🎵 Canción: ${L.cancion}`,
+      `💡 Idea para casa: ${idea.trim()}`,
+      "— Enviado desde Gemas",
+    ].join("\n");
     actualizar((s) => ({
       ...s,
       tarjetas: [{ id: nuevoId(), fecha: hoy(), virtud: L.virtud, cita: L.cita, cancion: L.cancion, idea: idea.trim(), estado: "enviada" }, ...s.tarjetas],
     }));
     setIdea("");
     setEnviada(true);
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: `Tarjeta de la clase: ${L.virtud}`, text: texto });
+      } else {
+        await navigator.clipboard.writeText(texto);
+        setCopiada(true);
+      }
+    } catch {
+      /* la persona canceló el compartir; la tarjeta ya quedó guardada */
+    }
   };
 
   return (
     <Shell>
       <h1 className="mt-2 text-[32px] font-bold leading-[38px]">Tarjeta para las familias</h1>
-      <p className="text-sm text-muted-foreground">La recibe el adulto responsable del campus y la envía a las familias. Tú nunca tienes sus contactos.</p>
+      <p className="text-sm text-muted-foreground">Compártela con quien quieras desde tu móvil: WhatsApp, correo o la app que prefieras. Gemas nunca ve tus contactos.</p>
       <SelectorLeccion etiqueta="Gema de la tarjeta" />
 
       <div className="mt-5 overflow-hidden rounded-[20px] bg-card shadow-card">
@@ -58,8 +76,12 @@ function TarjetaPage() {
           <textarea id="idea" value={idea} onChange={(ev) => setIdea(ev.target.value)} rows={3} placeholder="Ej.: preparad juntos un pequeño regalo para alguien del barrio." className="mt-2 w-full rounded-xl border-2 border-input bg-background p-3 text-sm outline-none focus:border-coral" />
         </div>
       </div>
-      {enviada && <p className="mt-3 rounded-2xl bg-menta-soft p-3 text-sm font-bold">¡Enviada al responsable del campus! Llegará a las familias.</p>}
-      <Button size="lg" className="mt-4 w-full" onClick={enviar} disabled={!idea.trim()}><Send /> Enviar al responsable</Button>
+      {enviada && (
+        <p className="mt-3 rounded-2xl bg-menta-soft p-3 text-sm font-bold">
+          {copiada ? "No se pudo abrir el compartir, pero la tarjeta está copiada: pégala donde quieras." : "¡Tarjeta lista! Elige a quién enviarla desde tu móvil."}
+        </p>
+      )}
+      <Button size="lg" className="mt-4 w-full" onClick={enviar} disabled={!idea.trim()}><Send /> Enviar</Button>
 
       <Seccion titulo="Tarjetas enviadas">
         {e.tarjetas.length === 0 ? (
@@ -70,7 +92,7 @@ function TarjetaPage() {
               <li key={t.id} className="flex items-center justify-between rounded-[20px] bg-card p-4 shadow-card">
                 <span><strong>{t.virtud}</strong><span className="block text-xs text-muted-foreground">{t.fecha}</span></span>
                 <span className={`rounded-full px-3 py-1 text-xs font-bold ${t.estado === "reenviada" ? "bg-menta" : "bg-sol-soft"}`}>
-                  {t.estado === "reenviada" ? "Ya en las familias" : "En el responsable"}
+                  {t.estado === "reenviada" ? "Reenviada" : "Enviada"}
                 </span>
               </li>
             ))}
