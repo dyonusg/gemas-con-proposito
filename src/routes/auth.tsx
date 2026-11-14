@@ -47,7 +47,7 @@ function Autenticacion() {
     finally { setCargando(false); }
   };
   return <div className="mx-auto min-h-screen max-w-md px-6 py-8">
-    <img src={logo.url} alt="Gemas" className="h-10 w-auto" />
+    <Link to="/" aria-label="Gemas, volver al inicio"><img src={logo.url} alt="Gemas" className="h-10 w-auto" /></Link>
     <img src={isotipo.url} alt="" className="mx-auto mt-8 size-24" />
     <h1 className="mt-5 text-3xl font-bold">{correoEnviado ? "Revisa tu correo" : "Bienvenido a Gemas"}</h1>
     <p className="mt-2 text-sm text-muted-foreground">{correoEnviado ? `Hemos enviado un código de un solo uso a ${correoEnviado}.` : "Entra o crea tu cuenta con tu correo, sin contraseña."}</p>
