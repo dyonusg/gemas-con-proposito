@@ -13,12 +13,13 @@ const ITEMS = {
   "/tarjeta": { label: "Tarjeta", icon: Mail },
   "/cierre": { label: "Cierre", icon: Flag },
   "/mentor": { label: "Acompañar", icon: HeartHandshake },
+  "/lecciones": { label: "Lecciones", icon: BookOpen },
 } as const;
 
 export function Shell({ children, nav = true }: { children: ReactNode; nav?: boolean }) {
   const { tipo } = useGemas();
   const rutas = navPara(tipo);
-  const NAV = rutas.map((to) => ({ to, ...ITEMS[to], ...(tipo === "mentor" && to === "/camino" ? { label: "Lecciones", icon: BookOpen } : {}) }));
+  const NAV = rutas.map((to) => ({ to, ...ITEMS[to] }));
   return (
     <div className="mx-auto flex min-h-screen max-w-md flex-col bg-background">
       <header className="flex items-center justify-between px-5 pt-5 pb-2">

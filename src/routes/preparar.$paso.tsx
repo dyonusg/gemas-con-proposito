@@ -55,16 +55,20 @@ function Preparar() {
   const marcar = () =>
     actualizar((s) => ({ ...s, pasos: { ...s.pasos, [paso.id]: { dirigido: true, fecha: hoy() } } }));
 
+  const esMentor = e.tipo === "mentor";
+  const volverA = esMentor ? "/lecciones" : "/camino";
+
   return (
     <Shell>
-      <Link to="/camino" className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-muted-foreground">
-        <ArrowLeft className="size-4" /> Mi camino
+      <Link to={volverA} className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-muted-foreground">
+        <ArrowLeft className="size-4" /> {esMentor ? "Lecciones" : "Mi camino"}
       </Link>
       <Timeline actual={paso.id} pasos={e.pasos} />
       <h1 className="mt-2 text-[32px] font-bold leading-[38px]">{paso.titulo}</h1>
       <p className="text-sm text-muted-foreground">{paso.descripcion}</p>
       {leccion && <p className="mt-1 text-xs font-bold text-muted-foreground">Lección {leccion.numero} · {leccion.cualidad} · {leccion.color_gema}</p>}
 
+      {!esMentor && (
       <div className="mt-5 rounded-[20px] bg-lavanda-soft p-4">
         <p className="text-xs font-bold uppercase tracking-wider text-lavanda">Antes de la clase · Mis gemas</p>
         <p className="mt-1 font-display text-lg font-semibold">{pregunta}</p>
@@ -77,6 +81,7 @@ function Preparar() {
           </>
         )}
       </div>
+      )}
 
       {leccion ? <Ensayo id={paso.id} l={leccion} /> : <p className="mt-6 text-sm text-muted-foreground">Cargando la lección…</p>}
 
@@ -85,6 +90,7 @@ function Preparar() {
       </a>
       <p className="mt-2 text-xs text-muted-foreground">La historia completa está en el material oficial; aquí solo tienes el resumen.</p>
 
+      {!esMentor && (
       <div className="mt-7 rounded-[20px] bg-card p-5 text-center shadow-card">
         {registro?.dirigido ? (
           <>
@@ -103,7 +109,8 @@ function Preparar() {
           </>
         )}
       </div>
-      <SiguienteAnterior actual={paso.id} />
+      )}
+      <SiguienteAnterior actual={paso.id} volverA={volverA} esMentor={esMentor} />
     </Shell>
   );
 }
@@ -287,7 +294,7 @@ function Timeline({ actual, pasos }: { actual: PasoId; pasos: Record<string, { d
   );
 }
 
-function SiguienteAnterior({ actual }: { actual: PasoId }) {
+function SiguienteAnterior({ actual, volverA, esMentor }: { actual: PasoId; volverA: string; esMentor: boolean }) {
   const i = PASOS.findIndex((p) => p.id === actual);
   const ant = PASOS[i - 1];
   const sig = PASOS[i + 1];
@@ -299,7 +306,7 @@ function SiguienteAnterior({ actual }: { actual: PasoId }) {
       {sig ? (
         <Button asChild variant="menta" className="flex-1"><Link to="/preparar/$paso" params={{ paso: sig.id }}>{sig.corto} <ArrowRight className="size-4" /></Link></Button>
       ) : (
-        <Button asChild variant="menta" className="flex-1"><Link to="/camino">Volver a Mi camino</Link></Button>
+        <Button asChild variant="menta" className="flex-1"><Link to={volverA}>{esMentor ? "Volver a Lecciones" : "Volver a Mi camino"}</Link></Button>
       )}
     </div>
   );
