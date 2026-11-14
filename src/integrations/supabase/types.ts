@@ -17,6 +17,7 @@ export type Database = {
       codigos_mentor: {
         Row: {
           codigo: string
+          correo: string | null
           creado_en: string
           creado_por: string
           usado_en: string | null
@@ -24,6 +25,7 @@ export type Database = {
         }
         Insert: {
           codigo: string
+          correo?: string | null
           creado_en?: string
           creado_por: string
           usado_en?: string | null
@@ -31,6 +33,7 @@ export type Database = {
         }
         Update: {
           codigo?: string
+          correo?: string | null
           creado_en?: string
           creado_por?: string
           usado_en?: string | null
@@ -387,7 +390,7 @@ export type Database = {
         Args: { _tipo: Database["public"]["Enums"]["app_role"] }
         Returns: undefined
       }
-      generar_codigo_mentor: { Args: never; Returns: string }
+      generar_codigo_mentor: { Args: { _correo: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
