@@ -30,9 +30,10 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Project rules
-- Phase-1 prototype state lives in `src/lib/store.ts` (localStorage, single device); move to Lovable Cloud when multi-device sharing (pairs, teacher, campus lead) is needed.
+- `src/lib/store.ts` is an in-memory session view; `estados_usuario` persists owner-scoped state and legacy unscoped device state is never imported into accounts.
 - Lesson content (24 lessons, 6 prayers) lives in the `lecciones`/`oraciones` tables, loaded from the owner's spreadsheet; full Ruhí stories stay linked (`historia_url`), not reproduced, because rights are not cleared.
-- Profile, path progress, notes, cards and survey have Cloud tables (owner-scoped RLS; mentor/compañero/responsable read via `profiles.mentor_id`/`companero_id` and `user_roles`); `src/lib/store.ts` stays the source of truth; `src/lib/nube.ts` syncs profile and path to Cloud only when the user optionally signs in at /guardar.
+- `src/lib/nube.ts` hydrates only the authenticated owner's Cloud state and serializes saves; linked mentors/companions read only authorized progress and shared notes, never the private snapshot.
 - Path logic (next step, counts) lives in `src/lib/camino.ts` with tests beside it.
 - Both roles reuse the lesson-linked reflections editor and store; mentor reflections never update path progress.
-- The shared shell exposes logout and listens for auth changes so every screen retains optional account access.
+- `Acceso` owns the global auth subscription and logout teardown; the `_authenticated` layout validates the user and profile before rendering private screens.
+- Unique normalized aliases are enforced by a database index and trigger; duplicate legacy aliases must be reclaimed through the profile form.

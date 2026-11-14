@@ -10,61 +10,33 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as CaminoRouteImport } from './routes/camino'
-import { Route as CierreRouteImport } from './routes/cierre'
-import { Route as EquipoRouteImport } from './routes/equipo'
-import { Route as GemasRouteImport } from './routes/gemas'
-import { Route as GuardarRouteImport } from './routes/guardar'
-import { Route as LeccionesRouteImport } from './routes/lecciones'
-import { Route as MentorRouteImport } from './routes/mentor'
-import { Route as ReflexionesRouteImport } from './routes/reflexiones'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as TarjetaRouteImport } from './routes/tarjeta'
-import { Route as PrepararPasoRouteImport } from './routes/preparar.$paso'
+import { Route as AuthenticatedCaminoRouteImport } from './routes/_authenticated/camino'
+import { Route as AuthenticatedCierreRouteImport } from './routes/_authenticated/cierre'
+import { Route as AuthenticatedEquipoRouteImport } from './routes/_authenticated/equipo'
+import { Route as AuthenticatedGemasRouteImport } from './routes/_authenticated/gemas'
+import { Route as AuthenticatedGuardarRouteImport } from './routes/_authenticated/guardar'
+import { Route as AuthenticatedLeccionesRouteImport } from './routes/_authenticated/lecciones'
+import { Route as AuthenticatedMentorRouteImport } from './routes/_authenticated/mentor'
+import { Route as AuthenticatedPerfilRouteImport } from './routes/_authenticated/perfil'
+import { Route as AuthenticatedReflexionesRouteImport } from './routes/_authenticated/reflexiones'
+import { Route as AuthenticatedTarjetaRouteImport } from './routes/_authenticated/tarjeta'
+import { Route as AuthenticatedPrepararPasoRouteImport } from './routes/_authenticated/preparar.$paso'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CaminoRoute = CaminoRouteImport.update({
-  id: '/camino',
-  path: '/camino',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CierreRoute = CierreRouteImport.update({
-  id: '/cierre',
-  path: '/cierre',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EquipoRoute = EquipoRouteImport.update({
-  id: '/equipo',
-  path: '/equipo',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GemasRoute = GemasRouteImport.update({
-  id: '/gemas',
-  path: '/gemas',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GuardarRoute = GuardarRouteImport.update({
-  id: '/guardar',
-  path: '/guardar',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LeccionesRoute = LeccionesRouteImport.update({
-  id: '/lecciones',
-  path: '/lecciones',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MentorRoute = MentorRouteImport.update({
-  id: '/mentor',
-  path: '/mentor',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReflexionesRoute = ReflexionesRouteImport.update({
-  id: '/reflexiones',
-  path: '/reflexiones',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -72,64 +44,120 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TarjetaRoute = TarjetaRouteImport.update({
+const AuthenticatedCaminoRoute = AuthenticatedCaminoRouteImport.update({
+  id: '/camino',
+  path: '/camino',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCierreRoute = AuthenticatedCierreRouteImport.update({
+  id: '/cierre',
+  path: '/cierre',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedEquipoRoute = AuthenticatedEquipoRouteImport.update({
+  id: '/equipo',
+  path: '/equipo',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedGemasRoute = AuthenticatedGemasRouteImport.update({
+  id: '/gemas',
+  path: '/gemas',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedGuardarRoute = AuthenticatedGuardarRouteImport.update({
+  id: '/guardar',
+  path: '/guardar',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedLeccionesRoute = AuthenticatedLeccionesRouteImport.update({
+  id: '/lecciones',
+  path: '/lecciones',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMentorRoute = AuthenticatedMentorRouteImport.update({
+  id: '/mentor',
+  path: '/mentor',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPerfilRoute = AuthenticatedPerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedReflexionesRoute =
+  AuthenticatedReflexionesRouteImport.update({
+    id: '/reflexiones',
+    path: '/reflexiones',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTarjetaRoute = AuthenticatedTarjetaRouteImport.update({
   id: '/tarjeta',
   path: '/tarjeta',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const PrepararPasoRoute = PrepararPasoRouteImport.update({
-  id: '/preparar/$paso',
-  path: '/preparar/$paso',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const AuthenticatedPrepararPasoRoute =
+  AuthenticatedPrepararPasoRouteImport.update({
+    id: '/preparar/$paso',
+    path: '/preparar/$paso',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/camino': typeof CaminoRoute
-  '/cierre': typeof CierreRoute
-  '/equipo': typeof EquipoRoute
-  '/gemas': typeof GemasRoute
-  '/guardar': typeof GuardarRoute
-  '/lecciones': typeof LeccionesRoute
-  '/mentor': typeof MentorRoute
-  '/reflexiones': typeof ReflexionesRoute
+  '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/tarjeta': typeof TarjetaRoute
-  '/preparar/$paso': typeof PrepararPasoRoute
+  '/camino': typeof AuthenticatedCaminoRoute
+  '/cierre': typeof AuthenticatedCierreRoute
+  '/equipo': typeof AuthenticatedEquipoRoute
+  '/gemas': typeof AuthenticatedGemasRoute
+  '/guardar': typeof AuthenticatedGuardarRoute
+  '/lecciones': typeof AuthenticatedLeccionesRoute
+  '/mentor': typeof AuthenticatedMentorRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
+  '/reflexiones': typeof AuthenticatedReflexionesRoute
+  '/tarjeta': typeof AuthenticatedTarjetaRoute
+  '/preparar/$paso': typeof AuthenticatedPrepararPasoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/camino': typeof CaminoRoute
-  '/cierre': typeof CierreRoute
-  '/equipo': typeof EquipoRoute
-  '/gemas': typeof GemasRoute
-  '/guardar': typeof GuardarRoute
-  '/lecciones': typeof LeccionesRoute
-  '/mentor': typeof MentorRoute
-  '/reflexiones': typeof ReflexionesRoute
+  '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/tarjeta': typeof TarjetaRoute
-  '/preparar/$paso': typeof PrepararPasoRoute
+  '/camino': typeof AuthenticatedCaminoRoute
+  '/cierre': typeof AuthenticatedCierreRoute
+  '/equipo': typeof AuthenticatedEquipoRoute
+  '/gemas': typeof AuthenticatedGemasRoute
+  '/guardar': typeof AuthenticatedGuardarRoute
+  '/lecciones': typeof AuthenticatedLeccionesRoute
+  '/mentor': typeof AuthenticatedMentorRoute
+  '/perfil': typeof AuthenticatedPerfilRoute
+  '/reflexiones': typeof AuthenticatedReflexionesRoute
+  '/tarjeta': typeof AuthenticatedTarjetaRoute
+  '/preparar/$paso': typeof AuthenticatedPrepararPasoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/camino': typeof CaminoRoute
-  '/cierre': typeof CierreRoute
-  '/equipo': typeof EquipoRoute
-  '/gemas': typeof GemasRoute
-  '/guardar': typeof GuardarRoute
-  '/lecciones': typeof LeccionesRoute
-  '/mentor': typeof MentorRoute
-  '/reflexiones': typeof ReflexionesRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/tarjeta': typeof TarjetaRoute
-  '/preparar/$paso': typeof PrepararPasoRoute
+  '/_authenticated/camino': typeof AuthenticatedCaminoRoute
+  '/_authenticated/cierre': typeof AuthenticatedCierreRoute
+  '/_authenticated/equipo': typeof AuthenticatedEquipoRoute
+  '/_authenticated/gemas': typeof AuthenticatedGemasRoute
+  '/_authenticated/guardar': typeof AuthenticatedGuardarRoute
+  '/_authenticated/lecciones': typeof AuthenticatedLeccionesRoute
+  '/_authenticated/mentor': typeof AuthenticatedMentorRoute
+  '/_authenticated/perfil': typeof AuthenticatedPerfilRoute
+  '/_authenticated/reflexiones': typeof AuthenticatedReflexionesRoute
+  '/_authenticated/tarjeta': typeof AuthenticatedTarjetaRoute
+  '/_authenticated/preparar/$paso': typeof AuthenticatedPrepararPasoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
+    | '/reset-password'
     | '/camino'
     | '/cierre'
     | '/equipo'
@@ -137,13 +165,15 @@ export interface FileRouteTypes {
     | '/guardar'
     | '/lecciones'
     | '/mentor'
+    | '/perfil'
     | '/reflexiones'
-    | '/reset-password'
     | '/tarjeta'
     | '/preparar/$paso'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
+    | '/reset-password'
     | '/camino'
     | '/cierre'
     | '/equipo'
@@ -151,39 +181,34 @@ export interface FileRouteTypes {
     | '/guardar'
     | '/lecciones'
     | '/mentor'
+    | '/perfil'
     | '/reflexiones'
-    | '/reset-password'
     | '/tarjeta'
     | '/preparar/$paso'
   id:
     | '__root__'
     | '/'
-    | '/camino'
-    | '/cierre'
-    | '/equipo'
-    | '/gemas'
-    | '/guardar'
-    | '/lecciones'
-    | '/mentor'
-    | '/reflexiones'
+    | '/_authenticated'
+    | '/auth'
     | '/reset-password'
-    | '/tarjeta'
-    | '/preparar/$paso'
+    | '/_authenticated/camino'
+    | '/_authenticated/cierre'
+    | '/_authenticated/equipo'
+    | '/_authenticated/gemas'
+    | '/_authenticated/guardar'
+    | '/_authenticated/lecciones'
+    | '/_authenticated/mentor'
+    | '/_authenticated/perfil'
+    | '/_authenticated/reflexiones'
+    | '/_authenticated/tarjeta'
+    | '/_authenticated/preparar/$paso'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CaminoRoute: typeof CaminoRoute
-  CierreRoute: typeof CierreRoute
-  EquipoRoute: typeof EquipoRoute
-  GemasRoute: typeof GemasRoute
-  GuardarRoute: typeof GuardarRoute
-  LeccionesRoute: typeof LeccionesRoute
-  MentorRoute: typeof MentorRoute
-  ReflexionesRoute: typeof ReflexionesRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
-  TarjetaRoute: typeof TarjetaRoute
-  PrepararPasoRoute: typeof PrepararPasoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -195,60 +220,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/camino': {
-      id: '/camino'
-      path: '/camino'
-      fullPath: '/camino'
-      preLoaderRoute: typeof CaminoRouteImport
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/cierre': {
-      id: '/cierre'
-      path: '/cierre'
-      fullPath: '/cierre'
-      preLoaderRoute: typeof CierreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/equipo': {
-      id: '/equipo'
-      path: '/equipo'
-      fullPath: '/equipo'
-      preLoaderRoute: typeof EquipoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gemas': {
-      id: '/gemas'
-      path: '/gemas'
-      fullPath: '/gemas'
-      preLoaderRoute: typeof GemasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/guardar': {
-      id: '/guardar'
-      path: '/guardar'
-      fullPath: '/guardar'
-      preLoaderRoute: typeof GuardarRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/lecciones': {
-      id: '/lecciones'
-      path: '/lecciones'
-      fullPath: '/lecciones'
-      preLoaderRoute: typeof LeccionesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mentor': {
-      id: '/mentor'
-      path: '/mentor'
-      fullPath: '/mentor'
-      preLoaderRoute: typeof MentorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reflexiones': {
-      id: '/reflexiones'
-      path: '/reflexiones'
-      fullPath: '/reflexiones'
-      preLoaderRoute: typeof ReflexionesRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -258,36 +241,122 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/tarjeta': {
-      id: '/tarjeta'
+    '/_authenticated/camino': {
+      id: '/_authenticated/camino'
+      path: '/camino'
+      fullPath: '/camino'
+      preLoaderRoute: typeof AuthenticatedCaminoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/cierre': {
+      id: '/_authenticated/cierre'
+      path: '/cierre'
+      fullPath: '/cierre'
+      preLoaderRoute: typeof AuthenticatedCierreRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/equipo': {
+      id: '/_authenticated/equipo'
+      path: '/equipo'
+      fullPath: '/equipo'
+      preLoaderRoute: typeof AuthenticatedEquipoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/gemas': {
+      id: '/_authenticated/gemas'
+      path: '/gemas'
+      fullPath: '/gemas'
+      preLoaderRoute: typeof AuthenticatedGemasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/guardar': {
+      id: '/_authenticated/guardar'
+      path: '/guardar'
+      fullPath: '/guardar'
+      preLoaderRoute: typeof AuthenticatedGuardarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/lecciones': {
+      id: '/_authenticated/lecciones'
+      path: '/lecciones'
+      fullPath: '/lecciones'
+      preLoaderRoute: typeof AuthenticatedLeccionesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/mentor': {
+      id: '/_authenticated/mentor'
+      path: '/mentor'
+      fullPath: '/mentor'
+      preLoaderRoute: typeof AuthenticatedMentorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/perfil': {
+      id: '/_authenticated/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof AuthenticatedPerfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reflexiones': {
+      id: '/_authenticated/reflexiones'
+      path: '/reflexiones'
+      fullPath: '/reflexiones'
+      preLoaderRoute: typeof AuthenticatedReflexionesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tarjeta': {
+      id: '/_authenticated/tarjeta'
       path: '/tarjeta'
       fullPath: '/tarjeta'
-      preLoaderRoute: typeof TarjetaRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedTarjetaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/preparar/$paso': {
-      id: '/preparar/$paso'
+    '/_authenticated/preparar/$paso': {
+      id: '/_authenticated/preparar/$paso'
       path: '/preparar/$paso'
       fullPath: '/preparar/$paso'
-      preLoaderRoute: typeof PrepararPasoRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedPrepararPasoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCaminoRoute: typeof AuthenticatedCaminoRoute
+  AuthenticatedCierreRoute: typeof AuthenticatedCierreRoute
+  AuthenticatedEquipoRoute: typeof AuthenticatedEquipoRoute
+  AuthenticatedGemasRoute: typeof AuthenticatedGemasRoute
+  AuthenticatedGuardarRoute: typeof AuthenticatedGuardarRoute
+  AuthenticatedLeccionesRoute: typeof AuthenticatedLeccionesRoute
+  AuthenticatedMentorRoute: typeof AuthenticatedMentorRoute
+  AuthenticatedPerfilRoute: typeof AuthenticatedPerfilRoute
+  AuthenticatedReflexionesRoute: typeof AuthenticatedReflexionesRoute
+  AuthenticatedTarjetaRoute: typeof AuthenticatedTarjetaRoute
+  AuthenticatedPrepararPasoRoute: typeof AuthenticatedPrepararPasoRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCaminoRoute: AuthenticatedCaminoRoute,
+  AuthenticatedCierreRoute: AuthenticatedCierreRoute,
+  AuthenticatedEquipoRoute: AuthenticatedEquipoRoute,
+  AuthenticatedGemasRoute: AuthenticatedGemasRoute,
+  AuthenticatedGuardarRoute: AuthenticatedGuardarRoute,
+  AuthenticatedLeccionesRoute: AuthenticatedLeccionesRoute,
+  AuthenticatedMentorRoute: AuthenticatedMentorRoute,
+  AuthenticatedPerfilRoute: AuthenticatedPerfilRoute,
+  AuthenticatedReflexionesRoute: AuthenticatedReflexionesRoute,
+  AuthenticatedTarjetaRoute: AuthenticatedTarjetaRoute,
+  AuthenticatedPrepararPasoRoute: AuthenticatedPrepararPasoRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CaminoRoute: CaminoRoute,
-  CierreRoute: CierreRoute,
-  EquipoRoute: EquipoRoute,
-  GemasRoute: GemasRoute,
-  GuardarRoute: GuardarRoute,
-  LeccionesRoute: LeccionesRoute,
-  MentorRoute: MentorRoute,
-  ReflexionesRoute: ReflexionesRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
-  TarjetaRoute: TarjetaRoute,
-  PrepararPasoRoute: PrepararPasoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -80,6 +80,9 @@
   --color-sol-soft: var(--sol-soft);
   --color-lavanda: var(--lavanda);
   --color-lavanda-soft: var(--lavanda-soft);
+  --color-google-surface: var(--google-surface);
+  --color-google-text: var(--google-text);
+  --color-google-border: var(--google-border);
   --font-display: "Baloo 2", system-ui, sans-serif;
   --font-sans: "Nunito", system-ui, sans-serif;
   --shadow-card: var(--shadow-card);
@@ -87,6 +90,9 @@
 }
 
 :root {
+  --google-surface: #ffffff;
+  --google-text: #1f1f1f;
+  --google-border: #747775;
   --radius: 1.25rem;
   /* Marca Gemas */
   --nube: oklch(0.983 0.014 78);
@@ -156,6 +162,17 @@
 
 @utility bg-gema {
   background-image: var(--gradient-gema);
+}
+
+.google-sign-in {
+  background: var(--google-surface);
+  color: var(--google-text);
+  border: 1px solid var(--google-border);
+  padding-inline: 12px;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
 }
 
 @utility animate-pop {

@@ -44,6 +44,32 @@ export type Database = {
         }
         Relationships: []
       }
+      estados_usuario: {
+        Row: {
+          estado: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          estado?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          estado?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "estados_usuario_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lecciones: {
         Row: {
           actividad_familia: string | null
@@ -193,6 +219,7 @@ export type Database = {
       profiles: {
         Row: {
           alias: string
+          alias_normalizado: string | null
           companero_id: string | null
           consentimiento_papel: boolean
           created_at: string
@@ -203,6 +230,7 @@ export type Database = {
         }
         Insert: {
           alias?: string
+          alias_normalizado?: string | null
           companero_id?: string | null
           consentimiento_papel?: boolean
           created_at?: string
@@ -213,6 +241,7 @@ export type Database = {
         }
         Update: {
           alias?: string
+          alias_normalizado?: string | null
           companero_id?: string | null
           consentimiento_papel?: boolean
           created_at?: string
@@ -322,6 +351,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      alias_disponible: { Args: { _alias: string }; Returns: boolean }
       elegir_tipo: {
         Args: { _tipo: Database["public"]["Enums"]["app_role"] }
         Returns: undefined
@@ -331,6 +361,17 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      mis_acompanados: {
+        Args: never
+        Returns: {
+          alias: string
+          id: string
+        }[]
+      }
+      vinculado_con: {
+        Args: { _owner: string; _tipo: string }
         Returns: boolean
       }
     }

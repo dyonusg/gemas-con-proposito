@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Map, Gem, Mail, Flag, HeartHandshake, BookOpen, House, NotebookPen, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { useAcceso } from "@/components/gemas/Acceso";
 import { toast } from "sonner";
 import { actualizar, useGemas } from "@/lib/store";
 import { navPara } from "@/lib/camino";
@@ -22,24 +22,14 @@ const ITEMS = {
 
 export function Shell({ children, nav = true }: { children: ReactNode; nav?: boolean }) {
   const { tipo } = useGemas();
-  const [conCuenta, setConCuenta] = useState(false);
+  const { uid, salir } = useAcceso();
+  const conCuenta = Boolean(uid);
   const [saliendo, setSaliendo] = useState(false);
-  useEffect(() => {
-    let activo = true;
-    const { data } = supabase.auth.onAuthStateChange((_evento, sesion) => {
-      if (activo) setConCuenta(Boolean(sesion?.user));
-    });
-    void supabase.auth.getUser().then(({ data }) => {
-      if (activo) setConCuenta(Boolean(data.user));
-    });
-    return () => { activo = false; data.subscription.unsubscribe(); };
-  }, []);
   const cerrarSesion = async () => {
     setSaliendo(true);
-    const { error } = await supabase.auth.signOut();
-    setSaliendo(false);
-    if (error) toast.error("No hemos podido cerrar sesión. Inténtalo de nuevo.");
-    else toast.success("Sesión cerrada. Puedes seguir usando Gemas sin cuenta.");
+    try { await salir(); toast.success("Sesión cerrada."); }
+    catch { toast.error("No hemos podido cerrar sesión. Inténtalo de nuevo."); }
+    finally { setSaliendo(false); }
   };
   const rutas = navPara(tipo);
   const NAV = rutas.map((to) => ({ to, ...ITEMS[to] }));

@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from "react";
 import type { PasoId } from "./contenido";
 
-// Prototipo: el estado vive en este dispositivo (localStorage). Sin datos personales.
+// Solo memoria durante la sesión; el estado persistente pertenece al usuario en Cloud.
 export type RegistroPaso = { dirigido: boolean; fecha?: string; confirmado?: boolean | undefined; reconocimiento?: string | undefined };
 export type Compartir = "solo_yo" | "mentor" | "todos";
 export type Nota = { id: string; fecha: string; texto: string; pregunta?: string | undefined; leccion?: number | undefined; compartir?: Compartir | undefined; editada?: string | undefined };
@@ -25,7 +25,6 @@ export type Estado = {
   encuesta: Encuesta | null;
 };
 
-const KEY = "gemas-estado-v1";
 export const ESTADO_INICIAL: Estado = {
   alias: null,
   tipo: null,
@@ -43,32 +42,29 @@ export const ESTADO_INICIAL: Estado = {
 };
 
 let estado: Estado = ESTADO_INICIAL;
-let cargado = false;
 const oyentes = new Set<() => void>();
 
-function cargar() {
-  if (cargado || typeof window === "undefined") return;
-  cargado = true;
-  try {
-    const raw = window.localStorage.getItem(KEY);
-    if (raw) estado = { ...ESTADO_INICIAL, ...JSON.parse(raw) };
-  } catch {
-    /* estado inicial */
-  }
-}
-
 export function actualizar(fn: (e: Estado) => Estado) {
-  cargar();
   estado = fn(estado);
-  window.localStorage.setItem(KEY, JSON.stringify(estado));
   oyentes.forEach((o) => o());
   alCambiar?.(estado);
 }
 
 let alCambiar: ((e: Estado) => void) | undefined;
 /** Engancha un guardado opcional (p. ej. la nube) a cada cambio. */
-export function alGuardar(fn: (e: Estado) => void) {
+export function alGuardar(fn: ((e: Estado) => void) | undefined) {
   alCambiar = fn;
+}
+
+export function cargarEstado(nuevo: Estado) {
+  estado = nuevo;
+  oyentes.forEach((o) => o());
+}
+
+export function limpiarEstado() {
+  alGuardar(undefined);
+  cargarEstado({ ...ESTADO_INICIAL, pasos: {}, pasosPareja: {}, reflexiones: [], momentos: [], tarjetas: [] });
+  if (typeof window !== "undefined") window.localStorage.removeItem("gemas-estado-v1");
 }
 
 export function reiniciar() {
@@ -82,7 +78,6 @@ export function useGemas(): Estado {
       return () => oyentes.delete(cb);
     },
     () => {
-      cargar();
       return estado;
     },
     () => ESTADO_INICIAL,

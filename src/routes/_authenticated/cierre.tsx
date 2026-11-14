@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Shell, Seccion, Destello } from "@/components/gemas/Shell";
 import { actualizar, useGemas, type Encuesta } from "@/lib/store";
 
-export const Route = createFileRoute("/cierre")({
+export const Route = createFileRoute("/_authenticated/cierre")({
   head: () => ({
     meta: [
       { title: "Al terminar el campus · Gemas" },

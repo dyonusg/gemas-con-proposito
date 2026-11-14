@@ -7,7 +7,7 @@ import { useLeccion } from "@/lib/leccion";
 import { actualizar, hoy, nuevoId, useGemas } from "@/lib/store";
 import isotipo from "@/assets/gemas-isotipo.svg.asset.json";
 
-export const Route = createFileRoute("/tarjeta")({
+export const Route = createFileRoute("/_authenticated/tarjeta")({
   head: () => ({
     meta: [
       { title: "Tarjeta para las familias · Gemas" },

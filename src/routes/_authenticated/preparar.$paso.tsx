@@ -8,7 +8,7 @@ import { useLeccion, type Leccion } from "@/lib/leccion";
 import { enPasos, suavizar } from "@/lib/camino";
 import { actualizar, hoy, nuevoId, useGemas } from "@/lib/store";
 
-export const Route = createFileRoute("/preparar/$paso")({
+export const Route = createFileRoute("/_authenticated/preparar/$paso")({
   loader: ({ params }) => {
     const paso = PASOS.find((p) => p.id === params.paso);
     if (!paso) throw notFound();

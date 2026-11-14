@@ -16,7 +16,7 @@ const leccionesQuery = queryOptions({
   staleTime: Infinity,
 });
 
-export const Route = createFileRoute("/reflexiones")({
+export const Route = createFileRoute("/_authenticated/reflexiones")({
   head: () => ({
     meta: [
       { title: "Mis reflexiones · Gemas" },
@@ -154,7 +154,7 @@ function Editor({ inicial, leccionInicial, lecciones, onGuardar, onCancelar }: {
           </button>
         ))}
       </div>
-      <p className="mt-2 text-xs text-muted-foreground">Si no has guardado tu camino con una cuenta, la reflexión solo queda en este móvil.</p>
+      <p className="mt-2 text-xs text-muted-foreground">Se guarda en tu cuenta. Solo la ven las personas con las que decidas compartirla.</p>
       <div className="mt-3 flex gap-2">
         <Button variant="tinta" size="sm" disabled={!ok} onClick={() => onGuardar({ id: inicial?.id ?? nuevoId(), fecha: inicial?.fecha ?? hoy(), pregunta: inicial?.pregunta, texto: texto.trim(), leccion, compartir })}>Guardar</Button>
         <Button variant="soft" size="sm" onClick={onCancelar}>Cancelar</Button>

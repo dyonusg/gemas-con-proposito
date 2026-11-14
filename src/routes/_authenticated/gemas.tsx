@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Shell, Seccion, SelectorLeccion } from "@/components/gemas/Shell";
 import { actualizar, hoy, nuevoId, useGemas, type Nota } from "@/lib/store";
 
-export const Route = createFileRoute("/gemas")({
+export const Route = createFileRoute("/_authenticated/gemas")({
   head: () => ({
     meta: [
       { title: "Mis gemas · Gemas" },

@@ -5,7 +5,7 @@ import { PASOS } from "@/lib/contenido";
 import { useLeccion } from "@/lib/leccion";
 import { useGemas } from "@/lib/store";
 
-export const Route = createFileRoute("/lecciones")({
+export const Route = createFileRoute("/_authenticated/lecciones")({
   head: () => ({
     meta: [
       { title: "Lecciones · Gemas" },

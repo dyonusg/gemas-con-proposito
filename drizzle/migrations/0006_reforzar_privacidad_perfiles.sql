@@ -1,0 +1,18 @@
+CREATE OR REPLACE FUNCTION public.validar_alias() RETURNS trigger LANGUAGE plpgsql SET search_path = public AS $$ BEGIN IF TG_OP = 'INSERT' THEN IF NEW.alias = 'colaborador' AND NEW.alias_normalizado IS NULL THEN RETURN NEW; END IF; ELSE IF NEW.alias IS NOT DISTINCT FROM OLD.alias AND NEW.alias_normalizado IS NULL AND OLD.alias_normalizado IS NULL THEN RETURN NEW; END IF; END IF; IF length(btrim(NEW.alias)) < 2 OR length(btrim(NEW.alias)) > 20 THEN RAISE EXCEPTION 'El alias debe tener entre 2 y 20 caracteres'; END IF; NEW.alias := btrim(NEW.alias); NEW.alias_normalizado := lower(NEW.alias); RETURN NEW; END $$;
+CREATE TRIGGER validar_alias_insert BEFORE INSERT ON public.profiles FOR EACH ROW EXECUTE FUNCTION public.validar_alias();
+CREATE OR REPLACE FUNCTION public.vinculado_con(_owner uuid, _tipo text) RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$ SELECT EXISTS(SELECT 1 FROM public.profiles WHERE id = _owner AND ((_tipo = 'mentor' AND mentor_id = auth.uid()) OR (_tipo = 'companero' AND companero_id = auth.uid()))) $$;
+REVOKE ALL ON FUNCTION public.vinculado_con(uuid,text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.vinculado_con(uuid,text) TO authenticated;
+DROP POLICY "Perfil propio o vinculado" ON public.profiles;
+CREATE POLICY "Solo mi perfil privado" ON public.profiles FOR SELECT TO authenticated USING (auth.uid() = id);
+CREATE OR REPLACE FUNCTION public.mis_acompanados() RETURNS TABLE(id uuid, alias text) LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$ SELECT id, alias FROM public.profiles WHERE mentor_id = auth.uid() $$;
+REVOKE ALL ON FUNCTION public.mis_acompanados() FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.mis_acompanados() TO authenticated;
+DROP POLICY "Mentor ve reflexiones compartidas" ON public.notas;
+CREATE POLICY "Mentor ve reflexiones compartidas" ON public.notas FOR SELECT TO authenticated USING(compartir IN ('mentor','todos') AND public.vinculado_con(user_id,'mentor'));
+DROP POLICY "Compañero ve reflexiones compartidas" ON public.notas;
+CREATE POLICY "Compañero ve reflexiones compartidas" ON public.notas FOR SELECT TO authenticated USING(compartir = 'todos' AND public.vinculado_con(user_id,'companero'));
+DROP POLICY "Progreso propio o vinculado" ON public.progreso_pasos;
+CREATE POLICY "Progreso propio o vinculado" ON public.progreso_pasos FOR SELECT TO authenticated USING(auth.uid() = user_id OR public.vinculado_con(user_id,'mentor') OR public.vinculado_con(user_id,'companero'));
+DROP POLICY "Mentor confirma" ON public.progreso_pasos;
+CREATE POLICY "Mentor confirma" ON public.progreso_pasos FOR UPDATE TO authenticated USING(public.vinculado_con(user_id,'mentor')) WITH CHECK(public.vinculado_con(user_id,'mentor') AND confirmado_por = auth.uid());

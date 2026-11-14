@@ -13,6 +13,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { Acceso } from "@/components/gemas/Acceso";
 
 function NotFoundComponent() {
   return (
@@ -126,28 +127,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  useEffect(() => {
-    let activo = true;
-    (async () => {
-      const { supabase } = await import("@/integrations/supabase/client");
-      const { sincronizar, subirCamino } = await import("@/lib/nube");
-      const { alGuardar } = await import("@/lib/store");
-      if (!activo) return;
-      alGuardar((e) => void subirCamino(e));
-      void sincronizar();
-      supabase.auth.onAuthStateChange((event) => {
-        if (event === "SIGNED_IN") void sincronizar();
-      });
-    })();
-    return () => {
-      activo = false;
-    };
-  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <Acceso queryClient={queryClient}><Outlet /></Acceso>
       <Toaster position="top-center" />
     </QueryClientProvider>
   );

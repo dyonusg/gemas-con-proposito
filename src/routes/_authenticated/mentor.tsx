@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BadgeCheck, Copy, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,7 @@ import { Shell, Seccion } from "@/components/gemas/Shell";
 import { PASOS } from "@/lib/contenido";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/mentor")({
+export const Route = createFileRoute("/_authenticated/mentor")({
   head: () => ({
     meta: [
       { title: "Acompañar · Gemas" },
@@ -26,12 +26,7 @@ const RECONOCIMIENTOS = ["¡Los niños te seguían encantados!", "Se notó que l
 const titulo = (id: string) => PASOS.find((p) => p.id === id)?.titulo ?? id;
 
 function Mentor() {
-  const [uid, setUid] = useState<string | null | undefined>(undefined);
-  useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange((_evento, sesion) => setUid(sesion?.user.id ?? null));
-    supabase.auth.getUser().then(({ data }) => setUid(data.user?.id ?? null));
-    return () => data.subscription.unsubscribe();
-  }, []);
+  const { uid } = Route.useRouteContext();
 
   return (
     <Shell>
@@ -63,7 +58,8 @@ function Acompanados({ uid }: { uid: string }) {
   const { data, isLoading } = useQuery({
     queryKey: ["acompanados", uid],
     queryFn: async () => {
-      const { data: perfiles } = await supabase.from("profiles").select("id, alias").eq("mentor_id", uid);
+      const { data: perfiles, error } = await supabase.rpc("mis_acompanados");
+      if (error) throw error;
       const ids = (perfiles ?? []).map((p) => p.id);
       if (!ids.length) return [];
       const [{ data: pasos }, { data: notas }] = await Promise.all([

@@ -7,7 +7,7 @@ import { actualizar, useGemas } from "@/lib/store";
 import { useLecciones } from "@/lib/leccion";
 import { siguientePaso, contarDirigidos } from "@/lib/camino";
 
-export const Route = createFileRoute("/camino")({
+export const Route = createFileRoute("/_authenticated/camino")({
   head: () => ({
     meta: [
       { title: "Mi camino · Gemas" },
@@ -95,7 +95,7 @@ function Camino() {
       </Seccion>
 
       <Link to="/guardar" className="mt-5 flex items-center justify-between rounded-[20px] border-2 border-dashed border-border bg-card p-4 text-sm">
-        <span><strong>Guarda tu camino</strong> (opcional) para no perderlo y que tu mentor lo vea.</span>
+        <span><strong>Mi cuenta</strong> · Perfil y vínculo con tu mentor.</span>
         <span className="font-bold text-coral">Ver</span>
       </Link>
 
