@@ -12,9 +12,9 @@ export function Hero({ destino }: { destino: string }) {
     <section id="hero" className="relative bg-background">
       <div className="mx-auto grid max-w-6xl items-center gap-8 px-6 pt-8 pb-12 md:grid-cols-2 md:px-8 md:py-20">
         <div>
-          <span className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1 text-xs font-bold shadow-card">🎮 Un camino por niveles</span>
+          <span className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1 text-xs font-bold shadow-card">🌱 Un camino por niveles para cambiar el mundo</span>
           <h1 className="mt-5 text-[40px] font-bold leading-[1.05] md:text-6xl">Lo mejor de ti puede hacer crecer lo mejor de otros.</h1>
-          <p className="mt-5 max-w-lg text-base leading-relaxed md:text-lg">Gemas es un juego por niveles para aprender a dar clases a niños. Cada lección es una misión con pasos cortos: preparas, practicas, la das y subes de nivel. Por el camino desbloqueas personajes y descubres tus propias cualidades.</p>
+          <p className="mt-5 max-w-lg text-base leading-relaxed md:text-lg">Cada niño lleva dentro cualidades esperando brillar, y tú puedes ayudarle a descubrirlas. Avanza nivel a nivel, misión a misión, aprendiendo a acompañar clases para niños. Por el camino también descubrirás lo mejor de ti, y juntos construiremos un mundo más bondadoso.</p>
           <div className="mt-7 flex flex-wrap items-center gap-4">
             <Button asChild size="lg" className="h-14 px-7 text-base shadow-pop"><Link to={destino}>Empieza tu camino<ArrowRight /></Link></Button>
             <a href="#camino" className="text-sm font-bold underline underline-offset-4">¿Cómo funciona?</a>
@@ -136,7 +136,7 @@ export function PathMap() {
       <div className="mx-auto max-w-6xl px-6 py-14 md:px-8">
         <Reveal className="text-center">
           <h2 className="text-3xl font-bold md:text-4xl">Tu camino, nivel a nivel</h2>
-          <p className="mt-2 font-bold">Completa misiones, gana experiencia y desbloquea un personaje nuevo en cada nivel.</p>
+          <p className="mt-2 font-bold">Cada misión que completas es un regalo para un niño. En cada nivel creces tú, y desbloqueas un nuevo personaje.</p>
         </Reveal>
         <ol className="relative mt-10 grid gap-8 md:grid-cols-5 md:gap-4">
           <span aria-hidden className="absolute top-2 bottom-2 left-8 w-1 rounded-full bg-gema md:top-8 md:right-[10%] md:bottom-auto md:left-[10%] md:h-1 md:w-auto" />
