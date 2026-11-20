@@ -36,7 +36,7 @@ function MisGemas() {
       <SelectorLeccion />
 
       <div className="mt-5 rounded-[20px] bg-menta-soft p-5">
-        <p className="text-xs font-bold uppercase tracking-wider text-tinta/70">Después de la clase · Efecto en los niños</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-tinta/70">Después del círculo · Efecto en los niños</p>
         <p className="mt-1 font-display text-lg font-semibold">¿En qué momento un niño vivió la virtud hoy?</p>
         <textarea value={momento} onChange={(ev) => setMomento(ev.target.value)} rows={3} placeholder="Ej.: una niña compartió sus colores sin que nadie se lo pidiera." className="mt-3 w-full rounded-xl border-2 border-input bg-card p-3 text-sm outline-none focus:border-menta" />
         <p className="mt-1 text-xs text-muted-foreground">Sin nombres de niños, por favor.</p>

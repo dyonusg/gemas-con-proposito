@@ -23,7 +23,7 @@ function Lecciones() {
     <Shell>
       <h1 className="mt-2 text-[32px] font-bold leading-[38px]">Lecciones</h1>
       <p className="text-sm text-muted-foreground">
-        Tú ya recorriste el camino. Aquí consultas los pasos de cada lección para preparar la clase o ensayar con quien acompañas.
+        Tú ya recorriste el camino. Aquí consultas los pasos de cada lección para preparar el círculo o ensayar con quien acompañas.
       </p>
 
       <SelectorLeccion etiqueta="Virtud a consultar" />

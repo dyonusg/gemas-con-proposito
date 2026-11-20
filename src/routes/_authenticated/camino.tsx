@@ -45,7 +45,7 @@ function Camino() {
       ) : (
         <div className="mt-5 rounded-[20px] bg-sol p-5 shadow-card">
           <Destello className="size-8" />
-          <h2 className="mt-2 text-2xl font-bold">¡Has facilitado una clase entera!</h2>
+          <h2 className="mt-2 text-2xl font-bold">¡Has facilitado un círculo entero!</h2>
           <p className="text-sm">Ya eres facilitador. Mira tu siguiente paso al terminar el campus.</p>
           <Button asChild variant="tinta" className="mt-4"><Link to="/cierre">Seguir sirviendo</Link></Button>
         </div>

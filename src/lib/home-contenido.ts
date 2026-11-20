@@ -2,10 +2,10 @@
 export type ColorGema = "coral" | "menta" | "sol" | "lavanda";
 
 export const GEMAS: { id: string; nombre: string; color: ColorGema; frase: string; desbloqueo: string }[] = [
-  { id: "amor", nombre: "Amor", color: "coral", frase: "Haces que cada niño se sienta visto y querido.", desbloqueo: "Recibe a los niños por su nombre en tu primera clase" },
+  { id: "amor", nombre: "Amor", color: "coral", frase: "Haces que cada niño se sienta visto y querido.", desbloqueo: "Recibe a los niños por su nombre en tu primer círculo" },
   { id: "paciencia", nombre: "Paciencia", color: "menta", frase: "Tu calma les da el tiempo que necesitan para crecer.", desbloqueo: "Acompaña a un niño que necesita más tiempo" },
-  { id: "alegria", nombre: "Alegría", color: "sol", frase: "Tu energía se contagia y las clases saben a fiesta.", desbloqueo: "Comparte tu primera canción con los niños" },
-  { id: "generosidad", nombre: "Generosidad", color: "lavanda", frase: "Das lo mejor de ti y no esperas nada a cambio.", desbloqueo: "Prepara los materiales para toda la clase" },
+  { id: "alegria", nombre: "Alegría", color: "sol", frase: "Tu energía se contagia y los círculos saben a fiesta.", desbloqueo: "Comparte tu primera canción con los niños" },
+  { id: "generosidad", nombre: "Generosidad", color: "lavanda", frase: "Das lo mejor de ti y no esperas nada a cambio.", desbloqueo: "Prepara los materiales para todo el círculo" },
   { id: "veracidad", nombre: "Veracidad", color: "menta", frase: "Tus palabras siembran confianza donde llegan.", desbloqueo: "Cuenta tu primera historia a los niños" },
   { id: "valentia", nombre: "Valentía", color: "coral", frase: "Te lanzas aunque los nervios estén ahí.", desbloqueo: "Guía tu primera dinámica" },
   { id: "bondad", nombre: "Bondad", color: "sol", frase: "Tus gestos pequeñitos hacen cosas enormes.", desbloqueo: "Envía tu primera tarjeta a una familia" },
@@ -15,7 +15,7 @@ export const GEMAS: { id: string; nombre: string; color: ColorGema; frase: strin
 ];
 
 export const QUIZ: { pregunta: string; opciones: { texto: string; gema: string }[] }[] = [
-  { pregunta: "Un niño está triste en clase. ¿Qué haces?", opciones: [
+  { pregunta: "Un niño está triste en un círculo. ¿Qué haces?", opciones: [
     { texto: "Me siento a su lado y le escucho 💛", gema: "amor" },
     { texto: "Le doy tiempo y espero a que quiera hablar", gema: "paciencia" },
     { texto: "Le invito a cantar algo divertido", gema: "alegria" },
@@ -35,8 +35,8 @@ export const QUIZ: { pregunta: string; opciones: { texto: string; gema: string }
 export const NIVELES: { nombre: string; texto: string; ganas: string; color: ColorGema }[] = [
   { nombre: "Chispa", texto: "Entras, dices hola y conoces a tu compañero de camino.", ganas: "Confianza para empezar", color: "sol" },
   { nombre: "Colaborador/a", texto: "Tus primeras misiones: preparar y practicar una lección.", ganas: "Tu primer personaje", color: "menta" },
-  { nombre: "Primera clase", texto: "Vives una clase completa de principio a fin.", ganas: "Insignia de primera clase", color: "coral" },
-  { nombre: "Facilitador/a", texto: "Diriges tu propia clase y le pones tu sello.", ganas: "Seguridad y propósito", color: "lavanda" },
+  { nombre: "Primer círculo", texto: "Vives un círculo completo de principio a fin.", ganas: "Insignia de primer círculo", color: "coral" },
+  { nombre: "Facilitador/a", texto: "Diriges tu propio círculo y le pones tu sello.", ganas: "Seguridad y propósito", color: "lavanda" },
   { nombre: "Mentor/a", texto: "Acompañas a quien empieza, como hicieron contigo.", ganas: "La alegría de acompañar", color: "sol" },
 ];
 
@@ -45,7 +45,7 @@ export const CIFRAS_SON_EJEMPLO = true;
 export const CIFRAS: { valor: number; etiqueta: string }[] = [
   { valor: 120, etiqueta: "jóvenes en camino" },
   { valor: 480, etiqueta: "niños acompañados" },
-  { valor: 950, etiqueta: "clases realizadas" },
+  { valor: 950, etiqueta: "círculos realizados" },
   { valor: 12, etiqueta: "comunidades" },
 ];
 
@@ -58,7 +58,7 @@ export const HISTORIAS: { nombre: string; edad: number; ciudad: string; gema: st
 ];
 
 export const COMPANIA: { titulo: string; emoji: string; detras: string }[] = [
-  { titulo: "Compañero de camino", emoji: "🤝", detras: "Preparáis y vivís las clases juntos. Siempre hay alguien a tu lado." },
+  { titulo: "Compañero de camino", emoji: "🤝", detras: "Preparáis y vivís los círculos juntos. Siempre hay alguien a tu lado." },
   { titulo: "Mentor", emoji: "🌱", detras: "Un facilitador con experiencia que te acompaña y te anima." },
   { titulo: "Comunidad de jóvenes", emoji: "✨", detras: "Gente como tú, con ganas de aportar algo bueno." },
 ];

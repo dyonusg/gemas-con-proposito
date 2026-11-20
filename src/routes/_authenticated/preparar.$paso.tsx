@@ -19,7 +19,7 @@ export const Route = createFileRoute("/_authenticated/preparar/$paso")({
       { title: loaderData ? `${loaderData.paso.titulo} · Gemas` : "Preparar · Gemas" },
       { name: "description", content: "Prepara y ensaya el paso que te toca dirigir." },
       { property: "og:title", content: loaderData ? `${loaderData.paso.titulo} · Gemas` : "Preparar · Gemas" },
-      { property: "og:description", content: "Ensaya la canción, la cita o la historia antes de la clase." },
+      { property: "og:description", content: "Ensaya la canción, la cita o la historia antes del círculo." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -47,7 +47,7 @@ function Preparar() {
 
   const guardarReflexion = () => {
     if (!reflexion.trim()) return;
-    actualizar((s) => ({ ...s, reflexiones: [{ id: nuevoId(), fecha: new Date().toISOString(), leccion: e.leccionActual, texto: reflexion.trim(), pregunta: e.tipo === "mentor" ? "¿Qué observas en los niños? ¿Qué ideas te surgen para la clase?" : pregunta, compartir: "solo_yo" }, ...s.reflexiones] }));
+    actualizar((s) => ({ ...s, reflexiones: [{ id: nuevoId(), fecha: new Date().toISOString(), leccion: e.leccionActual, texto: reflexion.trim(), pregunta: e.tipo === "mentor" ? "¿Qué observas en los niños? ¿Qué ideas te surgen para el círculo?" : pregunta, compartir: "solo_yo" }, ...s.reflexiones] }));
     setReflexion("");
     setGuardada(true);
   };
@@ -70,8 +70,8 @@ function Preparar() {
       {leccion ? <Ensayo key={`${paso.id}-${leccion.numero}`} id={paso.id} l={leccion} /> : <p className="mt-6 text-sm text-muted-foreground">Cargando la lección…</p>}
 
       <div className="mt-5 rounded-[20px] bg-lavanda-soft p-4">
-        <p className="text-xs font-bold uppercase tracking-wider text-lavanda">{esMentor ? "Mis observaciones e ideas" : "Antes de la clase · Mis gemas"}</p>
-        <p className="mt-1 font-display text-lg font-semibold">{esMentor ? "¿Qué observas en los niños? ¿Qué ideas te surgen para la clase?" : pregunta}</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-lavanda">{esMentor ? "Mis observaciones e ideas" : "Antes del círculo · Mis gemas"}</p>
+        <p className="mt-1 font-display text-lg font-semibold">{esMentor ? "¿Qué observas en los niños? ¿Qué ideas te surgen para el círculo?" : pregunta}</p>
         {guardada ? (
           <p className="mt-2 flex items-center gap-2 text-sm font-bold"><Check className="size-4 text-menta" /> Guardada en <Link to="/reflexiones" className="underline">Mis reflexiones</Link></p>
         ) : (
@@ -102,7 +102,7 @@ function Preparar() {
           </>
         ) : (
           <>
-            <p className="font-display text-xl font-bold">{paso.id === "materiales" ? "¿Ya tienes los materiales?" : "¿Ya lo has dirigido en clase?"}</p>
+            <p className="font-display text-xl font-bold">{paso.id === "materiales" ? "¿Ya tienes los materiales?" : "¿Ya lo has dirigido en el círculo?"}</p>
             <Button size="lg" className="mt-3 w-full" onClick={marcar}>{paso.id === "materiales" ? "Sí, los tengo listos" : "Sí, lo he dirigido"}</Button>
           </>
         )}
@@ -123,7 +123,7 @@ function Ensayo({ id, l }: { id: PasoId; l: Leccion }) {
         <Seccion titulo="Para la manualidad">
           <Checklist texto={l.manualidad_materiales} vacio="Esta manualidad no necesita materiales." />
         </Seccion>
-        <Seccion titulo="Antes de la clase">
+        <Seccion titulo="Antes del círculo">
           <Pautas items={["Reúne los materiales unos días antes y guárdalos en una bolsa.", "Prepara un ejemplo terminado de la manualidad para enseñarlo.", "Cuenta los niños que vendrán y prepara material de sobra."]} />
         </Seccion>
       </>

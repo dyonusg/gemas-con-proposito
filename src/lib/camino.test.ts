@@ -8,7 +8,7 @@ describe("camino de colaborador a facilitador", () => {
   it("el siguiente es el primer paso sin dirigir", () => {
     expect(siguientePaso({ materiales: { dirigido: true }, cita: { dirigido: true }, virtud: { dirigido: true } })).toBe("cancion");
   });
-  it("al dirigir la clase entera ya no hay siguiente paso", () => {
+  it("al dirigir el círculo entero ya no hay siguiente paso", () => {
     const todos = Object.fromEntries(["materiales", "cita", "virtud", "cancion", "historia", "dinamica", "manualidad"].map((k) => [k, { dirigido: true }]));
     expect(siguientePaso(todos)).toBeNull();
     expect(contarDirigidos(todos)).toBe(7);

@@ -6,3 +6,4 @@
 - [x] Isolate stored information between accounts and clear sessions safely.
 - [x] Verify signed-out access, alias collisions, recovery-link gating and account isolation.
 - [ ] Verify a real Google sign-in and receipt/use of an OTP email; requires the user's Google account and mailbox.
+- [x] Rename the children's session 'círculo' everywhere (home, path, cards, mentor, donations, lesson text).
