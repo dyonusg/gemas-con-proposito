@@ -12,14 +12,14 @@ export function Hero({ destino }: { destino: string }) {
     <section id="hero" className="relative bg-background">
       <div className="mx-auto grid max-w-6xl items-center gap-8 px-6 pt-8 pb-12 md:grid-cols-2 md:px-8 md:py-20">
         <div>
-          <span className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1 text-xs font-bold shadow-card">🌱 Un camino por niveles para cambiar el mundo</span>
-          <h1 className="mt-5 text-[40px] font-bold leading-[1.05] md:text-6xl">Lo mejor de ti puede hacer crecer lo mejor de otros.</h1>
-          <p className="mt-5 max-w-lg text-base leading-relaxed md:text-lg">Cada niño lleva dentro cualidades esperando brillar, y tú puedes ayudarle a descubrirlas. Avanza nivel a nivel, misión a misión, aprendiendo a acompañar clases para niños. Por el camino también descubrirás lo mejor de ti, y juntos construiremos un mundo más bondadoso.</p>
+          <span className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1 text-xs font-bold shadow-card">🌟 Un camino por niveles para un mundo mejor</span>
+          <h1 className="mt-5 text-[40px] font-bold leading-[1.05] md:text-6xl">Lo mejor de ti puede hacer brillar lo mejor de otros.</h1>
+          <p className="mt-5 max-w-lg text-base leading-relaxed md:text-lg">Cada niño lleva dentro un montón de cualidades esperando brillar… y tú puedes ayudarle a descubrirlas. Subes nivel a nivel, misión a misión, aprendiendo a acompañar clases para niños. Por el camino descubrirás lo mejor de ti, y entre todos armamos un mundo más bonito y más bondadoso.</p>
           <div className="mt-7 flex flex-wrap items-center gap-4">
-            <Button asChild size="lg" className="h-14 px-7 text-base shadow-pop"><Link to={destino}>Empieza tu camino<ArrowRight /></Link></Button>
+            <Button asChild size="lg" className="h-14 px-7 text-base shadow-pop"><Link to={destino}>¡Empieza tu camino!<ArrowRight /></Link></Button>
             <a href="#camino" className="text-sm font-bold underline underline-offset-4">¿Cómo funciona?</a>
           </div>
-          <p className="mt-3 text-sm font-bold text-muted-foreground">Gratis · A tu ritmo · Nunca solo</p>
+          <p className="mt-3 text-sm font-bold text-muted-foreground">Gratis · A tu ritmo · Siempre acompañado</p>
         </div>
         <div className="mx-auto w-full max-w-[340px] rounded-[2rem] border border-border bg-card p-6 shadow-card md:max-w-[400px]">
           <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Así se juega</p>
@@ -48,13 +48,13 @@ function tarjetaStories(nombre: string, frase: string): Promise<Blob | null> {
   x.fillStyle = g; x.fillRect(0, 0, 1080, 1920);
   x.fillStyle = v("--nube"); x.beginPath(); x.roundRect(90, 520, 900, 880, 60); x.fill();
   x.fillStyle = v("--tinta"); x.textAlign = "center";
-  x.font = "bold 56px 'Nunito', sans-serif"; x.fillText("Mi personaje inicial es", 540, 700);
+  x.font = "bold 56px 'Nunito', sans-serif"; x.fillText("Mi personaje es", 540, 700);
   x.font = "bold 110px 'Baloo 2', sans-serif"; x.fillText(nombre, 540, 860);
   x.font = "48px 'Nunito', sans-serif";
   const palabras = frase.split(" "); let linea = ""; let y = 1010;
   for (const p of palabras) { if (x.measureText(linea + p).width > 760) { x.fillText(linea, 540, y); linea = ""; y += 66; } linea += p + " "; }
   x.fillText(linea, 540, y);
-  x.font = "bold 52px 'Baloo 2', sans-serif"; x.fillText("Descubre el tuyo en Gemas ✨", 540, 1700);
+  x.font = "bold 52px 'Baloo 2', sans-serif"; x.fillText("¡Descubre el tuyo en Gemas! ✨", 540, 1700);
   return new Promise((r) => c.toBlob(r, "image/png"));
 }
 
@@ -65,7 +65,7 @@ export function GemQuiz({ destino }: { destino: string }) {
   const ganadora = gemaPorId(Object.entries(conteo).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "amor");
   const actual = QUIZ[respuestas.length];
   const compartir = async () => {
-    const texto = `Mi personaje inicial es ${nombreGema(ganadora.nombre)}: ${ganadora.frase} Descubre el tuyo en Gemas ✨`;
+    const texto = `Mi personaje en Gemas es ${nombreGema(ganadora.nombre)}: ${ganadora.frase} ¡Descubre el tuyo! ✨`;
     const blob = await tarjetaStories(nombreGema(ganadora.nombre), ganadora.frase);
     const file = blob ? new File([blob], "mi-gema.png", { type: "image/png" }) : null;
     try {
@@ -78,8 +78,8 @@ export function GemQuiz({ destino }: { destino: string }) {
     <section id="descubre" className="mx-auto max-w-3xl px-6 py-14 md:px-8">
       <Reveal className="text-center">
         <p className="text-xs font-bold uppercase tracking-wide text-menta">Minijuego · 30 segundos</p>
-        <h2 className="mt-2 text-3xl font-bold md:text-4xl">Descubre tu personaje</h2>
-        <p className="mt-2 text-muted-foreground">Tres preguntas rápidas. Sin registro.</p>
+        <h2 className="mt-2 text-3xl font-bold md:text-4xl">¡Descubre tu personaje!</h2>
+        <p className="mt-2 text-muted-foreground">Tres preguntas, medio minuto y cero registro. A ver cuál te toca.</p>
       </Reveal>
       <div className="mt-8 rounded-[2rem] bg-card p-6 shadow-card md:p-8" aria-live="polite">
         {!terminado && actual ? (
@@ -98,11 +98,11 @@ export function GemQuiz({ destino }: { destino: string }) {
           <div className="relative animate-pop text-center">
             <div className="confeti" aria-hidden>{Array.from({ length: 14 }).map((_, i) => <i key={i} style={{ left: `${(i * 7.3) % 100}%`, animationDelay: `${(i % 5) * 0.12}s` }} className={["bg-coral", "bg-sol", "bg-menta", "bg-lavanda"][i % 4]} />)}</div>
             <Gema color={ganadora.color} className="brillo mx-auto size-24" />
-            <p className="mt-4 text-sm font-bold text-muted-foreground">Tu personaje inicial es</p>
+            <p className="mt-4 text-sm font-bold text-muted-foreground">¡Redoble de tambores… tu personaje es!</p>
             <h3 className="text-3xl font-bold">{nombreGema(ganadora.nombre)}</h3>
             <p className="mx-auto mt-2 max-w-sm leading-relaxed">{ganadora.frase}</p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <Button asChild size="lg"><Link to={destino}>Empieza con tu personaje<ArrowRight /></Link></Button>
+              <Button asChild size="lg"><Link to={destino}>¡Empieza con tu personaje!<ArrowRight /></Link></Button>
               <Button variant="outline" size="lg" onClick={compartir}><Share2 />Compartir</Button>
             </div>
             <button type="button" onClick={() => setRespuestas([])} className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-muted-foreground underline underline-offset-4"><RotateCcw className="size-3.5" />Jugar otra vez</button>
@@ -136,7 +136,7 @@ export function PathMap() {
       <div className="mx-auto max-w-6xl px-6 py-14 md:px-8">
         <Reveal className="text-center">
           <h2 className="text-3xl font-bold md:text-4xl">Tu camino, nivel a nivel</h2>
-          <p className="mt-2 font-bold">Cada misión que completas es un regalo para un niño. En cada nivel creces tú, y desbloqueas un nuevo personaje.</p>
+          <p className="mt-2 font-bold">Cada misión que completas es un regalo para un niño. Y mientras tanto creces tú: subes de nivel y se desbloquea un personaje nuevo. A ver cuál toca después.</p>
         </Reveal>
         <ol className="relative mt-10 grid gap-8 md:grid-cols-5 md:gap-4">
           <span aria-hidden className="absolute top-2 bottom-2 left-8 w-1 rounded-full bg-gema md:top-8 md:right-[10%] md:bottom-auto md:left-[10%] md:h-1 md:w-auto" />
@@ -164,7 +164,7 @@ export function ImpactChain() {
   const cadena = [["🙋", "Tú"], ["🧒", "Un niño"], ["🏡", "Su familia"], ["🌍", "Tu comunidad"]];
   return (
     <section id="impacto" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-14 md:px-8">
-      <Reveal className="mx-auto max-w-2xl text-center"><h2 className="text-3xl font-bold leading-tight md:text-4xl">Una clase cambia a un niño. Un niño cambia su barrio. Así empieza un mundo mejor.</h2></Reveal>
+      <Reveal className="mx-auto max-w-2xl text-center"><h2 className="text-3xl font-bold leading-tight md:text-4xl">Una clase alegre cambia a un niño. Un niño cambia su familia. Y así, poquito a poquito, cambia un barrio entero.</h2></Reveal>
       <Reveal className="mt-10 flex flex-wrap items-center justify-center gap-3 md:gap-6">
         {cadena.map(([e, t], i) => (
           <div key={t} className="flex items-center gap-3 md:gap-6">
@@ -191,7 +191,7 @@ export function ImpactChain() {
 export function Stories() {
   return (
     <section id="historias" className="scroll-mt-20 bg-background py-14">
-      <Reveal className="px-6 text-center"><h2 className="text-3xl font-bold md:text-4xl">Jóvenes como tú</h2><p className="mt-2 text-xs text-muted-foreground">Historias de ejemplo</p></Reveal>
+      <Reveal className="px-6 text-center"><h2 className="text-3xl font-bold md:text-4xl">Gente joven que ya está en marcha</h2><p className="mt-2 text-xs text-muted-foreground">Historias de ejemplo</p></Reveal>
       <ul className="mx-auto mt-8 flex max-w-6xl snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 md:px-8">
         {HISTORIAS.map((h) => { const g = gemaPorId(h.gema); return (
           <li key={h.nombre} className="flex aspect-[9/14] w-60 shrink-0 snap-center flex-col justify-between rounded-[2rem] bg-card p-5 shadow-card">
@@ -212,7 +212,7 @@ export function NeverAlone() {
   const [girada, setGirada] = useState<number | null>(null);
   return (
     <section className="mx-auto max-w-5xl px-6 py-14 md:px-8">
-      <Reveal className="text-center"><h2 className="text-3xl font-bold md:text-4xl">Nunca solo/a</h2><p className="mt-2 text-muted-foreground">Toca cada tarjeta para conocer más</p></Reveal>
+      <Reveal className="text-center"><h2 className="text-3xl font-bold md:text-4xl">¡Nunca vas solo/a!</h2><p className="mt-2 text-muted-foreground">Toca cada tarjeta y descubre quién te acompaña</p></Reveal>
       <div className="mt-8 grid gap-4 md:grid-cols-3">
         {COMPANIA.map((c, i) => (
           <button key={c.titulo} type="button" aria-pressed={girada === i} onClick={() => setGirada(girada === i ? null : i)} className="h-44 rounded-3xl perspective-[900px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
@@ -233,7 +233,7 @@ export function GemCollection() {
   return (
     <section className="bg-tinta py-14 text-nube">
       <div className="mx-auto max-w-5xl px-6 md:px-8">
-        <Reveal className="text-center"><h2 className="text-3xl font-bold md:text-4xl">¿Cuántos personajes desbloquearás?</h2></Reveal>
+        <Reveal className="text-center"><h2 className="text-3xl font-bold md:text-4xl">¡Aquí se desbloquean los personajes!</h2></Reveal>
         <div className="mt-8 grid grid-cols-5 gap-3 md:gap-5">
           {GEMAS.map((g) => (
             <button key={g.id} type="button" onClick={() => setAbierta(g.id)} onMouseEnter={() => setAbierta(g.id)} aria-label={`${g.nombre}: ${g.desbloqueo}`} className={`group flex aspect-square flex-col items-center justify-center rounded-2xl bg-nube/5 transition hover:bg-nube/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sol ${abierta === g.id ? "bg-nube/15" : ""}`}>
@@ -242,7 +242,7 @@ export function GemCollection() {
             </button>
           ))}
         </div>
-        <p className="mt-6 min-h-12 text-center" aria-live="polite">{actual ? <><b className="text-sol">{actual.nombre}</b> · {actual.desbloqueo}</> : "Toca un personaje para saber cómo se desbloquea."}</p>
+        <p className="mt-6 min-h-12 text-center" aria-live="polite">{actual ? <><b className="text-sol">{actual.nombre}</b> · {actual.desbloqueo}</> : "Toca un personaje y te contamos cómo se desbloquea."}</p>
       </div>
     </section>
   );
@@ -254,8 +254,8 @@ export function FinalCTA({ destino }: { destino: string }) {
       <div className="particulas" aria-hidden>{Array.from({ length: 10 }).map((_, i) => <i key={i} style={{ left: `${i * 10 + 4}%`, animationDelay: `${i * 0.7}s` }} />)}</div>
       <div className="relative mx-auto max-w-xl">
         <h2 className="text-3xl font-bold md:text-4xl">Tus ganas de aportar ya son un comienzo.</h2>
-        <p className="mt-3 text-lg font-bold">Vengas de donde vengas, aquí hay un lugar para ti.</p>
-        <Button asChild size="lg" variant="outline" className="mt-7 h-14 border-tinta bg-tinta px-8 text-base text-nube hover:bg-tinta/90 hover:text-nube"><Link to={destino}>Empezar el nivel 1<ArrowRight /></Link></Button>
+        <p className="mt-3 text-lg font-bold">Vengas de donde vengas, aquí hay un sitio para ti. Ven como eres.</p>
+        <Button asChild size="lg" variant="outline" className="mt-7 h-14 border-tinta bg-tinta px-8 text-base text-nube hover:bg-tinta/90 hover:text-nube"><Link to={destino}>¡Empezar el nivel 1!<ArrowRight /></Link></Button>
       </div>
     </section>
   );
@@ -280,7 +280,7 @@ export function CtaFlotante({ destino }: { destino: string }) {
   }, []);
   return (
     <div className={`fixed inset-x-4 bottom-4 z-30 transition md:hidden ${ver ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-24 opacity-0"}`}>
-      <Button asChild size="lg" className="h-14 w-full text-base shadow-pop"><Link to={destino}>Empieza tu camino<ArrowRight /></Link></Button>
+      <Button asChild size="lg" className="h-14 w-full text-base shadow-pop"><Link to={destino}>¡Empieza tu camino!<ArrowRight /></Link></Button>
     </div>
   );
 }
