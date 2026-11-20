@@ -13,11 +13,11 @@ export function Hero({ destino }: { destino: string }) {
     <section id="hero" className="relative overflow-hidden bg-menta-soft" onPointerMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); setP({ x: (e.clientX - r.left) / r.width - 0.5, y: (e.clientY - r.top) / r.height - 0.5 }); }}>
       <div className="mx-auto grid max-w-6xl items-center gap-8 px-6 pt-8 pb-12 md:grid-cols-2 md:px-8 md:py-20">
         <div>
-          <span className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1 text-xs font-bold shadow-card">✨ Una aventura con propósito</span>
+          <span className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1 text-xs font-bold shadow-card">Una aventura con propósito</span>
           <h1 className="mt-5 text-[40px] font-bold leading-[1.05] md:text-6xl">Lo mejor de ti puede hacer crecer lo mejor de otros.</h1>
           <p className="mt-5 max-w-lg text-base leading-relaxed md:text-lg">Únete a jóvenes que acompañan a niños a descubrir sus cualidades. Empiezas con una canción, una historia… y descubres tus propias gemas por el camino.</p>
           <div className="mt-7 flex flex-wrap items-center gap-4">
-            <Button asChild size="lg" className="latido h-14 px-7 text-base shadow-pop"><Link to={destino}>Empieza tu camino<ArrowRight /></Link></Button>
+            <Button asChild size="lg" className="h-14 px-7 text-base shadow-pop"><Link to={destino}>Empieza tu camino<ArrowRight /></Link></Button>
             <a href="#camino" className="text-sm font-bold underline underline-offset-4">¿Cómo funciona?</a>
           </div>
           <p className="mt-3 text-sm font-bold text-muted-foreground">Gratis · A tu ritmo · Nunca solo</p>
@@ -136,7 +136,7 @@ function Nivel({ n, i }: { n: (typeof NIVELES)[number]; i: number }) {
 
 export function PathMap() {
   return (
-    <section id="camino" className="scroll-mt-20 bg-lavanda-soft">
+    <section id="camino" className="scroll-mt-20 bg-background">
       <div className="mx-auto max-w-6xl px-6 py-14 md:px-8">
         <Reveal className="text-center">
           <h2 className="text-3xl font-bold md:text-4xl">Tu camino, nivel a nivel</h2>
@@ -181,7 +181,7 @@ export function ImpactChain() {
       </Reveal>
       <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
         {CIFRAS.map((c) => (
-          <div key={c.etiqueta} className="rounded-3xl bg-sol-soft p-5 text-center">
+          <div key={c.etiqueta} className="rounded-3xl border border-border bg-card p-5 text-center">
             <p className="font-display text-4xl font-bold"><Contador valor={c.valor} />+</p>
             <p className="mt-1 text-sm font-bold">{c.etiqueta}</p>
           </div>
@@ -194,7 +194,7 @@ export function ImpactChain() {
 
 export function Stories() {
   return (
-    <section id="historias" className="scroll-mt-20 bg-coral-soft py-14">
+    <section id="historias" className="scroll-mt-20 bg-menta-soft py-14">
       <Reveal className="px-6 text-center"><h2 className="text-3xl font-bold md:text-4xl">Jóvenes como tú</h2><p className="mt-2 text-xs text-muted-foreground">Historias de ejemplo</p></Reveal>
       <ul className="mx-auto mt-8 flex max-w-6xl snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 md:px-8">
         {HISTORIAS.map((h) => { const g = gemaPorId(h.gema); return (
@@ -216,12 +216,12 @@ export function NeverAlone() {
   const [girada, setGirada] = useState<number | null>(null);
   return (
     <section className="mx-auto max-w-5xl px-6 py-14 md:px-8">
-      <Reveal className="text-center"><h2 className="text-3xl font-bold md:text-4xl">Nunca solo/a</h2><p className="mt-2 text-muted-foreground">Toca cada tarjeta 👇</p></Reveal>
+      <Reveal className="text-center"><h2 className="text-3xl font-bold md:text-4xl">Nunca solo/a</h2><p className="mt-2 text-muted-foreground">Toca cada tarjeta para conocer más</p></Reveal>
       <div className="mt-8 grid gap-4 md:grid-cols-3">
         {COMPANIA.map((c, i) => (
           <button key={c.titulo} type="button" aria-pressed={girada === i} onClick={() => setGirada(girada === i ? null : i)} className="h-44 rounded-3xl perspective-[900px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
             <span className={`relative block size-full transition-transform duration-500 transform-3d ${girada === i ? "rotate-y-180" : ""}`}>
-              <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-3xl bg-menta-soft backface-hidden"><span className="flotar text-4xl" aria-hidden>{c.emoji}</span><span className="text-lg font-bold">{c.titulo}</span></span>
+              <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-3xl bg-card border border-border backface-hidden"><span className="flotar text-4xl" aria-hidden>{c.emoji}</span><span className="text-lg font-bold">{c.titulo}</span></span>
               <span className="absolute inset-0 flex items-center justify-center rounded-3xl bg-tinta p-6 text-center font-bold text-nube backface-hidden rotate-y-180">{c.detras}</span>
             </span>
           </button>
@@ -254,12 +254,12 @@ export function GemCollection() {
 
 export function FinalCTA({ destino }: { destino: string }) {
   return (
-    <section className="relative overflow-hidden bg-gema px-6 py-16 text-center">
+    <section className="relative overflow-hidden bg-sol-soft px-6 py-16 text-center">
       <div className="particulas" aria-hidden>{Array.from({ length: 10 }).map((_, i) => <i key={i} style={{ left: `${i * 10 + 4}%`, animationDelay: `${i * 0.7}s` }} />)}</div>
       <div className="relative mx-auto max-w-xl">
         <h2 className="text-3xl font-bold md:text-4xl">Tus ganas de aportar ya son un comienzo.</h2>
         <p className="mt-3 text-lg font-bold">Vengas de donde vengas, aquí hay un lugar para ti.</p>
-        <Button asChild size="lg" variant="outline" className="latido mt-7 h-14 border-tinta bg-tinta px-8 text-base text-nube hover:bg-tinta/90 hover:text-nube"><Link to={destino}>Quiero mi primera gema<ArrowRight /></Link></Button>
+        <Button asChild size="lg" variant="outline" className="mt-7 h-14 border-tinta bg-tinta px-8 text-base text-nube hover:bg-tinta/90 hover:text-nube"><Link to={destino}>Quiero mi primera gema<ArrowRight /></Link></Button>
       </div>
     </section>
   );
