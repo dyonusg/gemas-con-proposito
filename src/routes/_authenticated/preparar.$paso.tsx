@@ -19,7 +19,7 @@ export const Route = createFileRoute("/_authenticated/preparar/$paso")({
       { title: loaderData ? `${loaderData.paso.titulo} · Gemas` : "Preparar · Gemas" },
       { name: "description", content: "Prepara y ensaya el paso que te toca dirigir." },
       { property: "og:title", content: loaderData ? `${loaderData.paso.titulo} · Gemas` : "Preparar · Gemas" },
-      { property: "og:description", content: "Ensaya la canción, la cita o la historia antes del círculo." },
+      { property: "og:description", content: "Ensaya la canción, la cita o la historia antes del grupo." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -47,7 +47,7 @@ function Preparar() {
 
   const guardarReflexion = () => {
     if (!reflexion.trim()) return;
-    actualizar((s) => ({ ...s, reflexiones: [{ id: nuevoId(), fecha: new Date().toISOString(), leccion: e.leccionActual, texto: reflexion.trim(), pregunta: e.tipo === "mentor" ? "¿Qué observas en los niños? ¿Qué ideas te surgen para el círculo?" : pregunta, compartir: "solo_yo" }, ...s.reflexiones] }));
+    actualizar((s) => ({ ...s, reflexiones: [{ id: nuevoId(), fecha: new Date().toISOString(), leccion: e.leccionActual, texto: reflexion.trim(), pregunta: e.tipo === "mentor" ? "¿Qué observas en los peques? ¿Qué ideas te surgen para el grupo?" : pregunta, compartir: "solo_yo" }, ...s.reflexiones] }));
     setReflexion("");
     setGuardada(true);
   };
@@ -70,14 +70,14 @@ function Preparar() {
       {leccion ? <Ensayo key={`${paso.id}-${leccion.numero}`} id={paso.id} l={leccion} /> : <p className="mt-6 text-sm text-muted-foreground">Cargando la lección…</p>}
 
       <div className="mt-5 rounded-[20px] bg-lavanda-soft p-4">
-        <p className="text-xs font-bold uppercase tracking-wider text-lavanda">{esMentor ? "Mis observaciones e ideas" : "Antes del círculo · Mis gemas"}</p>
-        <p className="mt-1 font-display text-lg font-semibold">{esMentor ? "¿Qué observas en los niños? ¿Qué ideas te surgen para el círculo?" : pregunta}</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-lavanda">{esMentor ? "Mis observaciones e ideas" : "Antes del grupo · Mis gemas"}</p>
+        <p className="mt-1 font-display text-lg font-semibold">{esMentor ? "¿Qué observas en los peques? ¿Qué ideas te surgen para el grupo?" : pregunta}</p>
         {guardada ? (
           <p className="mt-2 flex items-center gap-2 text-sm font-bold"><Check className="size-4 text-menta" /> Guardada en <Link to="/reflexiones" className="underline">Mis reflexiones</Link></p>
         ) : (
           <>
             <textarea value={reflexion} onChange={(ev) => setReflexion(ev.target.value)} rows={3} placeholder="Escribe con calma, solo lo ves tú." className="mt-3 w-full rounded-xl border-2 border-input bg-card p-3 text-sm outline-none focus:border-lavanda" />
-            {esMentor && <p className="mt-1 text-xs text-muted-foreground">Sin nombres ni datos personales de los niños, por favor.</p>}
+            {esMentor && <p className="mt-1 text-xs text-muted-foreground">Sin nombres ni datos personales de los peques, por favor.</p>}
             <Button variant="tinta" size="sm" className="mt-2" onClick={guardarReflexion} disabled={!reflexion.trim()}>Guardar reflexión</Button>
           </>
         )}
@@ -96,13 +96,13 @@ function Preparar() {
             <p className="mt-2 font-display text-xl font-bold">{paso.id === "materiales" ? "¡Materiales listos!" : "¡Lo has dirigido!"}</p>
             <p className="text-sm text-muted-foreground">{registro.confirmado ? "Tu mentor lo ha confirmado." : "Tu mentor lo confirmará pronto."}</p>
             <div className="mt-4 flex flex-col gap-2">
-              <Button asChild variant="menta"><Link to="/gemas">Anotar un momento con los niños</Link></Button>
+              <Button asChild variant="menta"><Link to="/gemas">Anotar un momento con los peques</Link></Button>
               <Button asChild variant="soft"><Link to="/tarjeta">Crear la tarjeta para las familias</Link></Button>
             </div>
           </>
         ) : (
           <>
-            <p className="font-display text-xl font-bold">{paso.id === "materiales" ? "¿Ya tienes los materiales?" : "¿Ya lo has dirigido en el círculo?"}</p>
+            <p className="font-display text-xl font-bold">{paso.id === "materiales" ? "¿Ya tienes los materiales?" : "¿Ya lo has dirigido en el grupo?"}</p>
             <Button size="lg" className="mt-3 w-full" onClick={marcar}>{paso.id === "materiales" ? "Sí, los tengo listos" : "Sí, lo he dirigido"}</Button>
           </>
         )}
@@ -123,8 +123,8 @@ function Ensayo({ id, l }: { id: PasoId; l: Leccion }) {
         <Seccion titulo="Para la manualidad">
           <Checklist texto={l.manualidad_materiales} vacio="Esta manualidad no necesita materiales." />
         </Seccion>
-        <Seccion titulo="Antes del círculo">
-          <Pautas items={["Reúne los materiales unos días antes y guárdalos en una bolsa.", "Prepara un ejemplo terminado de la manualidad para enseñarlo.", "Cuenta los niños que vendrán y prepara material de sobra."]} />
+        <Seccion titulo="Antes del grupo">
+          <Pautas items={["Reúne los materiales unos días antes y guárdalos en una bolsa.", "Prepara un ejemplo terminado de la manualidad para enseñarlo.", "Cuenta los peques que vendrán y prepara material de sobra."]} />
         </Seccion>
       </>
     );
@@ -161,7 +161,7 @@ function Ensayo({ id, l }: { id: PasoId; l: Leccion }) {
           )}
         </Seccion>
         <Seccion titulo="Pautas para contarla">
-          <Pautas items={["Léela entera dos veces en casa y cuéntala en voz alta una vez.", "No hace falta memorizarla: cuéntala con tus palabras.", "Mira a los niños a los ojos y haz pausas en los momentos clave.", "Si te quedas en blanco, respira y vuelve al resumen."]} />
+          <Pautas items={["Léela entera dos veces en casa y cuéntala en voz alta una vez.", "No hace falta memorizarla: cuéntala con tus palabras.", "Mira a los peques a los ojos y haz pausas en los momentos clave.", "Si te quedas en blanco, respira y vuelve al resumen."]} />
         </Seccion>
       </>
     );

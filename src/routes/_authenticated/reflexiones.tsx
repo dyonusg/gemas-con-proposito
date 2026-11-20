@@ -55,7 +55,7 @@ function Reflexiones() {
       </Link>
       <h1 className="mt-2 text-[32px] font-bold leading-[38px]">Mis reflexiones</h1>
       <div className="mt-4 grid grid-cols-2 gap-2" role="tablist" aria-label="Tipo de reflexión">
-        {([ ["reflexiones", "Personales"], ["momentos", "Sobre los niños"] ] as const).map(([valor, titulo]) => (
+        {([ ["reflexiones", "Personales"], ["momentos", "Sobre los peques"] ] as const).map(([valor, titulo]) => (
           <Button key={valor} role="tab" aria-selected={tipo === valor} variant={tipo === valor ? "tinta" : "soft"} onClick={() => { setTipo(valor); setEditando(null); setNueva(false); setFiltro("todas"); }}>{titulo}</Button>
         ))}
       </div>
@@ -134,8 +134,8 @@ function Editor({ inicial, leccionInicial, tipoReflexion, onGuardar, onCancelar 
       <SelectorLeccion etiqueta="Virtud de la reflexión" valor={leccion} onCambiar={setLeccion} />
       {inicial?.pregunta && <p className="mt-3 text-xs font-bold text-lavanda">{inicial.pregunta}</p>}
       <label className="mt-3 block text-sm font-bold" htmlFor="texto">Tu reflexión</label>
-      <textarea id="texto" value={texto} onChange={(ev) => setTexto(ev.target.value)} rows={4} placeholder={tipoReflexion === "momentos" ? "¿Cómo vivieron los niños esta virtud?" : tipo === "mentor" ? "¿Qué aprendes al acompañar?" : "¿Qué te ha enseñado esta lección?"} className="mt-1 w-full rounded-xl border-2 border-input bg-card p-3 text-sm outline-none focus:border-lavanda" />
-      <p className="mt-1 text-xs text-muted-foreground">Sin nombres de niños, por favor.</p>
+      <textarea id="texto" value={texto} onChange={(ev) => setTexto(ev.target.value)} rows={4} placeholder={tipoReflexion === "momentos" ? "¿Cómo vivieron los peques esta virtud?" : tipo === "mentor" ? "¿Qué aprendes al acompañar?" : "¿Qué te ha enseñado esta lección?"} className="mt-1 w-full rounded-xl border-2 border-input bg-card p-3 text-sm outline-none focus:border-lavanda" />
+      <p className="mt-1 text-xs text-muted-foreground">Sin nombres de peques, por favor.</p>
       {tipoReflexion === "reflexiones" && <><p className="mt-3 text-sm font-bold">¿Quién puede leerla?</p>
       <div className="mt-1 grid grid-cols-3 gap-2" role="radiogroup">
         {OPCIONES.map((o) => (

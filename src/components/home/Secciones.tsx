@@ -14,7 +14,7 @@ export function Hero({ destino }: { destino: string }) {
         <div>
           <span className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1 text-xs font-bold shadow-card">🌟 Un camino por niveles para un mundo mejor</span>
           <h1 className="mt-5 text-[40px] font-bold leading-[1.05] md:text-6xl">Lo mejor de ti puede hacer brillar lo mejor de otros.</h1>
-          <p className="mt-5 max-w-lg text-base leading-relaxed md:text-lg">Cada niño lleva dentro un montón de cualidades esperando brillar… y tú puedes ayudarle a descubrirlas. Subes nivel a nivel, misión a misión, aprendiendo a acompañar círculos de niños. Por el camino descubrirás lo mejor de ti, y entre todos armamos un mundo más bonito y más bondadoso.</p>
+          <p className="mt-5 max-w-lg text-base leading-relaxed md:text-lg">Cada peque lleva dentro un montón de cualidades esperando brillar… y tú puedes ayudarle a descubrirlas. Subes nivel a nivel, misión a misión, aprendiendo a acompañar grupos de peques. Por el camino descubrirás lo mejor de ti, y entre todos armamos un mundo más bonito y más bondadoso.</p>
           <div className="mt-7 flex flex-wrap items-center gap-4">
             <Button asChild size="lg" className="h-14 px-7 text-base shadow-pop"><Link to={destino}>¡Empieza tu camino!<ArrowRight /></Link></Button>
             <a href="#camino" className="text-sm font-bold underline underline-offset-4">¿Cómo funciona?</a>
@@ -136,7 +136,7 @@ export function PathMap() {
       <div className="mx-auto max-w-6xl px-6 py-14 md:px-8">
         <Reveal className="text-center">
           <h2 className="text-3xl font-bold md:text-4xl">Tu camino, nivel a nivel</h2>
-          <p className="mt-2 font-bold">Cada misión que completas es un regalo para un niño. Y mientras tanto creces tú: subes de nivel y se desbloquea un personaje nuevo. A ver cuál toca después.</p>
+          <p className="mt-2 font-bold">Cada misión que completas es un regalo para un peque. Y mientras tanto creces tú: subes de nivel y se desbloquea un personaje nuevo. A ver cuál toca después.</p>
         </Reveal>
         <ol className="relative mt-10 grid gap-8 md:grid-cols-5 md:gap-4">
           <span aria-hidden className="absolute top-2 bottom-2 left-8 w-1 rounded-full bg-gema md:top-8 md:right-[10%] md:bottom-auto md:left-[10%] md:h-1 md:w-auto" />
@@ -161,10 +161,10 @@ function Contador({ valor }: { valor: number }) {
 }
 
 export function ImpactChain() {
-  const cadena = [["🙋", "Tú"], ["🧒", "Un niño"], ["🏡", "Su familia"], ["🌍", "Tu comunidad"]];
+  const cadena = [["🙋", "Tú"], ["🧒", "Un peque"], ["🏡", "Su familia"], ["🌍", "Tu comunidad"]];
   return (
     <section id="impacto" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-14 md:px-8">
-      <Reveal className="mx-auto max-w-2xl text-center"><h2 className="text-3xl font-bold leading-tight md:text-4xl">Un círculo alegre cambia a un niño. Un niño cambia su familia. Y así, poquito a poquito, cambia un barrio entero.</h2></Reveal>
+      <Reveal className="mx-auto max-w-2xl text-center"><h2 className="text-3xl font-bold leading-tight md:text-4xl">Un grupo alegre cambia a un peque. Un peque cambia su familia. Y así, poquito a poquito, cambia un barrio entero.</h2></Reveal>
       <Reveal className="mt-10 flex flex-wrap items-center justify-center gap-3 md:gap-6">
         {cadena.map(([e, t], i) => (
           <div key={t} className="flex items-center gap-3 md:gap-6">
@@ -264,7 +264,7 @@ export function FinalCTA({ destino }: { destino: string }) {
 export function SupportBlock() {
   return (
     <section className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-4 px-6 py-10 md:flex-row md:items-center md:px-8">
-      <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">Gemas es un proyecto educativo sin ánimo de lucro. Tu apoyo hace posibles los campus, los libros y materiales para los niños y la mejora de la app.</p>
+      <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">Gemas es un proyecto educativo sin ánimo de lucro. Tu apoyo hace posibles los campus, los libros y materiales para los peques y la mejora de la app.</p>
       <Button asChild variant="outline" className="shrink-0"><Link to="/donar"><Heart />Apoyar Gemas</Link></Button>
     </section>
   );

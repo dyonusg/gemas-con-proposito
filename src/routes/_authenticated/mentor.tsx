@@ -22,7 +22,7 @@ export const Route = createFileRoute("/_authenticated/mentor")({
   component: Mentor,
 });
 
-const RECONOCIMIENTOS = ["¡Los niños te seguían encantados!", "Se notó que lo preparaste.", "Qué calma transmitiste."];
+const RECONOCIMIENTOS = ["¡Los peques te seguían encantados!", "Se notó que lo preparaste.", "Qué calma transmitiste."];
 const titulo = (id: string) => PASOS.find((p) => p.id === id)?.titulo ?? id;
 
 function Mentor() {
@@ -43,7 +43,7 @@ function Mentor() {
         </div>
       )}
       <Seccion titulo="Prepara tú también">
-        <p className="text-sm text-muted-foreground">En <Link to="/lecciones" className="font-bold underline">Lecciones</Link> tienes las 24 lecciones para preparar el círculo o ensayar con ellos.</p>
+        <p className="text-sm text-muted-foreground">En <Link to="/lecciones" className="font-bold underline">Lecciones</Link> tienes las 24 lecciones para preparar el grupo o ensayar con ellos.</p>
       </Seccion>
       <Seccion titulo="Mis observaciones e ideas">
         <Button asChild variant="soft"><Link to="/reflexiones">Mis reflexiones</Link></Button>

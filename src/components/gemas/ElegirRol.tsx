@@ -18,7 +18,7 @@ export const ROLES: Rol[] = [
     id: "formacion",
     titulo: "Facilitador en formación",
     para: "Empiezas tú",
-    hace: "Recorres el camino paso a paso: preparas y diriges las lecciones con los niños.",
+    hace: "Recorres el camino paso a paso: preparas y diriges las lecciones con los peques.",
     veras: "Camino · Mis gemas · Tarjeta · Cierre",
     extra: "No necesitas ningún código.",
     icon: Sprout,

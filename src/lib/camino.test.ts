@@ -8,7 +8,7 @@ describe("camino de colaborador a facilitador", () => {
   it("el siguiente es el primer paso sin dirigir", () => {
     expect(siguientePaso({ materiales: { dirigido: true }, cita: { dirigido: true }, virtud: { dirigido: true } })).toBe("cancion");
   });
-  it("al dirigir el círculo entero ya no hay siguiente paso", () => {
+  it("al dirigir el grupo entero ya no hay siguiente paso", () => {
     const todos = Object.fromEntries(["materiales", "cita", "virtud", "cancion", "historia", "dinamica", "manualidad"].map((k) => [k, { dirigido: true }]));
     expect(siguientePaso(todos)).toBeNull();
     expect(contarDirigidos(todos)).toBe(7);
@@ -54,8 +54,8 @@ describe("dinámica y manualidad por pasos", () => {
     expect(r.pasos).toEqual(["Recortar un círculo.", "Decorar el borde.", "Colgarlo en casa."]);
   });
   it("la dinámica en un párrafo se separa en frases y guarda su nombre", () => {
-    const r = enPasos("«El espejo limpio»: cada niño recibe un espejito. El maestro nombra situaciones. Al final, todos miran su reflejo.");
+    const r = enPasos("«El espejo limpio»: cada peque recibe un espejito. El maestro nombra situaciones. Al final, todos miran su reflejo.");
     expect(r.titulo).toBe("El espejo limpio");
-    expect(r.pasos).toEqual(["Cada niño recibe un espejito.", "El facilitador nombra situaciones.", "Al final, todos miran su reflejo."]);
+    expect(r.pasos).toEqual(["Cada peque recibe un espejito.", "El facilitador nombra situaciones.", "Al final, todos miran su reflejo."]);
   });
 });

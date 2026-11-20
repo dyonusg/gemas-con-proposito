@@ -1,6 +1,6 @@
 export const PROPOSITOS = [
-  { id: "campus", titulo: "Próximos campus", descripcion: "Ayuda a organizar nuevos círculos de niños y facilitadores." },
-  { id: "materiales", titulo: "Libros y materiales para los niños", descripcion: "Libros, colores, papel y todo lo necesario para los círculos." },
+  { id: "campus", titulo: "Próximos campus", descripcion: "Ayuda a organizar nuevos grupos de peques y facilitadores." },
+  { id: "materiales", titulo: "Libros y materiales para los peques", descripcion: "Libros, colores, papel y todo lo necesario para los grupos." },
   { id: "app", titulo: "Seguir mejorando la app", descripcion: "Mantener Gemas y añadir nuevas herramientas." },
 ] as const;
 export type PropositoId = (typeof PROPOSITOS)[number]["id"];

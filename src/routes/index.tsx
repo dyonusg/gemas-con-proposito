@@ -5,8 +5,8 @@ import { ArrowRight } from "lucide-react";
 import logo from "@/assets/gemas-logo.svg.asset.json";
 import { Hero, GemQuiz, PathMap, ImpactChain, Stories, NeverAlone, GemCollection, FinalCTA, SupportBlock, CtaFlotante } from "@/components/home/Secciones";
 
-const TITULO = "Gemas · Descubre tus personajes mientras acompañas a los niños";
-const DESC = "Para jóvenes de 15 a 25: un camino por niveles, gratis y a tu ritmo, para aprender a acompañar círculos de niños. Nunca vas solo: tienes compañero de camino, mentor y una comunidad.";
+const TITULO = "Gemas · Descubre tus personajes mientras acompañas a los peques";
+const DESC = "Para jóvenes de 15 a 25: un camino por niveles, gratis y a tu ritmo, para aprender a acompañar grupos de peques. Nunca vas solo: tienes compañero de camino, mentor y una comunidad.";
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [ { title: TITULO }, { name: "description", content: DESC }, { property: "og:title", content: TITULO }, { property: "og:description", content: DESC }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" } ] }),
   component: Inicio,

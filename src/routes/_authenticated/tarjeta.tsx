@@ -11,9 +11,9 @@ export const Route = createFileRoute("/_authenticated/tarjeta")({
   head: () => ({
     meta: [
       { title: "Tarjeta para las familias · Gemas" },
-      { name: "description", content: "Crea la tarjeta del círculo con la virtud, la cita, la canción y una idea para casa." },
+      { name: "description", content: "Crea la tarjeta del grupo con la virtud, la cita, la canción y una idea para casa." },
       { property: "og:title", content: "Tarjeta para las familias · Gemas" },
-      { property: "og:description", content: "Que los niños sigan viviendo la virtud en casa durante la semana." },
+      { property: "og:description", content: "Que los peques sigan viviendo la virtud en casa durante la semana." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -31,7 +31,7 @@ function TarjetaPage() {
 
   const enviar = async () => {
     const texto = [
-      `✨ Esta semana en el círculo: ${L.virtud}`,
+      `✨ Esta semana en el grupo: ${L.virtud}`,
       `“${L.cita}”`,
       `🎵 Canción: ${L.cancion}`,
       `💡 Idea para casa: ${L.idea}`,
@@ -46,7 +46,7 @@ function TarjetaPage() {
     setEnviada(true);
     try {
       if (navigator.share) {
-        await navigator.share({ title: `Tarjeta del círculo: ${L.virtud}`, text: texto });
+        await navigator.share({ title: `Tarjeta del grupo: ${L.virtud}`, text: texto });
       } else {
         await navigator.clipboard.writeText(texto);
         setCopiada(true);
@@ -67,7 +67,7 @@ function TarjetaPage() {
         <div className="p-5">
           <div className="flex items-center gap-2">
             <img src={isotipo.url} alt="" className="size-8" />
-            <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Esta semana en el círculo</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Esta semana en el grupo</p>
           </div>
           <h2 className="mt-2 text-2xl font-bold">{L.virtud}</h2>
           <p className="mt-2 text-sm italic">{L.cita}</p>

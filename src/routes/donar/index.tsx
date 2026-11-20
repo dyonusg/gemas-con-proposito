@@ -13,9 +13,9 @@ export const Route = createFileRoute("/donar/")({
   head: () => ({
     meta: [
       { title: "Dona a Gemas" },
-      { name: "description", content: "Apoya Gemas, un proyecto sin fines de lucro: próximos campus, libros y materiales para los niños o mejoras de la app." },
+      { name: "description", content: "Apoya Gemas, un proyecto sin fines de lucro: próximos campus, libros y materiales para los peques o mejoras de la app." },
       { property: "og:title", content: "Dona a Gemas" },
-      { property: "og:description", content: "Elige a qué dedicar tu donación y apoya la educación de niños y facilitadores." },
+      { property: "og:description", content: "Elige a qué dedicar tu donación y apoya la educación de peques y facilitadores." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

@@ -10,7 +10,7 @@ export const Route = createFileRoute("/donar/gracias")({
       { title: "¡Gracias por tu donación! · Gemas" },
       { name: "description", content: "Gracias por apoyar Gemas, un proyecto educativo sin fines de lucro." },
       { property: "og:title", content: "¡Gracias por tu donación! · Gemas" },
-      { property: "og:description", content: "Tu apoyo ayuda a niños y facilitadores." },
+      { property: "og:description", content: "Tu apoyo ayuda a peques y facilitadores." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/donar/gracias")({
     <Shell nav={false}>
       <img src={isotipo.url} alt="" className="mx-auto mt-12 size-24" />
       <h1 className="mt-6 text-center text-3xl font-bold">¡Gracias de corazón!</h1>
-      <p className="mt-2 text-center text-sm text-muted-foreground">Tu donación ayuda a que más niños descubran sus gemas. Recibirás el justificante por correo.</p>
+      <p className="mt-2 text-center text-sm text-muted-foreground">Tu donación ayuda a que más peques descubran sus gemas. Recibirás el justificante por correo.</p>
       <Button asChild className="mt-6 w-full"><Link to="/">Volver al inicio de Gemas</Link></Button>
       <p className="mt-3 text-center text-sm text-muted-foreground">¿Aún no tienes cuenta? <Link to="/auth" className="font-bold">Entra o créala</Link></p>
     </Shell>

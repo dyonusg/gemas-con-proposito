@@ -46,7 +46,7 @@ function Cierre() {
               <>
                 <h2 className="mt-2 text-2xl font-bold">Te va a escribir tu coordinador</h2>
                 <p className="mt-1 text-sm text-nube/80">
-                  El responsable del campus avisará al coordinador de tu zona. Te invitará en persona a servir en un círculo cerca de casa{e.encuesta.seguir.includes("compañero") ? `, junto a ${e.pareja} si es posible` : ""}.
+                  El responsable del campus avisará al coordinador de tu zona. Te invitará en persona a servir en un grupo cerca de casa{e.encuesta.seguir.includes("compañero") ? `, junto a ${e.pareja} si es posible` : ""}.
                 </p>
               </>
             ) : (

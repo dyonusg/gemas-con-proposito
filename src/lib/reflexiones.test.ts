@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { guardarNota, borrarNota, fechaPersistida } from "./reflexiones";
 
-describe.each(["personales", "sobre los niños"])("reflexiones %s", () => {
+describe.each(["personales", "sobre los peques"])("reflexiones %s", () => {
   it("guarda la virtud y fecha completa de creación", () => {
     const [n] = guardarNota([], { id: "a", fecha: "", texto: "Compartir", leccion: 5 }, "2026-11-14T12:50:00Z");
     expect(n?.leccion).toBe(5);
