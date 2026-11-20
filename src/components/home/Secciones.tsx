@@ -8,9 +8,8 @@ import { GEMAS, QUIZ, NIVELES, CIFRAS, CIFRAS_SON_EJEMPLO, HISTORIAS, COMPANIA, 
 import { toast } from "sonner";
 
 export function Hero({ destino }: { destino: string }) {
-  const [p, setP] = useState({ x: 0, y: 0 });
   return (
-    <section id="hero" className="relative overflow-hidden bg-menta-soft" onPointerMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); setP({ x: (e.clientX - r.left) / r.width - 0.5, y: (e.clientY - r.top) / r.height - 0.5 }); }}>
+    <section id="hero" className="relative bg-background">
       <div className="mx-auto grid max-w-6xl items-center gap-8 px-6 pt-8 pb-12 md:grid-cols-2 md:px-8 md:py-20">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1 text-xs font-bold shadow-card">Una aventura con propósito</span>
@@ -22,20 +21,18 @@ export function Hero({ destino }: { destino: string }) {
           </div>
           <p className="mt-3 text-sm font-bold text-muted-foreground">Gratis · A tu ritmo · Nunca solo</p>
         </div>
-        <div className="relative mx-auto aspect-square w-full max-w-[340px] md:max-w-[440px]">
-          <div className="absolute inset-[12%] rounded-full bg-gema opacity-30 blur-3xl" />
-          <div className="flotar absolute inset-[22%]" style={{ transform: `translate(${p.x * 16}px, ${p.y * 16}px)` }}>
-            <Gema color="lavanda" className="girar size-full drop-shadow-xl" />
+        <div className="mx-auto w-full max-w-[340px] rounded-[2rem] border border-border bg-card p-6 shadow-card md:max-w-[400px]">
+          <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Tu colección</p>
+          <p className="mt-1 font-display text-2xl font-bold">Cada virtud, una gema</p>
+          <div className="mt-5 grid grid-cols-3 gap-3">
+            {GEMAS.slice(0, 6).map((g, i) => (
+              <div key={g.id} className={`flex flex-col items-center gap-1.5 rounded-2xl bg-background py-3 ${i > 2 ? "opacity-40" : ""}`}>
+                <Gema color={g.color} className="size-8" />
+                <span className="text-[11px] font-bold">{g.nombre}</span>
+              </div>
+            ))}
           </div>
-          {GEMAS.slice(0, 6).map((g, i) => {
-            const a = (i / 6) * Math.PI * 2 - Math.PI / 2;
-            return (
-              <span key={g.id} className="flotar absolute flex flex-col items-center" style={{ left: `${50 + Math.cos(a) * 42}%`, top: `${50 + Math.sin(a) * 42}%`, transform: `translate(calc(-50% + ${p.x * -24}px), calc(-50% + ${p.y * -24}px))`, animationDelay: `${i * 0.4}s` }}>
-                <Gema color={g.color} className="size-9 md:size-11" />
-                <span className="mt-1 rounded-full bg-card px-2 py-0.5 text-[11px] font-bold shadow-card">{g.nombre}</span>
-              </span>
-            );
-          })}
+          <p className="mt-4 text-sm text-muted-foreground">Las descubres a tu ritmo, lección a lección.</p>
         </div>
       </div>
     </section>
@@ -194,7 +191,7 @@ export function ImpactChain() {
 
 export function Stories() {
   return (
-    <section id="historias" className="scroll-mt-20 bg-menta-soft py-14">
+    <section id="historias" className="scroll-mt-20 bg-background py-14">
       <Reveal className="px-6 text-center"><h2 className="text-3xl font-bold md:text-4xl">Jóvenes como tú</h2><p className="mt-2 text-xs text-muted-foreground">Historias de ejemplo</p></Reveal>
       <ul className="mx-auto mt-8 flex max-w-6xl snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 md:px-8">
         {HISTORIAS.map((h) => { const g = gemaPorId(h.gema); return (
@@ -221,7 +218,7 @@ export function NeverAlone() {
         {COMPANIA.map((c, i) => (
           <button key={c.titulo} type="button" aria-pressed={girada === i} onClick={() => setGirada(girada === i ? null : i)} className="h-44 rounded-3xl perspective-[900px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
             <span className={`relative block size-full transition-transform duration-500 transform-3d ${girada === i ? "rotate-y-180" : ""}`}>
-              <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-3xl bg-card border border-border backface-hidden"><span className="flotar text-4xl" aria-hidden>{c.emoji}</span><span className="text-lg font-bold">{c.titulo}</span></span>
+              <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-3xl bg-card border border-border backface-hidden"><span className="text-4xl" aria-hidden>{c.emoji}</span><span className="text-lg font-bold">{c.titulo}</span></span>
               <span className="absolute inset-0 flex items-center justify-center rounded-3xl bg-tinta p-6 text-center font-bold text-nube backface-hidden rotate-y-180">{c.detras}</span>
             </span>
           </button>
