@@ -112,7 +112,7 @@
   --card-foreground: var(--tinta);
   --popover: oklch(1 0 0);
   --popover-foreground: var(--tinta);
-  --primary: var(--coral);
+  --primary: var(--menta);
   --primary-foreground: var(--tinta);
   --secondary: var(--menta-soft);
   --secondary-foreground: var(--tinta);
@@ -124,7 +124,7 @@
   --destructive-foreground: oklch(0.984 0 0);
   --border: oklch(0.9 0.02 78);
   --input: oklch(0.9 0.02 78);
-  --ring: var(--coral);
+  --ring: var(--menta);
   --chart-1: var(--coral);
   --chart-2: var(--menta);
   --chart-3: var(--sol);

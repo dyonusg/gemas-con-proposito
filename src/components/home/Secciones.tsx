@@ -12,9 +12,9 @@ export function Hero({ destino }: { destino: string }) {
     <section id="hero" className="relative bg-background">
       <div className="mx-auto grid max-w-6xl items-center gap-8 px-6 pt-8 pb-12 md:grid-cols-2 md:px-8 md:py-20">
         <div>
-          <span className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1 text-xs font-bold shadow-card">Una aventura con propósito</span>
+          <span className="inline-flex items-center gap-2 rounded-full bg-card px-3 py-1 text-xs font-bold shadow-card">🎮 Un camino por niveles</span>
           <h1 className="mt-5 text-[40px] font-bold leading-[1.05] md:text-6xl">Lo mejor de ti puede hacer crecer lo mejor de otros.</h1>
-          <p className="mt-5 max-w-lg text-base leading-relaxed md:text-lg">Únete a jóvenes que acompañan a niños a descubrir sus cualidades. Empiezas con una canción, una historia… y descubres tus propias gemas por el camino.</p>
+          <p className="mt-5 max-w-lg text-base leading-relaxed md:text-lg">Gemas es un juego por niveles para aprender a dar clases a niños. Cada lección es una misión con pasos cortos: preparas, practicas, la das y subes de nivel. Por el camino desbloqueas personajes y descubres tus propias cualidades.</p>
           <div className="mt-7 flex flex-wrap items-center gap-4">
             <Button asChild size="lg" className="h-14 px-7 text-base shadow-pop"><Link to={destino}>Empieza tu camino<ArrowRight /></Link></Button>
             <a href="#camino" className="text-sm font-bold underline underline-offset-4">¿Cómo funciona?</a>
@@ -22,17 +22,16 @@ export function Hero({ destino }: { destino: string }) {
           <p className="mt-3 text-sm font-bold text-muted-foreground">Gratis · A tu ritmo · Nunca solo</p>
         </div>
         <div className="mx-auto w-full max-w-[340px] rounded-[2rem] border border-border bg-card p-6 shadow-card md:max-w-[400px]">
-          <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Tu colección</p>
-          <p className="mt-1 font-display text-2xl font-bold">Cada virtud, una gema</p>
-          <div className="mt-5 grid grid-cols-3 gap-3">
-            {GEMAS.slice(0, 6).map((g, i) => (
-              <div key={g.id} className={`flex flex-col items-center gap-1.5 rounded-2xl bg-background py-3 ${i > 2 ? "opacity-40" : ""}`}>
-                <Gema color={g.color} className="size-8" />
-                <span className="text-[11px] font-bold">{g.nombre}</span>
-              </div>
+          <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Así se juega</p>
+          <ol className="mt-4 space-y-3">
+            {NIVELES.map((n, i) => (
+              <li key={n.nombre} className={`flex items-center gap-3 rounded-2xl p-2.5 ${i === 0 ? "bg-menta-soft" : "bg-background"}`}>
+                <Gema color={n.color} apagada={i > 1} className="size-10 shrink-0" />
+                <div className="min-w-0 flex-1"><p className="text-sm font-bold">Nivel {i + 1} · {n.nombre}</p><p className="truncate text-xs text-muted-foreground">{n.texto}</p></div>
+                {i === 0 && <span className="rounded-full bg-menta px-2 py-0.5 text-[10px] font-bold">Empiezas aquí</span>}
+              </li>
             ))}
-          </div>
-          <p className="mt-4 text-sm text-muted-foreground">Las descubres a tu ritmo, lección a lección.</p>
+          </ol>
         </div>
       </div>
     </section>
@@ -49,13 +48,13 @@ function tarjetaStories(nombre: string, frase: string): Promise<Blob | null> {
   x.fillStyle = g; x.fillRect(0, 0, 1080, 1920);
   x.fillStyle = v("--nube"); x.beginPath(); x.roundRect(90, 520, 900, 880, 60); x.fill();
   x.fillStyle = v("--tinta"); x.textAlign = "center";
-  x.font = "bold 56px 'Nunito', sans-serif"; x.fillText("Mi gema inicial es", 540, 700);
+  x.font = "bold 56px 'Nunito', sans-serif"; x.fillText("Mi personaje inicial es", 540, 700);
   x.font = "bold 110px 'Baloo 2', sans-serif"; x.fillText(nombre, 540, 860);
   x.font = "48px 'Nunito', sans-serif";
   const palabras = frase.split(" "); let linea = ""; let y = 1010;
   for (const p of palabras) { if (x.measureText(linea + p).width > 760) { x.fillText(linea, 540, y); linea = ""; y += 66; } linea += p + " "; }
   x.fillText(linea, 540, y);
-  x.font = "bold 52px 'Baloo 2', sans-serif"; x.fillText("Descubre la tuya en Gemas ✨", 540, 1700);
+  x.font = "bold 52px 'Baloo 2', sans-serif"; x.fillText("Descubre el tuyo en Gemas ✨", 540, 1700);
   return new Promise((r) => c.toBlob(r, "image/png"));
 }
 
@@ -66,7 +65,7 @@ export function GemQuiz({ destino }: { destino: string }) {
   const ganadora = gemaPorId(Object.entries(conteo).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "amor");
   const actual = QUIZ[respuestas.length];
   const compartir = async () => {
-    const texto = `Mi gema inicial es ${nombreGema(ganadora.nombre)}: ${ganadora.frase} Descubre la tuya en Gemas ✨`;
+    const texto = `Mi personaje inicial es ${nombreGema(ganadora.nombre)}: ${ganadora.frase} Descubre el tuyo en Gemas ✨`;
     const blob = await tarjetaStories(nombreGema(ganadora.nombre), ganadora.frase);
     const file = blob ? new File([blob], "mi-gema.png", { type: "image/png" }) : null;
     try {
@@ -78,20 +77,20 @@ export function GemQuiz({ destino }: { destino: string }) {
   return (
     <section id="descubre" className="mx-auto max-w-3xl px-6 py-14 md:px-8">
       <Reveal className="text-center">
-        <p className="text-xs font-bold uppercase tracking-wide text-coral">Minijuego · 30 segundos</p>
-        <h2 className="mt-2 text-3xl font-bold md:text-4xl">Descubre tu gema</h2>
+        <p className="text-xs font-bold uppercase tracking-wide text-menta">Minijuego · 30 segundos</p>
+        <h2 className="mt-2 text-3xl font-bold md:text-4xl">Descubre tu personaje</h2>
         <p className="mt-2 text-muted-foreground">Tres preguntas rápidas. Sin registro.</p>
       </Reveal>
       <div className="mt-8 rounded-[2rem] bg-card p-6 shadow-card md:p-8" aria-live="polite">
         {!terminado && actual ? (
           <div key={respuestas.length} className="animate-pop">
             <div className="flex gap-1.5" aria-label={`Pregunta ${respuestas.length + 1} de ${QUIZ.length}`}>
-              {QUIZ.map((_, i) => <span key={i} className={`h-2 flex-1 rounded-full ${i <= respuestas.length ? "bg-coral" : "bg-muted"}`} />)}
+              {QUIZ.map((_, i) => <span key={i} className={`h-2 flex-1 rounded-full ${i <= respuestas.length ? "bg-menta" : "bg-muted"}`} />)}
             </div>
             <h3 className="mt-5 text-xl font-bold md:text-2xl">{actual.pregunta}</h3>
             <div className="mt-5 grid gap-3">
               {actual.opciones.map((o) => (
-                <button key={o.texto} type="button" onClick={() => setRespuestas([...respuestas, o.gema])} className="rounded-2xl border-2 border-border bg-background p-4 text-left font-bold transition hover:-translate-y-0.5 hover:border-coral focus-visible:border-coral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{o.texto}</button>
+                <button key={o.texto} type="button" onClick={() => setRespuestas([...respuestas, o.gema])} className="rounded-2xl border-2 border-border bg-background p-4 text-left font-bold transition hover:-translate-y-0.5 hover:border-menta focus-visible:border-menta focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">{o.texto}</button>
               ))}
             </div>
           </div>
@@ -99,11 +98,11 @@ export function GemQuiz({ destino }: { destino: string }) {
           <div className="relative animate-pop text-center">
             <div className="confeti" aria-hidden>{Array.from({ length: 14 }).map((_, i) => <i key={i} style={{ left: `${(i * 7.3) % 100}%`, animationDelay: `${(i % 5) * 0.12}s` }} className={["bg-coral", "bg-sol", "bg-menta", "bg-lavanda"][i % 4]} />)}</div>
             <Gema color={ganadora.color} className="brillo mx-auto size-24" />
-            <p className="mt-4 text-sm font-bold text-muted-foreground">Tu gema inicial es</p>
+            <p className="mt-4 text-sm font-bold text-muted-foreground">Tu personaje inicial es</p>
             <h3 className="text-3xl font-bold">{nombreGema(ganadora.nombre)}</h3>
             <p className="mx-auto mt-2 max-w-sm leading-relaxed">{ganadora.frase}</p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <Button asChild size="lg"><Link to={destino}>Guarda tu gema y empieza<ArrowRight /></Link></Button>
+              <Button asChild size="lg"><Link to={destino}>Empieza con tu personaje<ArrowRight /></Link></Button>
               <Button variant="outline" size="lg" onClick={compartir}><Share2 />Compartir</Button>
             </div>
             <button type="button" onClick={() => setRespuestas([])} className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-muted-foreground underline underline-offset-4"><RotateCcw className="size-3.5" />Jugar otra vez</button>
@@ -125,7 +124,7 @@ function Nivel({ n, i }: { n: (typeof NIVELES)[number]; i: number }) {
         <p className="text-xs font-bold uppercase text-muted-foreground">Nivel {i + 1}</p>
         <h3 className="text-xl font-bold">{n.nombre}</h3>
         <p className="mt-1 text-sm leading-relaxed">{n.texto}</p>
-        <span className="mt-2 inline-block rounded-full bg-sol-soft px-2.5 py-1 text-xs font-bold">🎁 {n.ganas}</span>
+        <span className="mt-2 inline-block rounded-full bg-menta-soft px-2.5 py-1 text-xs font-bold">🔓 {n.ganas}</span>
       </div>
     </li>
   );
@@ -137,7 +136,7 @@ export function PathMap() {
       <div className="mx-auto max-w-6xl px-6 py-14 md:px-8">
         <Reveal className="text-center">
           <h2 className="text-3xl font-bold md:text-4xl">Tu camino, nivel a nivel</h2>
-          <p className="mt-2 font-bold">Cada paso cuenta. No necesitas saberlo todo para empezar.</p>
+          <p className="mt-2 font-bold">Completa misiones, gana experiencia y desbloquea un personaje nuevo en cada nivel.</p>
         </Reveal>
         <ol className="relative mt-10 grid gap-8 md:grid-cols-5 md:gap-4">
           <span aria-hidden className="absolute top-2 bottom-2 left-8 w-1 rounded-full bg-gema md:top-8 md:right-[10%] md:bottom-auto md:left-[10%] md:h-1 md:w-auto" />
@@ -234,7 +233,7 @@ export function GemCollection() {
   return (
     <section className="bg-tinta py-14 text-nube">
       <div className="mx-auto max-w-5xl px-6 md:px-8">
-        <Reveal className="text-center"><h2 className="text-3xl font-bold md:text-4xl">¿Cuántas gemas descubrirás en ti?</h2></Reveal>
+        <Reveal className="text-center"><h2 className="text-3xl font-bold md:text-4xl">¿Cuántos personajes desbloquearás?</h2></Reveal>
         <div className="mt-8 grid grid-cols-5 gap-3 md:gap-5">
           {GEMAS.map((g) => (
             <button key={g.id} type="button" onClick={() => setAbierta(g.id)} onMouseEnter={() => setAbierta(g.id)} aria-label={`${g.nombre}: ${g.desbloqueo}`} className={`group flex aspect-square flex-col items-center justify-center rounded-2xl bg-nube/5 transition hover:bg-nube/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sol ${abierta === g.id ? "bg-nube/15" : ""}`}>
@@ -243,7 +242,7 @@ export function GemCollection() {
             </button>
           ))}
         </div>
-        <p className="mt-6 min-h-12 text-center" aria-live="polite">{actual ? <><b className="text-sol">{actual.nombre}</b> · {actual.desbloqueo}</> : "Toca una gema para saber cómo se desbloquea."}</p>
+        <p className="mt-6 min-h-12 text-center" aria-live="polite">{actual ? <><b className="text-sol">{actual.nombre}</b> · {actual.desbloqueo}</> : "Toca un personaje para saber cómo se desbloquea."}</p>
       </div>
     </section>
   );
@@ -256,7 +255,7 @@ export function FinalCTA({ destino }: { destino: string }) {
       <div className="relative mx-auto max-w-xl">
         <h2 className="text-3xl font-bold md:text-4xl">Tus ganas de aportar ya son un comienzo.</h2>
         <p className="mt-3 text-lg font-bold">Vengas de donde vengas, aquí hay un lugar para ti.</p>
-        <Button asChild size="lg" variant="outline" className="mt-7 h-14 border-tinta bg-tinta px-8 text-base text-nube hover:bg-tinta/90 hover:text-nube"><Link to={destino}>Quiero mi primera gema<ArrowRight /></Link></Button>
+        <Button asChild size="lg" variant="outline" className="mt-7 h-14 border-tinta bg-tinta px-8 text-base text-nube hover:bg-tinta/90 hover:text-nube"><Link to={destino}>Empezar el nivel 1<ArrowRight /></Link></Button>
       </div>
     </section>
   );

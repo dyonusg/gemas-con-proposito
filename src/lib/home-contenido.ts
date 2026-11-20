@@ -34,7 +34,7 @@ export const QUIZ: { pregunta: string; opciones: { texto: string; gema: string }
 
 export const NIVELES: { nombre: string; texto: string; ganas: string; color: ColorGema }[] = [
   { nombre: "Chispa", texto: "Te unes y conoces a tu compañero de camino.", ganas: "Confianza para empezar", color: "sol" },
-  { nombre: "Colaborador/a", texto: "Apoyas con una canción o una historia.", ganas: "Tus primeras gemas", color: "menta" },
+  { nombre: "Colaborador/a", texto: "Haces tus primeras misiones: preparar y practicar una lección.", ganas: "Tu primer personaje", color: "menta" },
   { nombre: "Primera clase", texto: "Acompañas una clase completa.", ganas: "Insignia de primera clase", color: "coral" },
   { nombre: "Facilitador/a", texto: "Guías tu propia clase.", ganas: "Seguridad y propósito", color: "lavanda" },
   { nombre: "Mentor/a", texto: "Acompañas a quien empieza.", ganas: "La alegría de acompañar", color: "sol" },
@@ -65,4 +65,4 @@ export const COMPANIA: { titulo: string; emoji: string; detras: string }[] = [
 
 export const gemaPorId = (id: string) => GEMAS.find((g) => g.id === id) ?? GEMAS[0]!;
 /** "Gema del Amor", "Gema de la Paciencia". */
-export const nombreGema = (nombre: string) => `Gema ${["Amor"].includes(nombre) ? "del" : "de la"} ${nombre}`;
+export const nombreGema = (nombre: string) => `Guardián ${["Amor"].includes(nombre) ? "del" : "de la"} ${nombre}`;
